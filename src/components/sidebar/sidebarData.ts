@@ -1,4 +1,3 @@
-import React, { JSX } from "react";
 import { AiFillHome, AiOutlineAppstore, AiOutlineStar } from "react-icons/ai";
 import {
   BiMusic,

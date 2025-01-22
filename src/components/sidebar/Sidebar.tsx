@@ -2,7 +2,6 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import NavigationList from "./NavigationList";
 import { navigationItems, libraryItems, podcastItems } from "./sidebarData";
