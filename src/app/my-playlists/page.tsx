@@ -1,5 +1,4 @@
-import PlaylistCard from "@/app/my-playlists/playlistCard/PlaylistCard";
-import PlaylistCarousel from "@/app/my-playlists/PlaylistCarousel";
+import PlaylistCarousel from "@/app/my-playlists/playlistCarousel/PlaylistCarousel";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { spotifyApi } from "@/utils/spotifyApi";
 import { GetMyPlaylistsResponse } from "@/utils/types";

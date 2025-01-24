@@ -16,24 +16,47 @@ export type NavigationItem = {
   Icon: IconType; // Use ComponentType to represent React components
 };
 
-// Navigation items
+// Centralized Paths Object
+export const PATHS = {
+  home: "/",
+  new: "/new",
+  playlist: "/playlist",
+  songs: "/songs",
+  recentlyAdded: "/recently-added",
+  albums: "/albums",
+  favoriteSongs: "/favorite-songs",
+  myPlaylists: "/my-playlists",
+  podcasts: {
+    new: "/podcasts/new",
+    browse: "/browse",
+    shows: "/shows",
+    saved: "/saved",
+    repeatedHearing: "/repeated-hearing",
+  },
+};
+
+// Navigation Items
 export const navigationItems: NavigationItem[] = [
-  { path: "/", label: "Home", Icon: AiFillHome },
-  { path: "/new", label: "New", Icon: AiOutlineAppstore },
+  { path: PATHS.home, label: "Home", Icon: AiFillHome },
+  { path: PATHS.new, label: "New", Icon: AiOutlineAppstore },
 ];
 
 export const libraryItems: NavigationItem[] = [
-  { path: "/songs", label: "Songs", Icon: BiMusic },
-  { path: "/recently-added", label: "Recently Added", Icon: BiTime },
-  { path: "/albums", label: "Albums", Icon: BiFolder },
-  { path: "/favorite-songs", label: "Favorite Songs", Icon: AiOutlineStar },
-  { path: "/my-playlists", label: "All Playlists", Icon: TbPlaylistAdd },
+  { path: PATHS.songs, label: "Songs", Icon: BiMusic },
+  { path: PATHS.recentlyAdded, label: "Recently Added", Icon: BiTime },
+  { path: PATHS.albums, label: "Albums", Icon: BiFolder },
+  { path: PATHS.favoriteSongs, label: "Favorite Songs", Icon: AiOutlineStar },
+  { path: PATHS.myPlaylists, label: "All Playlists", Icon: TbPlaylistAdd },
 ];
 
 export const podcastItems: NavigationItem[] = [
-  { path: "/podcasts/new", label: "New", Icon: BiPodcast },
-  { path: "/browse", label: "Browse", Icon: BiPodcast },
-  { path: "/shows", label: "Shows", Icon: BiPodcast },
-  { path: "/saved", label: "Saved", Icon: BiBookmark },
-  { path: "/repeated-hearing", label: "Repeated Hearing", Icon: BiTime },
+  { path: PATHS.podcasts.new, label: "New", Icon: BiPodcast },
+  { path: PATHS.podcasts.browse, label: "Browse", Icon: BiPodcast },
+  { path: PATHS.podcasts.shows, label: "Shows", Icon: BiPodcast },
+  { path: PATHS.podcasts.saved, label: "Saved", Icon: BiBookmark },
+  {
+    path: PATHS.podcasts.repeatedHearing,
+    label: "Repeated Hearing",
+    Icon: BiTime,
+  },
 ];
