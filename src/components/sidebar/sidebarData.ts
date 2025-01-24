@@ -27,7 +27,7 @@ export const libraryItems: NavigationItem[] = [
   { path: "/recently-added", label: "Recently Added", Icon: BiTime },
   { path: "/albums", label: "Albums", Icon: BiFolder },
   { path: "/favorite-songs", label: "Favorite Songs", Icon: AiOutlineStar },
-  { path: "/all-playlists", label: "All Playlists", Icon: TbPlaylistAdd },
+  { path: "/my-playlists", label: "All Playlists", Icon: TbPlaylistAdd },
 ];
 
 export const podcastItems: NavigationItem[] = [

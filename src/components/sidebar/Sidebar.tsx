@@ -20,21 +20,21 @@ const Sidebar: React.FC = () => {
 
       <div className="space-y-4">
         <nav>
-          <NavigationList items={navigationItems} pathname={pathname} />
+          <NavigationList items={navigationItems} pathname={pathname!} />
         </nav>
 
         <div>
           <h2 className="text-xs uppercase tracking-wide text-gray-400 mb-2">
             Library
           </h2>
-          <NavigationList items={libraryItems} pathname={pathname} />
+          <NavigationList items={libraryItems} pathname={pathname!} />
         </div>
 
         <div>
           <h2 className="text-xs uppercase tracking-wide text-gray-400 mb-2">
             Podcasts
           </h2>
-          <NavigationList items={podcastItems} pathname={pathname} />
+          <NavigationList items={podcastItems} pathname={pathname!} />
         </div>
       </div>
     </div>
