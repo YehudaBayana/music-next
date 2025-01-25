@@ -19,3 +19,28 @@
     background: transparent;
   }
 }
+
+.thumb-sm::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background-color: #4f46e5;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.thumb-sm::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background-color: #4f46e5;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.thumb-sm::-ms-thumb {
+  width: 10px;
+  height: 10px;
+  background-color: #4f46e5;
+  border-radius: 50%;
+  cursor: pointer;
+}

@@ -28,6 +28,7 @@ export default async function PlaylistPage({
 }: {
   params: { id: string };
 }) {
+  // await here looks redundant but next js specifies to await the params
   const id = (await params)?.id as string;
   const session = await getServerSession(authOptions);
   if (!session || !session.accessToken) {

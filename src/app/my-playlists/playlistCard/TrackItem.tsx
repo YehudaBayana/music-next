@@ -1,12 +1,18 @@
+"use client";
 import React from "react";
 import { Track } from "@/utils/types";
 import { BsThreeDots } from "react-icons/bs";
 import { msToMinutesAndSeconds } from "@/utils/utils";
+import { usePlayer } from "@/context/PlayerContext";
 
 const TrackItem = ({ track }: { track: Track }) => {
+  const { playTrack } = usePlayer();
   return (
     <div className="flex items-center justify-between py-2 border-b border-gray-300">
-      <div className="flex items-center space-x-3 overflow-hidden">
+      <div
+        onClick={() => playTrack(track)}
+        className="flex items-center space-x-3 overflow-hidden"
+      >
         <img
           src={track.album.images[0].url}
           alt={track.name}

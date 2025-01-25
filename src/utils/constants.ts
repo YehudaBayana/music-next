@@ -22,3 +22,4 @@ export const SpotifyAuthUrl = "https://accounts.spotify.com/authorize";
 
 export const imageUrl =
   "https://images.unsplash.com/photo-1736776256319-50153ce32dfc?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw3OHx8fGVufDB8fHx8fA%3D%3D";
+export const thisDeviceName = "Web Player (Chrome)";

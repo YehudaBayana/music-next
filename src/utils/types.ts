@@ -354,3 +354,125 @@ export interface Disallows {
 }
 
 // ------------------------
+export interface Device {
+  id: string;
+  is_active: boolean;
+  is_private_session: boolean;
+  is_restricted: boolean;
+  name: string;
+  supports_volume: boolean;
+  type: string;
+  volume_percent: number;
+}
+// ------------------------
+export interface CurrentlyPlayingTrack {
+  timestamp: number;
+  context: any;
+  progress_ms: number;
+  item: Item;
+  currently_playing_type: string;
+  actions: Actions;
+  is_playing: boolean;
+}
+// ------------------------
+export interface PlayerState {
+  timestamp: number;
+  context: Context;
+  position: number;
+  duration: number;
+  paused: boolean;
+  playback_quality: string;
+  playback_features: PlaybackFeatures;
+  shuffle: boolean;
+  shuffle_mode: number;
+  repeat_mode: number;
+  track_window: TrackWindow;
+  restrictions: Restrictions;
+  disallows: Disallows;
+  loading: boolean;
+  playback_speed: number;
+  playback_id: string;
+}
+
+export interface Context {
+  uri: string;
+  metadata: Metadata;
+}
+
+export interface Metadata {}
+
+export interface PlaybackFeatures {
+  hifi_status: string;
+  playback_speed: PlaybackSpeed;
+  signal_ids: any[];
+  modes: Modes;
+}
+
+export interface PlaybackSpeed {
+  current: number;
+  selected: number;
+  restricted: boolean;
+}
+
+export interface Modes {}
+
+export interface TrackWindow {
+  current_track: CurrentTrack;
+  next_tracks: any[];
+  previous_tracks: any[];
+}
+
+export interface CurrentTrack {
+  id: string;
+  uri: string;
+  type: string;
+  uid: string;
+  linked_from: LinkedFrom;
+  media_type: string;
+  track_type: string;
+  content_type: string;
+  name: string;
+  duration_ms: number;
+  artists: ArtistPlayerState[];
+  album: AlbumPlayerState;
+  is_playable: boolean;
+  metadata: any;
+}
+
+export interface LinkedFrom {
+  uri: any;
+  id: any;
+}
+
+export interface ArtistPlayerState {
+  name: string;
+  uri: string;
+}
+
+export interface AlbumPlayerState {
+  uri: string;
+  name: string;
+  images: Image[];
+}
+
+export interface Restrictions {
+  disallow_skipping_prev_reasons: string[];
+  disallow_setting_playback_speed_reasons: string[];
+  disallow_removing_from_next_tracks_reasons: any[];
+  disallow_removing_from_context_tracks_reasons: any[];
+  disallow_updating_context_reasons: any[];
+  disallow_play_as_next_in_queue_reasons: any[];
+  disallow_resuming_reasons: string[];
+}
+
+export interface Disallows {
+  skipping_prev: boolean;
+  setting_playback_speed: boolean;
+  removing_from_next_tracks: boolean;
+  removing_from_context_tracks: boolean;
+  updating_context: boolean;
+  play_as_next_in_queue: boolean;
+  resuming: boolean;
+}
+
+// ------------------------
