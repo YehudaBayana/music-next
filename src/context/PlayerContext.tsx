@@ -1,13 +1,17 @@
 // contexts/PlayerContext.tsx
 "use client";
 import { thisDeviceName } from "@/utils/constants";
-import { Device, PlayerState, Track } from "@/utils/types";
+import { CurrentTrack, Device, PlayerState, Track } from "@/utils/types";
 import { useSession } from "next-auth/react";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface PlayerContextType {
-  currentTrack: Track | null;
-  playTrack: (track: Track) => void;
+  currentTrack: Track | CurrentTrack | null;
+  playTrack: (
+    track: Track | CurrentTrack | null,
+    progress: number,
+    uris: string[]
+  ) => void;
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   isPlaying: boolean;
@@ -18,7 +22,9 @@ const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
+  const [currentTrack, setCurrentTrack] = useState<Track | CurrentTrack | null>(
+    null
+  );
   const [progress, setProgress] = useState<number>(0);
   const [deviceId, setDeviceId] = useState<Device>();
   const [player, setPlayer] = useState<any>(null);
@@ -86,6 +92,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
           setProgress(state.position);
         }
         setIsPlaying(!state.paused);
+        setCurrentTrack(state.track_window.current_track);
       }
     });
 
@@ -134,19 +141,48 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => {};
   }, []);
 
-  const playTrack = async (track: Track) => {
+  const playTrack = async (
+    track: Track | CurrentTrack | null,
+    progressFromOutside: number,
+    uris: string[]
+  ) => {
     setCurrentTrack(track);
+    const trackIndex = uris.findIndex((uri) => track?.uri === uri);
     try {
-      const response = await fetch("/api/spotify/player/play", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ uris: [track.uri], deviceId: deviceId }),
-      });
+      if (uris.length === 0 && !track) {
+        const response = await fetch("/api/spotify/player/play", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
 
-      if (!response.ok) {
-        console.error("Failed to play track");
+          body: JSON.stringify({
+            deviceId: deviceId,
+            position_ms: progressFromOutside,
+          }),
+        });
+        if (!response.ok) {
+          console.error("Failed to play track");
+        }
+      } else {
+        const response = await fetch("/api/spotify/player/play", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            uris: uris.length === 0 ? [currentTrack?.uri] : uris,
+            deviceId: deviceId,
+            position_ms: progressFromOutside,
+            offset: {
+              position: trackIndex < 0 ? 0 : trackIndex,
+            },
+          }),
+        });
+        if (!response.ok) {
+          console.error("Failed to play track");
+        }
       }
     } catch (error) {
       console.error("Error playing track:", error);

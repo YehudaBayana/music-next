@@ -16,7 +16,9 @@ const PlaylistTracks = ({
       ) : (
         tracks
           .slice(0, 5)
-          .map((track, index) => <TrackItem key={index} track={track} />)
+          .map((track, index) => (
+            <TrackItem key={index} track={track} playlistTracks={tracks} />
+          ))
       )}
     </div>
   );

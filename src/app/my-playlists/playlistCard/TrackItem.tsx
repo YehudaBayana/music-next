@@ -1,16 +1,28 @@
 "use client";
 import React from "react";
-import { Track } from "@/utils/types";
+import { MyPlaylistItem, Track } from "@/utils/types";
 import { BsThreeDots } from "react-icons/bs";
 import { msToMinutesAndSeconds } from "@/utils/utils";
 import { usePlayer } from "@/context/PlayerContext";
 
-const TrackItem = ({ track }: { track: Track }) => {
-  const { playTrack } = usePlayer();
+const TrackItem = ({
+  track,
+  playlistTracks,
+}: {
+  track: Track;
+  playlistTracks: Track[];
+}) => {
+  const { playTrack, progress } = usePlayer();
   return (
     <div className="flex items-center justify-between py-2 border-b border-gray-300">
       <div
-        onClick={() => playTrack(track)}
+        onClick={() =>
+          playTrack(
+            track,
+            0, //progress,
+            playlistTracks.map((track) => track.uri)
+          )
+        }
         className="flex items-center space-x-3 overflow-hidden"
       >
         <img

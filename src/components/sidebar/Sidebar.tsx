@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="bg-gray-800 text-white w-64 h-screen flex flex-col p-6 overflow-auto fixed top-0 left-0">
       <div className="flex flex-col items-center mb-8">
-        <SicupLogo />
+        <SicupLogo width="24" />
         <h1 className="text-lg font-semibold">Ayne Mekonen</h1>
       </div>
 

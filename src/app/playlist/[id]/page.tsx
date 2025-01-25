@@ -41,7 +41,7 @@ export default async function PlaylistPage({
     <div>
       <h4>Playlist Songs</h4>
       {uniqueTracks.map((track) => (
-        <TrackItem key={track.id} track={track} />
+        <TrackItem key={track.id} track={track} playlistTracks={uniqueTracks} />
       ))}
     </div>
   );
