@@ -9,12 +9,12 @@ interface PlayerContextType {
   currentTrack: Track | null;
   playTrack: (track: Track) => void;
   progress: number;
+  setProgress: React.Dispatch<React.SetStateAction<number>>;
+  isPlaying: boolean;
 }
 
-// Create the context
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
-// Provider component
 export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -81,11 +81,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!player) return;
 
     player.addListener("player_state_changed", (state: PlayerState) => {
-      console.log("chjanfg");
-
       if (state) {
         if (state.position > 0) {
-          setProgress(state.position); // Position in milliseconds
+          setProgress(state.position);
         }
         setIsPlaying(!state.paused);
       }
@@ -98,13 +96,12 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, [player]);
 
-  // Interval to update progress
   useEffect(() => {
     let progressInterval: number | undefined;
 
     if (isPlaying) {
       progressInterval = window.setInterval(() => {
-        setProgress((prevProgress) => prevProgress + 1000); // Increment progress every second
+        setProgress((prevProgress) => prevProgress + 1000);
       }, 1000);
     } else if (progressInterval !== undefined) {
       window.clearInterval(progressInterval);
@@ -157,7 +154,9 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <PlayerContext.Provider value={{ progress, currentTrack, playTrack }}>
+    <PlayerContext.Provider
+      value={{ progress, setProgress, currentTrack, playTrack, isPlaying }}
+    >
       {children}
     </PlayerContext.Provider>
   );

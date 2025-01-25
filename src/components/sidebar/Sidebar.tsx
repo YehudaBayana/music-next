@@ -5,6 +5,7 @@ import React from "react";
 import { usePathname } from "next/navigation";
 import NavigationList from "./NavigationList";
 import { navigationItems, libraryItems, podcastItems } from "./sidebarData";
+import SicupLogo from "@/components/SicupLogo";
 
 const Sidebar: React.FC = () => {
   const pathname = usePathname();
@@ -12,9 +13,7 @@ const Sidebar: React.FC = () => {
   return (
     <div className="bg-gray-800 text-white w-64 h-screen flex flex-col p-6 overflow-auto fixed top-0 left-0">
       <div className="flex flex-col items-center mb-8">
-        <div className="w-24 h-24 rounded-full bg-purple-500 flex items-center justify-center mb-4">
-          <span className="text-black text-xl font-bold">SiC-up</span>
-        </div>
+        <SicupLogo />
         <h1 className="text-lg font-semibold">Ayne Mekonen</h1>
       </div>
 

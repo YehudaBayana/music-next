@@ -10,7 +10,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="pl-64 pt-44">
+      <body className="pl-64 pt-36">
         <Providers>
           <Player />
           <Sidebar />
