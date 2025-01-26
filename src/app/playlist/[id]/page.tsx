@@ -15,25 +15,25 @@ const getTracks = async (id: string, accessToken: string) => {
       endpoint,
       accessToken || ""
     );
-    if (res.items.length > 0) {
-    }
     return res.items.map((item) => item.track);
   } catch (error) {
-    console.log("Yuda err", error);
+    console.error("Error fetching tracks:", error);
+    return [];
   }
 };
 
 export default async function PlaylistPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  // await here looks redundant but next js specifies to await the params
-  const id = (await params)?.id as string;
+  const { id } = await params; // Directly destructure params, no await needed
   const session = await getServerSession(authOptions);
+
   if (!session || !session.accessToken) {
     return <p>You are not authenticated. Please log in.</p>;
   }
+
   const tracks = await getTracks(id, session.accessToken);
   const uniqueTracks = _.uniqBy(tracks, "id");
 

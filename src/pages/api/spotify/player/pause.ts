@@ -20,7 +20,7 @@ export const pauseRequest = async (
     (deviceId ? `?device_id=${deviceId}` : "");
   console.log("url ", url);
 
-  const [error, response] = await catchError(
+  const [error] = await catchError(
     fetch(url, {
       method: "PUT",
       headers: {

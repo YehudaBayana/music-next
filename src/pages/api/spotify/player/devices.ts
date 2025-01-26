@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../../auth/[...nextauth]";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { GetCurrentlyPlayingTrackResponse } from "../../../../utils/types";
 import { thisDeviceName } from "@/utils/constants";
+import { Device } from "@/utils/types";
 
 export const getAvailableDevices = async (accessToken: string) => {
   const url = "https://api.spotify.com/v1/me/player/devices";
@@ -28,12 +28,12 @@ export const getAvailableDevices = async (accessToken: string) => {
 
     // Find your specific device (if applicable)
     const yourDevice = devices.find(
-      (device: any) => device.name === thisDeviceName
+      (device: Device) => device.name === thisDeviceName
     );
 
     if (!yourDevice) {
       console.log("Your application device not found.");
-      return null;
+      return devices[0].id;
     }
 
     console.log("Your Device ID:", yourDevice.id);

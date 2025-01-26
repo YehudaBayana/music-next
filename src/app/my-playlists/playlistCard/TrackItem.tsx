@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import { MyPlaylistItem, Track } from "@/utils/types";
+import { Track } from "@/utils/types";
 import { BsThreeDots } from "react-icons/bs";
 import { msToMinutesAndSeconds } from "@/utils/utils";
 import { usePlayer } from "@/context/PlayerContext";
+import Image from 'next/image';
 
 const TrackItem = ({
   track,
@@ -12,7 +13,7 @@ const TrackItem = ({
   track: Track;
   playlistTracks: Track[];
 }) => {
-  const { playTrack, progress } = usePlayer();
+  const { playTrack } = usePlayer();
   return (
     <div className="flex items-center justify-between py-2 border-b border-gray-300">
       <div
@@ -25,8 +26,10 @@ const TrackItem = ({
         }
         className="flex items-center space-x-3 overflow-hidden"
       >
-        <img
+        <Image
           src={track.album.images[0].url}
+          width={track.album.images[0].width || 12}
+          height={track.album.images[0].height || 12}
           alt={track.name}
           className="w-12 h-12 rounded-lg object-cover"
         />

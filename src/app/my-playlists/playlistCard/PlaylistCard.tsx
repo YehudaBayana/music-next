@@ -4,6 +4,7 @@ import { spotifyApi, SpotifyApiGetEndpoints } from "@/utils/spotifyApi";
 import { GetPlaylistTracksRes, MyPlaylistItem, Track } from "@/utils/types";
 import { buildEndpoint } from "@/utils/utils";
 import { useSession } from "next-auth/react";
+import Image from 'next/image';
 import React, { useEffect, useState } from "react";
 
 const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
@@ -32,14 +33,16 @@ const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
       }
     };
     getTracks();
-    return () => {};
-  }, [session]);
+    return () => { };
+  }, [playlist.id, session]);
 
   return (
     <div className="w-full bg-gray-200 rounded-lg shadow-md p-4 flex flex-col overflow-hidden">
       <div className="flex flex-col sm:flex-row sm:space-x-4 items-center sm:items-start overflow-hidden">
-        <img
+        <Image
           src={playlist.images[0].url}
+          width={playlist.images[0].width || 200}
+          height={playlist.images[0].height || 200}
           alt="Playlist Cover"
           className="w-full sm:w-40 h-auto rounded-lg object-cover"
         />

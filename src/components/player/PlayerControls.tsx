@@ -11,7 +11,7 @@ import {
 } from "react-icons/io5";
 
 const pauseTrack = async () => {
-  const [error, response] = await catchError(
+  const [error] = await catchError(
     fetch("/api/spotify/player/pause", {
       method: "POST",
       headers: {

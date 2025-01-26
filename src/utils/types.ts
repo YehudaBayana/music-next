@@ -33,7 +33,7 @@ export interface Album {
   tracks: AlbumTracks;
   copyrights: Copyright[];
   external_ids: ExternalIds;
-  genres: any[];
+  genres: unknown[];
   label: string;
   popularity: number;
 }
@@ -126,7 +126,7 @@ export interface MyPlaylistItem {
   images: Image[];
   name: string;
   owner: MyPlaylistOwner;
-  primary_color: any;
+  primary_color: unknown;
   public: boolean;
   snapshot_id: string;
   tracks: MyPlaylistTracks;
@@ -168,14 +168,14 @@ export interface MeResponse {
   followers: Followers;
   href: string;
   id: string;
-  images: any[];
+  images: unknown[];
   product: string;
   type: string;
   uri: string;
 }
 
 interface Followers {
-  href?: any;
+  href?: unknown;
   total: number;
 }
 
@@ -190,9 +190,9 @@ export interface GetPlaylistTracksRes {
   href: string;
   items: Item[];
   limit: number;
-  next?: any;
+  next?: string | null;
   offset: number;
-  previous?: any;
+  previous?: string | null;
   total: number;
 }
 
@@ -200,17 +200,17 @@ export interface Item {
   added_at: string;
   added_by: AddedBy;
   is_local: boolean;
-  primary_color?: any;
+  primary_color?: unknown;
   track: Track;
   video_thumbnail: VideoThumbnail;
 }
 
 export interface VideoThumbnail {
-  url?: any;
+  url?: unknown;
 }
 
 export interface Track {
-  preview_url?: any;
+  preview_url?: unknown;
   available_markets: string[];
   explicit: boolean;
   type: string;
@@ -367,7 +367,7 @@ export interface Device {
 // ------------------------
 export interface CurrentlyPlayingTrack {
   timestamp: number;
-  context: any;
+  context: unknown;
   progress_ms: number;
   item: Item;
   currently_playing_type: string;
@@ -396,16 +396,14 @@ export interface PlayerState {
 
 export interface Context {
   uri: string;
-  metadata: Metadata;
+  metadata: unknown;
 }
-
-export interface Metadata {}
 
 export interface PlaybackFeatures {
   hifi_status: string;
   playback_speed: PlaybackSpeed;
-  signal_ids: any[];
-  modes: Modes;
+  signal_ids: unknown[];
+  modes: unknown;
 }
 
 export interface PlaybackSpeed {
@@ -414,12 +412,10 @@ export interface PlaybackSpeed {
   restricted: boolean;
 }
 
-export interface Modes {}
-
 export interface TrackWindow {
   current_track: CurrentTrack;
-  next_tracks: any[];
-  previous_tracks: any[];
+  next_tracks: unknown[];
+  previous_tracks: unknown[];
 }
 
 export interface CurrentTrack {
@@ -436,12 +432,12 @@ export interface CurrentTrack {
   artists: ArtistPlayerState[];
   album: AlbumPlayerState;
   is_playable: boolean;
-  metadata: any;
+  metadata: unknown;
 }
 
 export interface LinkedFrom {
-  uri: any;
-  id: any;
+  uri: unknown;
+  id: unknown;
 }
 
 export interface ArtistPlayerState {
@@ -458,10 +454,10 @@ export interface AlbumPlayerState {
 export interface Restrictions {
   disallow_skipping_prev_reasons: string[];
   disallow_setting_playback_speed_reasons: string[];
-  disallow_removing_from_next_tracks_reasons: any[];
-  disallow_removing_from_context_tracks_reasons: any[];
-  disallow_updating_context_reasons: any[];
-  disallow_play_as_next_in_queue_reasons: any[];
+  disallow_removing_from_next_tracks_reasons: unknown[];
+  disallow_removing_from_context_tracks_reasons: unknown[];
+  disallow_updating_context_reasons: unknown[];
+  disallow_play_as_next_in_queue_reasons: unknown[];
   disallow_resuming_reasons: string[];
 }
 

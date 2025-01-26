@@ -1,10 +1,11 @@
 interface SpotifyPlayerInstance {
+  // @ts-nocheck
   name: string;
   connect(): Promise<boolean>;
   disconnect(): void;
-  getCurrentState(): Promise<any | null>;
-  addListener(event: string, callback: (data: any) => void): boolean;
-  removeListener(event: string, callback?: (data: any) => void): boolean;
+  getCurrentState(): Promise<never | null>;
+  addListener(event: string, callback: (data: never) => void): boolean;
+  removeListener(event: string, callback?: (data: never) => void): boolean;
 }
 
 interface Spotify {

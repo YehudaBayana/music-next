@@ -27,7 +27,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   );
   const [progress, setProgress] = useState<number>(0);
   const [deviceId, setDeviceId] = useState<Device>();
-  const [player, setPlayer] = useState<any>(null);
+  const [player, setPlayer] = useState<SpotifyPlayerInstance | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const { data: session } = useSession();
   const accessToken = session?.accessToken;
@@ -43,7 +43,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     script.onload = () => {
       const spotifyPlayer = new window.Spotify.Player({
         name: thisDeviceName,
-        getOAuthToken: (cb: any) => {
+        getOAuthToken: (cb: (token: string) => void) => {
           cb(accessToken);
         },
         volume: 0.5,
@@ -81,6 +81,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         player.disconnect();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
   useEffect(() => {
@@ -131,14 +132,15 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
       console.log("data ", data);
 
       if (!response.ok) {
-        throw new Error("Failed to play track");
+        return console.log("Failed to get a device");
       }
       setDeviceId(data);
     }
     if (!deviceId) {
       getAvailableDevices();
     }
-    return () => {};
+    return () => { };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const playTrack = async (

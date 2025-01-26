@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { usePlayer } from "@/context/PlayerContext";
 import { FaMusic } from "react-icons/fa";
 import SicupLogo from "@/components/SicupLogo";
+import Image from 'next/image';
 
 const CurrentPlayingSong = () => {
   const { currentTrack, progress, setProgress } = usePlayer();
@@ -15,8 +16,10 @@ const CurrentPlayingSong = () => {
   return (
     <div className="flex items-center p-2 border-2 border-neutral-400 space-x-4 md:w-1/2 w-full overflow-hidden h-16">
       {currentTrack ? (
-        <img
+        <Image
           src={currentTrack?.album.images[0].url}
+          width={currentTrack?.album.images[0].width || 12}
+          height={currentTrack?.album.images[0].height || 12}
           alt={currentTrack?.name || "Album Cover"}
           className="w-12 h-12 rounded-lg object-cover flex-none"
         />
