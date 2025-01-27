@@ -26,7 +26,9 @@ export default async function handler(
       parseInt(offset as string)
     );
 
-    res.status(200).json({ newTracks: tracks, hasMore: tracks.length > 0 });
+    res
+      .status(200)
+      .json({ newTracks: tracks, hasMoreServer: tracks.length > 0 });
   } catch (err) {
     console.error("Error fetching paginated tracks:", err);
     res.status(500).json({ error: "Internal server error" });
