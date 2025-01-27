@@ -9,21 +9,23 @@ import Image from "next/image";
 
 const TrackItem = ({
   track,
-  playlistTracks,
+  playlistId,
 }: {
   track: Track;
-  playlistTracks: Track[];
+  playlistId: string;
 }) => {
   const { playTrack } = usePlayer();
   return (
     <div className="flex items-center justify-between py-2 border-b border-gray-300">
       <div
         onClick={() =>
-          playTrack(
-            track,
-            0, // progress,
-            playlistTracks.map((track) => track.uri)
-          )
+          playTrack({
+            context_uri: `spotify:playlist:${playlistId}`,
+            offset: {
+              uri: track.uri,
+            },
+            position_ms: 0,
+          })
         }
         className="flex items-center space-x-3 overflow-hidden"
       >

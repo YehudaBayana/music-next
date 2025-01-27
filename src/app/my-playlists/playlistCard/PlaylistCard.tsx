@@ -4,7 +4,7 @@ import { spotifyApi, SpotifyApiGetEndpoints } from "@/utils/spotifyApi";
 import { GetPlaylistTracksRes, MyPlaylistItem, Track } from "@/utils/types";
 import { buildEndpoint } from "@/utils/utils";
 import { useSession } from "next-auth/react";
-import Image from 'next/image';
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
@@ -33,7 +33,7 @@ const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
       }
     };
     getTracks();
-    return () => { };
+    return () => {};
   }, [playlist.id, session]);
 
   return (
@@ -48,7 +48,11 @@ const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
         />
         <PlaylistInfo playlist={playlist} />
       </div>
-      <PlaylistTracks tracks={tracks} isLoading={isLoading} />
+      <PlaylistTracks
+        tracks={tracks}
+        isLoading={isLoading}
+        playlistId={playlist.id}
+      />
     </div>
   );
 };

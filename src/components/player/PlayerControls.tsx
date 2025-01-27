@@ -25,7 +25,7 @@ const pauseTrack = async () => {
 };
 
 const PlayerControls = () => {
-  const { isPlaying, playTrack, currentTrack, progress } = usePlayer();
+  const { isPlaying, playTrack, progress } = usePlayer();
   return (
     <div className="flex items-center space-x-4 text-black">
       <IoShuffle className="w-6 h-6 cursor-pointer hover:text-gray-600" />
@@ -37,7 +37,7 @@ const PlayerControls = () => {
         />
       ) : (
         <IoPlay
-          onClick={() => playTrack(currentTrack, progress, [])}
+          onClick={() => playTrack({ position_ms: progress })}
           className="w-10 h-10 cursor-pointer hover:text-gray-600"
         />
       )}

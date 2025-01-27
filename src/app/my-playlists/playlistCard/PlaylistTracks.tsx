@@ -5,9 +5,11 @@ import TrackItem from "./TrackItem";
 const PlaylistTracks = ({
   tracks,
   isLoading,
+  playlistId,
 }: {
   tracks: Track[];
   isLoading: boolean;
+  playlistId: string;
 }) => {
   return (
     <div className="mt-4">
@@ -17,7 +19,7 @@ const PlaylistTracks = ({
         tracks
           .slice(0, 5)
           .map((track, index) => (
-            <TrackItem key={index} track={track} playlistTracks={tracks} />
+            <TrackItem key={index} track={track} playlistId={playlistId} />
           ))
       )}
     </div>

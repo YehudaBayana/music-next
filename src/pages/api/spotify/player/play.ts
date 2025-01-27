@@ -8,7 +8,8 @@ export const playOnSpotify = async (
     uris?: string[];
     context_uri?: string;
     offset?: {
-      position: number;
+      position?: number;
+      uri?: string;
     };
     position_ms?: number;
   },
