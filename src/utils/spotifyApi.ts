@@ -1,5 +1,8 @@
 // utils/spotifyApi.ts
 
+import { GetPlaylistTracksRes } from "@/utils/types";
+import { buildEndpoint } from "@/utils/utils";
+
 export type SpotifyApiGetEndpoints =
   | "/albums"
   | "/albums/{id}"
@@ -115,4 +118,28 @@ export const spotifyApi = {
 
     return res.json();
   },
+};
+
+export const getTracks = async (
+  id: string,
+  accessToken: string,
+  offset: number = 0,
+  limit: number = 20 // Default Spotify limit for pagination
+) => {
+  const endpoint = buildEndpoint("/playlists/{playlist_id}/tracks", {
+    playlist_id: id,
+  }) as SpotifyApiGetEndpoints;
+
+  const queryParams = `?offset=${offset}&limit=${limit}`;
+
+  try {
+    const res = await spotifyApi.get<GetPlaylistTracksRes>(
+      `${endpoint}${queryParams}` as SpotifyApiGetEndpoints,
+      accessToken || ""
+    );
+    return res.items.map((item) => item.track);
+  } catch (error) {
+    console.error("Error fetching tracks:", error);
+    return [];
+  }
 };

@@ -1,10 +1,11 @@
+// components/TrackItem.tsx
 "use client";
 import React from "react";
 import { Track } from "@/utils/types";
 import { BsThreeDots } from "react-icons/bs";
 import { msToMinutesAndSeconds } from "@/utils/utils";
 import { usePlayer } from "@/context/PlayerContext";
-import Image from 'next/image';
+import Image from "next/image";
 
 const TrackItem = ({
   track,
@@ -20,7 +21,7 @@ const TrackItem = ({
         onClick={() =>
           playTrack(
             track,
-            0, //progress,
+            0, // progress,
             playlistTracks.map((track) => track.uri)
           )
         }
