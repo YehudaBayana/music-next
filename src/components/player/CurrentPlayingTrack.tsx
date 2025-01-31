@@ -1,16 +1,39 @@
-import React from "react";
-import { usePlayer } from "@/context/PlayerContext";
-import { FaMusic } from "react-icons/fa";
-import SicupLogo from "@/components/SicupLogo";
+import React, { useCallback } from 'react';
+import { usePlayer } from '@/context/PlayerContext';
+import { FaMusic } from 'react-icons/fa';
+import SicupLogo from '@/components/SicupLogo';
 import Image from 'next/image';
+import debounce from 'lodash/debounce';
+import { catchError } from '@/utils/utils';
+
+const seekToPosition = async (newPosition: number) => {
+  const [error] = await catchError(
+    fetch('/api/spotify/player/seek', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ position_ms: newPosition }),
+    })
+  );
+  if (error) {
+    console.log('yuda  ', error);
+  }
+};
 
 const CurrentPlayingSong = () => {
   const { currentTrack, progress, setProgress } = usePlayer();
-
+  const debouncedSeek = useCallback(
+    debounce((newPosition: number) => {
+      console.log('Slider moved to:', newPosition);
+      seekToPosition(newPosition);
+    }, 300),
+    []
+  );
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setProgress(newValue);
-    console.log("Slider moved to:", newValue);
+    debouncedSeek(newValue);
   };
 
   return (
@@ -20,7 +43,7 @@ const CurrentPlayingSong = () => {
           src={currentTrack?.album.images[0].url}
           width={currentTrack?.album.images[0].width || 12}
           height={currentTrack?.album.images[0].height || 12}
-          alt={currentTrack?.name || "Album Cover"}
+          alt={currentTrack?.name || 'Album Cover'}
           className="w-12 h-12 rounded-lg object-cover flex-none"
         />
       ) : (
@@ -32,15 +55,15 @@ const CurrentPlayingSong = () => {
           <>
             <h4
               className="text-base font-bold text-black truncate w-full text-center"
-              title={currentTrack?.name || "Unknown Title"}
+              title={currentTrack?.name || 'Unknown Title'}
             >
-              {currentTrack?.name || "Unknown Title"}
+              {currentTrack?.name || 'Unknown Title'}
             </h4>
             <p
               className="text-sm text-gray-500 truncate w-full text-center"
-              title={currentTrack?.artists[0].name || "Unknown Artist"}
+              title={currentTrack?.artists[0].name || 'Unknown Artist'}
             >
-              {currentTrack?.artists[0].name || "Unknown Artist"}
+              {currentTrack?.artists[0].name || 'Unknown Artist'}
             </p>
             <div className="overflow-visible w-full flex p-1">
               <input

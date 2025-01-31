@@ -23,13 +23,42 @@ const pauseTrack = async () => {
     console.log("yuda  ", error);
   }
 };
+const nextTrack = async () => {
+  const [error] = await catchError(
+    fetch("/api/spotify/player/next", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  );
+  if (error) {
+    console.log("yuda  ", error);
+  }
+};
+const previousTrack = async () => {
+  const [error] = await catchError(
+    fetch("/api/spotify/player/previous", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+  );
+  if (error) {
+    console.log("yuda  ", error);
+  }
+};
 
 const PlayerControls = () => {
   const { isPlaying, playTrack, progress } = usePlayer();
   return (
     <div className="flex items-center space-x-4 text-black">
       <IoShuffle className="w-6 h-6 cursor-pointer hover:text-gray-600" />
-      <IoPlaySkipBack className="w-6 h-6 cursor-pointer hover:text-gray-600" />
+      <IoPlaySkipBack
+        onClick={() => previousTrack()}
+        className="w-6 h-6 cursor-pointer hover:text-gray-600"
+      />
       {isPlaying ? (
         <IoPause
           onClick={pauseTrack}
@@ -42,7 +71,10 @@ const PlayerControls = () => {
         />
       )}
 
-      <IoPlaySkipForward className="w-6 h-6 cursor-pointer hover:text-gray-600" />
+      <IoPlaySkipForward
+        onClick={() => nextTrack()}
+        className="w-6 h-6 cursor-pointer hover:text-gray-600"
+      />
       <IoRepeat className="w-6 h-6 cursor-pointer hover:text-gray-600" />
     </div>
   );

@@ -3,20 +3,20 @@ import { authOptions } from "../../auth/[...nextauth]";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { catchError } from "@/utils/utils";
 
-export const pauseRequest = async (
+export const previousTrackRequest = async (
   data: {
     accessToken: string;
   },
   deviceId?: string
 ) => {
   const url =
-    "https://api.spotify.com/v1/me/player/pause" +
+    "https://api.spotify.com/v1/me/player/previous" +
     (deviceId ? `?device_id=${deviceId}` : "");
   console.log("url ", url);
 
   const [error] = await catchError(
     fetch(url, {
-      method: "PUT",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${data.accessToken}`,
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const pauseRequest = async (
   if (error) {
     return console.log("yuda error", error);
   }
-  console.log("Playback started successfully");
+  console.log("Playback previous successfully");
 };
 
 export default async function handler(
@@ -42,7 +42,7 @@ export default async function handler(
   const accessToken = session.accessToken;
   const data = req.body;
 
-  await pauseRequest({ accessToken, ...data }, data.deviceId);
+  await previousTrackRequest({ accessToken }, data.deviceId);
 
-  return res.status(200).json({ message: "Playback paused" });
+  return res.status(200).json({ message: "Playback previous" });
 }
