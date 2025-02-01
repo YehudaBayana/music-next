@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       'mosaic.scdn.co',
       'i.scdn.co',
       'image-cdn-fa.spotifycdn.com',
+      'images.unsplash.com',
     ], // Add the Spotify CDN domain here
   },
 };

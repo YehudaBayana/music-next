@@ -166,3 +166,23 @@ export const searchSpotify = async (
     return null;
   }
 };
+
+export const fetchUserPlaylists = async <T>(
+  userId: string,
+  accessToken: string,
+  limit = 1
+): Promise<T> => {
+  const res = await fetch(
+    `https://api.spotify.com/v1/users/${userId}/playlists?limit=${limit}`,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    }
+  );
+
+  if (!res.ok) throw new Error('Failed to fetch playlists');
+
+  const data: T = await res.json();
+  return data; // Returns array of playlists
+};

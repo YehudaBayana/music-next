@@ -21,7 +21,7 @@ export const getAvailableDevices = async (accessToken: string) => {
     }
 
     const data = await response.json();
-    console.log('Available Devices:', data);
+    // console.log('Available Devices:', data);
 
     // Extract the devices list
     const devices = data.devices;

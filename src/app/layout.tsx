@@ -14,7 +14,7 @@ export default function RootLayout({
         <Providers>
           <Player />
           <Sidebar />
-          <div className='px-4'>{children}</div>
+          <div className='container'>{children}</div>
         </Providers>
       </body>
     </html>
