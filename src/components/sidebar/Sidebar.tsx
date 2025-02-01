@@ -1,11 +1,11 @@
 // components/Sidebar/Sidebar.tsx
-"use client";
+'use client';
 
-import React from "react";
-import { usePathname } from "next/navigation";
-import NavigationList from "./NavigationList";
-import { navigationItems, libraryItems, podcastItems } from "./sidebarData";
-import SicupLogo from "@/components/SicupLogo";
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import NavigationList from './NavigationList';
+import { navigationItems, libraryItems, podcastItems } from './sidebarData';
+import SicupLogo from '@/components/SicupLogo';
 
 const Sidebar: React.FC = () => {
   const pathname = usePathname();

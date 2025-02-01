@@ -1,4 +1,4 @@
-export type SearchType = "track" | "playlist" | "podcast" | "show" | "artist";
+export type SearchType = 'track' | 'playlist' | 'podcast' | 'show' | 'artist';
 
 export interface GetMyAlbumsResponse {
   href: string;
@@ -30,7 +30,7 @@ export interface Album {
   type: string;
   uri: string;
   artists: Artist[];
-  tracks: AlbumTracks;
+  tracks: Tracks;
   copyrights: Copyright[];
   external_ids: ExternalIds;
   genres: unknown[];
@@ -49,14 +49,14 @@ export interface Copyright {
   type: string;
 }
 
-export interface AlbumTracks {
+export interface Tracks {
   href: string;
   limit: number;
   next: string;
   offset: number;
   previous: string;
   total: number;
-  items: AlbumTracksItem[];
+  items: Track[];
 }
 
 export interface AlbumTracksItem {
@@ -89,9 +89,13 @@ export interface Linkedfrom {
 
 export interface Artist {
   external_urls: ExternalUrls;
+  followers: Followers;
+  genres: any[];
   href: string;
   id: string;
+  images: Image[];
   name: string;
+  popularity: number;
   type: string;
   uri: string;
 }
@@ -471,4 +475,42 @@ export interface Disallows {
   resuming: boolean;
 }
 
+// ------------------------
+export interface Artists {
+  href: string;
+  limit: number;
+  next: string;
+  offset: number;
+  previous: any;
+  total: number;
+  items: Artist[];
+}
+export interface Albums {
+  href: string;
+  limit: number;
+  next: string;
+  offset: number;
+  previous: any;
+  total: number;
+  items: Album[];
+}
+
+export interface Playlists {
+  href: string;
+  limit: number;
+  next: string;
+  offset: number;
+  previous: any;
+  total: number;
+  items: MyPlaylistItem[];
+}
+export interface SearchSpotifyResponse {
+  tracks: Tracks;
+  artists: Artists;
+  albums: Albums;
+  playlists: Playlists;
+  // shows: Shows
+  // episodes: Episodes
+  // audiobooks: Audiobooks
+}
 // ------------------------

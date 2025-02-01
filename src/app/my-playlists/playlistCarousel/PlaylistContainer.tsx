@@ -1,6 +1,6 @@
-import React from "react";
-import { MyPlaylistItem } from "@/utils/types";
-import PlaylistCard from "@/app/my-playlists/playlistCard/PlaylistCard";
+import React from 'react';
+import { MyPlaylistItem } from '@/utils/types';
+import PlaylistCard from '@/app/my-playlists/playlistCard/PlaylistCard';
 
 interface PlaylistContainerProps {
   playlists: MyPlaylistItem[];

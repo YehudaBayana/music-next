@@ -1,8 +1,8 @@
-"use client";
-import React, { useState } from "react";
-import { MyPlaylistItem } from "@/utils/types";
-import PlaylistContainer from "./PlaylistContainer";
-import CarouselControls from "./CarouselControls";
+'use client';
+import React, { useState } from 'react';
+import { MyPlaylistItem } from '@/utils/types';
+import PlaylistContainer from './PlaylistContainer';
+import CarouselControls from './CarouselControls';
 
 interface PlaylistCarouselProps {
   playlists: MyPlaylistItem[];
@@ -10,7 +10,7 @@ interface PlaylistCarouselProps {
 
 const PlaylistCarousel: React.FC<PlaylistCarouselProps> = ({ playlists }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const cardsToShow = 2.5;
+  const cardsToShow = 5;
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0));
@@ -23,7 +23,7 @@ const PlaylistCarousel: React.FC<PlaylistCarouselProps> = ({ playlists }) => {
   };
 
   return (
-    <div className="relative px-14">
+    <div className='relative px-14'>
       <PlaylistContainer
         playlists={playlists}
         currentIndex={currentIndex}
