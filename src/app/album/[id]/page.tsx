@@ -4,8 +4,10 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import InfiniteScrollPlaylist from '@/app/playlist/InfiniteScrollPlaylist';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
+import TrackItem from '@/app/playlists/playlistCard/TrackItem';
+import { getAlbum } from '@/utils/spotify/album/album';
 
-export default async function PlaylistPage({
+export default async function AlbumPage({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -17,17 +19,14 @@ export default async function PlaylistPage({
     return <p>You are not authenticated. Please log in.</p>;
   }
 
-  const { newTracks } = await getPlaylistTracks(id, session.accessToken);
-  const initialTracks = uniqBy(newTracks, 'id');
+  const album = await getAlbum(session.accessToken, id);
 
   return (
     <div>
-      <h4>Playlist Songs</h4>
-      <InfiniteScrollPlaylist
-        playlistId={id}
-        accessToken={session.accessToken}
-        initialTracks={initialTracks}
-      />
+      <h4>Album Songs</h4>
+      {album?.tracks.items.map((track) => (
+        <TrackItem dropImage track={track} key={track.id} />
+      ))}
     </div>
   );
 }

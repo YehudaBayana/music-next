@@ -1,10 +1,10 @@
 import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../auth/[...nextauth]';
+import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { thisDeviceName } from '@/utils/constants';
 import { Device } from '@/utils/types';
 
-export const getAvailableDevices = async (accessToken: string) => {
+export const getMyDevice = async (accessToken: string) => {
   const url = 'https://api.spotify.com/v1/me/player/devices';
 
   try {
@@ -43,24 +43,3 @@ export const getAvailableDevices = async (accessToken: string) => {
     return null;
   }
 };
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const session = await getServerSession(req, res, authOptions);
-
-  if (!session || !session.accessToken) {
-    return res.status(401).json({ error: 'Unauthorized' });
-  }
-
-  const accessToken = session.accessToken;
-
-  const deviceRes = await getAvailableDevices(accessToken);
-  if (deviceRes) {
-    return res.status(200).json(deviceRes);
-  }
-  return res
-    .status(500)
-    .json({ error: 'Failed to get devices, check in server errors' });
-}

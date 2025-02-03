@@ -1,7 +1,7 @@
-import { SpotifyApiEndpoint } from "@/utils/spotifyApi";
+import { SpotifyApiEndpoint } from '@/utils/spotifyApi';
 
-export function buildEndpoint<T extends SpotifyApiEndpoint>(
-  endpoint: T,
+export function buildEndpoint( //<T extends SpotifyApiEndpoint>
+  endpoint: string,
   params: Record<string, string>
 ): string {
   return endpoint.replace(/\{(\w+)\}/g, (_, key) => {
@@ -15,7 +15,7 @@ export function buildEndpoint<T extends SpotifyApiEndpoint>(
 export function msToMinutesAndSeconds(ms: number): string {
   const minutes = Math.floor(ms / 60000);
   const seconds = ((ms % 60000) / 1000).toFixed(0);
-  return minutes + ":" + (Number(seconds) < 10 ? "0" : "") + seconds;
+  return minutes + ':' + (Number(seconds) < 10 ? '0' : '') + seconds;
 }
 
 export async function catchError<T>(

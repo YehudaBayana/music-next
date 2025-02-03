@@ -1,16 +1,16 @@
 export type SearchType = 'track' | 'playlist' | 'podcast' | 'show' | 'artist';
 
-export interface GetMyAlbumsResponse {
+export interface GetAlbumsResponse {
   href: string;
   limit: number;
   next: string;
   offset: number;
   previous: string;
   total: number;
-  items: AlbumItems[];
+  items: AlbumsItems[];
 }
 
-export interface AlbumItems {
+export interface AlbumsItems {
   added_at: string;
   album: Album;
 }
@@ -59,25 +59,35 @@ export interface Tracks {
   items: Track[];
 }
 
-export interface AlbumTracksItem {
-  artists: Artist[];
-  available_markets: string[];
-  disc_number: number;
-  duration_ms: number;
-  explicit: boolean;
-  external_urls: ExternalUrls;
+export interface AlbumTracks {
   href: string;
-  id: string;
-  is_playable: boolean;
-  linked_from: Linkedfrom;
-  restrictions: Restrictions;
-  name: string;
-  preview_url: string;
-  track_number: number;
-  type: string;
-  uri: string;
-  is_local: boolean;
+  limit: number;
+  next: string;
+  offset: number;
+  previous: string;
+  total: number;
+  items: AlbumTracks[];
 }
+
+// export interface AlbumTracksItem {
+//   artists: Artist[];
+//   available_markets: string[];
+//   disc_number: number;
+//   duration_ms: number;
+//   explicit: boolean;
+//   external_urls: ExternalUrls;
+//   href: string;
+//   id: string;
+//   is_playable: boolean;
+//   linked_from: Linkedfrom;
+//   restrictions: Restrictions;
+//   name: string;
+//   preview_url: string;
+//   track_number: number;
+//   type: string;
+//   uri: string;
+//   is_local: boolean;
+// }
 
 export interface Linkedfrom {
   external_urls: ExternalUrls;
@@ -513,4 +523,44 @@ export interface SearchSpotifyResponse {
   // episodes: Episodes
   // audiobooks: Audiobooks
 }
+// ------------------------
+
+export interface AlbumTracks {
+  artists: Artist[];
+  available_markets: string[];
+  disc_number: number;
+  duration_ms: number;
+  explicit: boolean;
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  name: string;
+  preview_url: any;
+  track_number: number;
+  type: string;
+  uri: string;
+  is_local: boolean;
+}
+export interface GetAlbumRes {
+  album_type: string;
+  total_tracks: number;
+  available_markets: string[];
+  external_urls: ExternalUrls;
+  href: string;
+  id: string;
+  images: Image[];
+  name: string;
+  release_date: string;
+  release_date_precision: string;
+  type: string;
+  uri: string;
+  artists: Artist[];
+  tracks: Tracks;
+  copyrights: Copyright[];
+  external_ids: ExternalIds;
+  genres: any[];
+  label: string;
+  popularity: number;
+}
+
 // ------------------------

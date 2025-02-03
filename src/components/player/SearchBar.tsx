@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Track } from '@/utils/types';
 import { searchSpotify } from '@/utils/spotifyApi';
-import TrackItem from '@/app/my-playlists/playlistCard/TrackItem';
+import TrackItem from '@/app/playlists/playlistCard/TrackItem';
 
 const SearchBar = () => {
   const { data: session } = useSession();

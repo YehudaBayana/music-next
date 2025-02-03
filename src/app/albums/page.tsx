@@ -1,24 +1,24 @@
-import PlaylistCarousel from '@/app/my-playlists/playlistCarousel/PlaylistCarousel';
+import Album from '@/app/search/components/albums/Album';
 import Playlist from '@/app/search/components/playlists/Playlist';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { spotifyApi } from '@/utils/spotifyApi';
-import { GetMyPlaylistsResponse } from '@/utils/types';
+import { GetAlbumsResponse, GetMyPlaylistsResponse } from '@/utils/types';
 import { getServerSession } from 'next-auth';
 
-export default async function MyPlaylistsPage() {
+export default async function MyAlbumsPage() {
   const session = await getServerSession(authOptions);
   if (!session || !session.accessToken) {
     return <p>You are not authenticated. Please log in.</p>;
   }
-  const response = await spotifyApi.get<GetMyPlaylistsResponse>(
-    '/me/playlists',
+  const response = await spotifyApi.get<GetAlbumsResponse>(
+    '/me/albums',
     session?.accessToken
   );
-  const playlists = response.items;
+  const albums = response.items.map((item) => item.album);
   return (
-    <div className='flex gap-4 overflow-x-scroll'>
-      {playlists.map((playlist) => (
-        <Playlist playlist={playlist} key={playlist.id} />
+    <div className='flex gap-x-10 flex-wrap justify-start'>
+      {albums.map((album) => (
+        <Album album={album} key={album.id} />
       ))}
     </div>
     // <div>

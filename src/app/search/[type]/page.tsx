@@ -4,7 +4,10 @@ import { useSearchParams, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { searchSpotify } from '@/utils/spotifyApi';
-import TrackItem from '@/app/my-playlists/playlistCard/TrackItem';
+import TrackItem from '@/app/playlists/playlistCard/TrackItem';
+import Album from '@/app/search/components/albums/Album';
+import Playlist from '@/app/search/components/playlists/Playlist';
+import Artist from '@/app/search/components/artists/Artist';
 
 const SearchByTypePage = () => {
   const params = useParams();
@@ -13,7 +16,6 @@ const SearchByTypePage = () => {
   const query = searchParams?.get('query') || '';
   const { data: session } = useSession();
   const accessToken = session?.accessToken;
-  //   console.log('type ', type);
 
   const [results, setResults] = useState<any[]>([]);
 
@@ -51,23 +53,34 @@ const SearchByTypePage = () => {
       <h1 className='text-3xl font-bold mb-6'>
         Showing {type} results for "{query}"
       </h1>
-      <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-        {type === 'track' &&
-          results.map((track) => <TrackItem track={track} key={track.id} />)}
-        {/* {results.map((item) => (
-          <div
-            key={item.id}
-            className='p-4 border rounded-lg shadow hover:bg-gray-100 transition'
-          >
-            <img
-              src={item.images?.[0]?.url || item.album?.images?.[0]?.url}
-              alt={item.name}
-              className='w-full h-40 object-cover rounded-md'
-            />
-            <h3 className='font-medium mt-2'>{item.name}</h3>
-          </div>
-        ))} */}
-      </div>
+      {type === 'track' && (
+        <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+          {results.map((track) => (
+            <TrackItem track={track} key={track.id} />
+          ))}
+        </div>
+      )}
+      {type === 'album' && (
+        <div className='flex gap-x-10 flex-wrap justify-start'>
+          {results.map((album) => (
+            <Album album={album} key={album.id} />
+          ))}
+        </div>
+      )}
+      {type === 'playlist' && (
+        <div className='flex gap-x-10 flex-wrap justify-start'>
+          {results.map((playlist) => (
+            <Playlist playlist={playlist} key={playlist.id} />
+          ))}
+        </div>
+      )}
+      {type === 'artist' && (
+        <div className='flex gap-x-10 flex-wrap justify-start'>
+          {results.map((artist) => (
+            <Artist artist={artist} key={artist.id} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

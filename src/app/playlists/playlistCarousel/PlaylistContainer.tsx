@@ -1,6 +1,6 @@
 import React from 'react';
 import { MyPlaylistItem } from '@/utils/types';
-import PlaylistCard from '@/app/my-playlists/playlistCard/PlaylistCard';
+import PlaylistCard from '@/app/playlists/playlistCard/PlaylistCard';
 
 interface PlaylistContainerProps {
   playlists: MyPlaylistItem[];
@@ -14,7 +14,7 @@ const PlaylistContainer: React.FC<PlaylistContainerProps> = ({
   cardsToShow,
 }) => {
   return (
-    <div className="w-full overflow-hidden">
+    <div className='w-full overflow-hidden'>
       <div
         className={`flex transition-transform duration-500`}
         style={{
@@ -24,7 +24,7 @@ const PlaylistContainer: React.FC<PlaylistContainerProps> = ({
         {playlists.map((playlist) => (
           <div
             key={playlist.id}
-            className="flex-shrink-0 px-2"
+            className='flex-shrink-0 px-2'
             style={{ width: `calc(100% / ${cardsToShow})` }}
           >
             <PlaylistCard playlist={playlist} />

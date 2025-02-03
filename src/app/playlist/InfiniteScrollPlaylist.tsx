@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useCallback } from "react";
-import { Track } from "@/utils/types";
-import TrackItem from "@/app/my-playlists/playlistCard/TrackItem";
-import uniqBy from "lodash/uniqBy";
+import React, { useState, useEffect, useCallback } from 'react';
+import { Track } from '@/utils/types';
+import TrackItem from '@/app/playlists/playlistCard/TrackItem';
+import uniqBy from 'lodash/uniqBy';
+import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
 
 const InfiniteScrollPlaylist = ({
   playlistId,
@@ -24,22 +25,23 @@ const InfiniteScrollPlaylist = ({
 
     setLoading(true);
     try {
-      const res = await fetch(
-        `/api/spotify/playlist/playlist-tracks?playlistId=${playlistId}&offset=${offset}`
-      );
+      // const res = await fetch(
+      //   `/api/spotify/playlist/playlist-tracks?playlistId=${playlistId}&offset=${offset}`
+      // );
       const {
         newTracks,
         hasMoreServer,
-      }: { newTracks: Track[]; hasMoreServer: boolean } = await res.json();
+      }: { newTracks: Track[]; hasMoreServer: boolean } =
+        await getPlaylistTracks(playlistId, accessToken, offset);
 
       if (hasMoreServer) {
-        setTracks((prev) => uniqBy([...prev, ...newTracks], "id"));
+        setTracks((prev) => uniqBy([...prev, ...newTracks], 'id'));
         setOffset((prev) => prev + newTracks.length);
       } else {
         setHasMore(hasMoreServer);
       }
     } catch (err) {
-      console.error("Error loading more tracks:", err);
+      console.error('Error loading more tracks:', err);
     } finally {
       setLoading(false);
     }
@@ -55,13 +57,13 @@ const InfiniteScrollPlaylist = ({
   }, [fetchMoreTracks]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
   return (
     <div>
-      {uniqBy(tracks, "id").map((track) => (
+      {uniqBy(tracks, 'id').map((track) => (
         <TrackItem key={track.id} track={track} playlistId={playlistId} />
       ))}
       {loading && <p>Loading more tracks...</p>}
