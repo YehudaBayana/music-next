@@ -1,4 +1,4 @@
-import Album from '@/app/search/components/albums/Album';
+import Album from '@/components/albums/Album';
 import { Album as AlbumType } from '@/utils/types';
 import Link from 'next/link';
 import React from 'react';

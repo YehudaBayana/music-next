@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Album, Artist, MyPlaylistItem, Track } from '@/utils/types';
 import { searchSpotify } from '@/utils/spotifyApi';
-import Tracks from '@/app/search/components/tracks/Tracks';
-import Albums from '@/app/search/components/albums/Albums';
-import Artists from '@/app/search/components/artists/Artists';
-import Playlists from '@/app/search/components/playlists/Playlists';
+import Tracks from '@/components/tracks/Tracks';
+import Albums from '@/components/albums/Albums';
+import Artists from '@/components/artists/Artists';
+import Playlists from '@/components/playlists/Playlists';
 import { PATHS } from '@/components/sidebar/sidebarData';
 
 const SearchResults = () => {
@@ -55,11 +55,6 @@ const SearchResults = () => {
 
     fetchSearchResults();
   }, [query, accessToken]);
-
-  // Navigate to "See All" page for a specific type
-  const handleSeeAll = (type: string) => {
-    router.push(`/search/${type}?query=${encodeURIComponent(query)}`);
-  };
 
   return (
     <div className='mx-auto p-6'>

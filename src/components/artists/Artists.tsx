@@ -1,4 +1,4 @@
-import Artist from '@/app/search/components/artists/Artist';
+import Artist from '@/components/artists/Artist';
 import { Artist as ArtistType } from '@/utils/types';
 import React from 'react';
 

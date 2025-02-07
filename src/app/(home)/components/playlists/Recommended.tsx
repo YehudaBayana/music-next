@@ -1,5 +1,5 @@
 import React from 'react';
-import Playlists from '@/app/search/components/playlists/Playlists';
+import Playlists from '@/components/playlists/Playlists';
 import { userIds } from '@/utils/constants';
 import { fetchUserPlaylists, searchSpotify } from '@/utils/spotifyApi';
 import { GetMyPlaylistsResponse } from '@/utils/types';

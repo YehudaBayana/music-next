@@ -25,9 +25,6 @@ const InfiniteScrollPlaylist = ({
 
     setLoading(true);
     try {
-      // const res = await fetch(
-      //   `/api/spotify/playlist/playlist-tracks?playlistId=${playlistId}&offset=${offset}`
-      // );
       const {
         newTracks,
         hasMoreServer,

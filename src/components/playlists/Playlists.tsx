@@ -1,4 +1,4 @@
-import Playlist from '@/app/search/components/playlists/Playlist';
+import Playlist from '@/components/playlists/Playlist';
 import { MyPlaylistItem } from '@/utils/types';
 import Link from 'next/link';
 import React from 'react';

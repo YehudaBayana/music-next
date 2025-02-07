@@ -5,9 +5,9 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { searchSpotify } from '@/utils/spotifyApi';
 import TrackItem from '@/components/TrackItem';
-import Album from '@/app/search/components/albums/Album';
-import Playlist from '@/app/search/components/playlists/Playlist';
-import Artist from '@/app/search/components/artists/Artist';
+import Album from '@/components/albums/Album';
+import Playlist from '@/components/playlists/Playlist';
+import Artist from '@/components/artists/Artist';
 
 const SearchByTypePage = () => {
   const params = useParams();

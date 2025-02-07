@@ -1,5 +1,5 @@
 import PlaylistCarousel from '@/app/playlists/components/drafts/playlistCarousel/PlaylistCarousel';
-import Playlist from '@/app/search/components/playlists/Playlist';
+import Playlist from '@/components/playlists/Playlist';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { spotifyApi } from '@/utils/spotifyApi';
 import { GetMyPlaylistsResponse } from '@/utils/types';

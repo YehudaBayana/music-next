@@ -1,5 +1,4 @@
-import Album from '@/app/search/components/albums/Album';
-import Playlist from '@/app/search/components/playlists/Playlist';
+import Album from '@/components/albums/Album';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { spotifyApi } from '@/utils/spotifyApi';
 import { GetAlbumsResponse, GetMyPlaylistsResponse } from '@/utils/types';
