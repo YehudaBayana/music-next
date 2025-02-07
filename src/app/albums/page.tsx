@@ -20,8 +20,5 @@ export default async function MyAlbumsPage() {
         <Album album={album} key={album.id} />
       ))}
     </div>
-    // <div>
-    //   <PlaylistCarousel playlists={playlists} />
-    // </div>
   );
 }

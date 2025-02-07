@@ -1,9 +1,16 @@
+import ContextPlayButton from '@/components/ContextPlayButton';
 import PageInfo from '@/components/PageInfo';
 import { MyPlaylistItem } from '@/utils/types';
 import Image from 'next/image';
 import React from 'react';
 
-const PlaylistInfo = ({ playlist }: { playlist: MyPlaylistItem }) => {
+const PlaylistInfo = ({
+  playlist,
+  firstTrackUri,
+}: {
+  playlist: MyPlaylistItem;
+  firstTrackUri: string;
+}) => {
   return (
     <PageInfo
       src={playlist.images[0].url || '/placeholder.jpg'}
@@ -18,6 +25,7 @@ const PlaylistInfo = ({ playlist }: { playlist: MyPlaylistItem }) => {
       <p className='text-gray-300 text-sm mt-1'>
         {playlist.owner.display_name}
       </p>
+      <ContextPlayButton contextUri={playlist.uri} trackUri={firstTrackUri} />
     </PageInfo>
   );
 };

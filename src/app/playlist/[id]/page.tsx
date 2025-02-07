@@ -5,7 +5,6 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import InfiniteScrollPlaylist from '@/app/playlist/components/InfiniteScrollPlaylist';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
 import { getPlaylist } from '@/utils/spotify/playlist/playlist';
-import ActionBar from '@/app/playlist/components/ActionBar';
 import PlaylistInfo from '@/app/playlist/components/PlaylistInfo';
 
 export default async function PlaylistPage({
@@ -27,12 +26,13 @@ export default async function PlaylistPage({
   return (
     <div className='min-h-screen'>
       {playlist ? (
-        <PlaylistInfo playlist={playlist} />
+        <PlaylistInfo
+          playlist={playlist}
+          firstTrackUri={initialTracks[0].uri}
+        />
       ) : (
         <h1>no playlist info</h1>
       )}
-
-      <ActionBar />
       <InfiniteScrollPlaylist
         playlistId={id}
         accessToken={session.accessToken}
