@@ -34,6 +34,7 @@ export const PATHS = {
     saved: '/saved',
     repeatedHearing: '/repeated-hearing',
   },
+  search: 'search',
 };
 
 // Navigation Items

@@ -69,10 +69,10 @@ const SearchBar = () => {
   };
 
   return (
-    <div className='relative w-1/4' ref={searchRef}>
+    <div className='relative w-1/4 hidden sm:block' ref={searchRef}>
       <input
         type='text'
-        placeholder='Search for a track...'
+        placeholder='Search...'
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleSearchSubmit} // Capture "Enter" key press

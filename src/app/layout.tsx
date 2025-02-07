@@ -1,3 +1,5 @@
+// layout.tsx
+
 import Providers from '@/app/Providers/Providers';
 import './globals.css';
 import Sidebar from '@/components/sidebar/Sidebar';
@@ -10,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className='pl-64 pt-28'>
+      <body className='sm:pl-64 sm:pt-28 pt-8 pb-16'>
         <Providers>
           <Player />
           <Sidebar />

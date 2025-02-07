@@ -16,7 +16,7 @@ export default async function MyAlbumsPage() {
   );
   const albums = response.items.map((item) => item.album);
   return (
-    <div className='flex gap-x-10 flex-wrap justify-start'>
+    <div className='flex gap-10 flex-wrap justify-start'>
       {albums.map((album) => (
         <Album album={album} key={album.id} />
       ))}

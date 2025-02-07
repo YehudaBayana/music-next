@@ -1,8 +1,10 @@
 import PlaylistWithTracks from '@/app/(home)/components/playlists/PlaylistWithTracks';
+import Playlists from '@/app/search/components/playlists/Playlists';
+import Tracks from '@/app/search/components/tracks/Tracks';
 import { PATHS } from '@/components/sidebar/sidebarData';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { imageUrl, userIds } from '@/utils/constants';
-import { fetchUserPlaylists } from '@/utils/spotifyApi';
+import { fetchUserPlaylists, searchSpotify } from '@/utils/spotifyApi';
 import { GetMyPlaylistsResponse } from '@/utils/types';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
@@ -17,47 +19,28 @@ const Home = async ({ accessToken }: { accessToken: string }) => {
       5
     )
   ).items;
-  //   console.log('topsify playlists', playlists);
-
+  const hiphopPlaylists = (
+    await searchSpotify('hip hop', accessToken, 'playlist', 0, 30)
+  )?.playlists.items.filter((item) => item);
   return (
     <div>
-      <h1 className='text-3xl ml-12'>recommended for you</h1>
+      <h1 className='text-3x'>recommended for you</h1>
       <hr className='my-5 border-t-2 border-stone-800' />
-      <div className='grid grid-cols-4 grid-rows-4 gap-4'>
-        <div className='row-span-4 col-span-2 flex'>
-          <div className='w-full aspect-square relative'>
-            <Link href={`${PATHS.playlist}/${playlists[0].id}`}>
-              <Image
-                alt='test'
-                src={playlists[0].images[0].url}
-                layout='fill'
-                objectFit='cover'
-                className='rounded-2xl'
-              />
-            </Link>
-          </div>
-        </div>
-        <div className='row-span-4 col-span-2'>
-          <div className='grid grid-cols-2 grid-rows-3 gap-4'>
-            {playlists.slice(1, 5).map((playlist) => (
-              <div key={playlist.id} className='row-span-3'>
-                <div className='w-full aspect-square relative '>
-                  <Link href={`${PATHS.playlist}/${playlist.id}`}>
-                    <Image
-                      alt='test'
-                      src={playlist.images[0].url}
-                      layout='fill'
-                      objectFit='cover'
-                      className='rounded-2xl'
-                    />
-                  </Link>
-                </div>
-              </div>
-            ))}
-            {/* <PlaylistWithTracks playlistId={playlists[1].id} /> */}
-          </div>
-        </div>
-      </div>
+      {/* {results.tracks.length > 0 && (
+        <Tracks tracks={results.tracks} handleSeeAll={handleSeeAll} />
+      )} */}
+      {playlists.length > 0 && (
+        <Playlists playlists={playlists} title={'hot playlists'} />
+      )}
+      {hiphopPlaylists && hiphopPlaylists.length > 0 && (
+        <Playlists playlists={hiphopPlaylists} title={'hip hop'} />
+      )}
+      {/* {results.albums.length > 0 && (
+        <Albums albums={results.albums} handleSeeAll={handleSeeAll} />
+      )} */}
+      {/* {results.artists.length > 0 && (
+        <Artists artists={results.artists} handleSeeAll={handleSeeAll} />
+      )} */}
     </div>
   );
 };

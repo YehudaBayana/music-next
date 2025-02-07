@@ -1,13 +1,18 @@
-import React from "react";
-import Link from "next/link";
-import { NavigationItem } from "./sidebarData";
+import React from 'react';
+import Link from 'next/link';
+import { NavigationItem } from './sidebarData';
 
 type NavigationListProps = {
   items: NavigationItem[];
   pathname: string;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const NavigationList: React.FC<NavigationListProps> = ({ items, pathname }) => {
+const NavigationList: React.FC<NavigationListProps> = ({
+  items,
+  pathname,
+  setIsOpen,
+}) => {
   return (
     <ul>
       {items.map((item) => {
@@ -15,14 +20,18 @@ const NavigationList: React.FC<NavigationListProps> = ({ items, pathname }) => {
           pathname === item.path || pathname.startsWith(`${item.path}/`);
 
         return (
-          <Link href={item.path} key={item.label}>
+          <Link
+            href={item.path}
+            key={item.label}
+            onClick={() => setIsOpen(false)}
+          >
             <li
               className={`flex items-center gap-4 mb-2 cursor-pointer p-2 rounded-lg ${
-                isActive ? "bg-gray-700 text-purple-400" : "hover:bg-gray-700"
+                isActive ? 'bg-gray-700 text-purple-400' : 'hover:bg-gray-700'
               }`}
             >
-              <item.Icon className="text-xl" />
-              <span className="text-sm">{item.label}</span>
+              <item.Icon className='text-xl' />
+              <span className='text-sm'>{item.label}</span>
             </li>
           </Link>
         );

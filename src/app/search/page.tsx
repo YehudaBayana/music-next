@@ -9,6 +9,7 @@ import Tracks from '@/app/search/components/tracks/Tracks';
 import Albums from '@/app/search/components/albums/Albums';
 import Artists from '@/app/search/components/artists/Artists';
 import Playlists from '@/app/search/components/playlists/Playlists';
+import { PATHS } from '@/components/sidebar/sidebarData';
 
 const SearchResults = () => {
   const { data: session } = useSession();
@@ -64,16 +65,28 @@ const SearchResults = () => {
     <div className='mx-auto p-6'>
       <h1 className='text-3xl font-bold mb-6'>Search Results for "{query}"</h1>
       {results.tracks.length > 0 && (
-        <Tracks tracks={results.tracks} handleSeeAll={handleSeeAll} />
+        <Tracks
+          tracks={results.tracks}
+          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+        />
       )}
       {results.albums.length > 0 && (
-        <Albums albums={results.albums} handleSeeAll={handleSeeAll} />
+        <Albums
+          albums={results.albums}
+          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+        />
       )}
       {results.artists.length > 0 && (
-        <Artists artists={results.artists} handleSeeAll={handleSeeAll} />
+        <Artists
+          artists={results.artists}
+          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+        />
       )}
       {results.playlists.length > 0 && (
-        <Playlists playlists={results.playlists} handleSeeAll={handleSeeAll} />
+        <Playlists
+          playlists={results.playlists}
+          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+        />
       )}
     </div>
   );
