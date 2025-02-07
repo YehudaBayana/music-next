@@ -63,7 +63,13 @@ export default async function AlbumPage({
     <div>
       <AlbumInfo album={album} />
       {album?.tracks.items.map((track) => (
-        <TrackItem dropImage track={track} key={track.id} />
+        <TrackItem
+          albumId={album.id}
+          context='album'
+          dropImage
+          track={track}
+          key={track.id}
+        />
       ))}
     </div>
   );

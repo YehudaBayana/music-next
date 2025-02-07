@@ -22,7 +22,7 @@ export default async function ArtistPage({
   }
 
   const artist = await getArtist(session.accessToken, [id]);
-  console.log('artitst ', artist);
+  // console.log('artitst ', artist);
 
   return (
     <div>

@@ -88,7 +88,13 @@ const SearchBar = () => {
             //   target='_blank'
             //   className='flex items-center gap-3 p-3 hover:bg-gray-100 transition'
             // >
-            <TrackItem dropImage dropContext track={track} key={track.id} />
+            <TrackItem
+              context={null}
+              dropImage
+              dropContext
+              track={track}
+              key={track.id}
+            />
             // </Link>
           ))}
         </div>

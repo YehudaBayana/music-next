@@ -19,7 +19,7 @@ const Tracks = ({ tracks, path }: { tracks: Track[]; path: string }) => {
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {tracks.map((track) => (
-          <TrackItem track={track} key={track.id} />
+          <TrackItem context={null} track={track} key={track.id} />
         ))}
       </div>
     </section>

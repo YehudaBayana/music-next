@@ -64,7 +64,12 @@ const InfiniteScrollPlaylist = ({
   return (
     <div className='px-6'>
       {uniqBy(tracks, 'id').map((track) => (
-        <TrackItem key={track.id} track={track} playlistId={playlistId} />
+        <TrackItem
+          context='playlist'
+          key={track.id}
+          track={track}
+          playlistId={playlistId}
+        />
       ))}
       {loading && <p>Loading more tracks...</p>}
     </div>

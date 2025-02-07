@@ -10,37 +10,53 @@ import Image from 'next/image';
 const TrackItem = ({
   track,
   playlistId,
+  albumId,
   dropImage = false,
   dropContext = false,
+  context = 'playlist',
 }: {
   track: Track;
   playlistId?: string;
+  albumId?: string;
   dropContext?: boolean;
   dropImage?: boolean;
+  context: 'playlist' | 'album' | null;
 }) => {
   const { playTrack } = usePlayer();
+
+  const handleTrackClick = () => {
+    const offset = {
+      uri: track.uri,
+    };
+
+    switch (context) {
+      case 'playlist':
+        playTrack({
+          context_uri: `spotify:playlist:${playlistId}`,
+          offset,
+          position_ms: 0,
+        });
+        break;
+      case 'album':
+        playTrack({
+          context_uri: `spotify:album:${albumId}`,
+          offset,
+          position_ms: 0,
+        });
+        break;
+      default:
+        playTrack({
+          uris: [track.uri],
+          position_ms: 0,
+        });
+        break;
+    }
+  };
 
   return (
     <div className='flex items-center justify-between py-2 border-b border-gray-300'>
       <div
-        onClick={() => {
-          if (playlistId) {
-            playTrack({
-              context_uri: `spotify:playlist:${playlistId}`,
-              offset: {
-                uri: track.uri,
-              },
-              position_ms: 0,
-            });
-          } else {
-            console.log('play track');
-
-            playTrack({
-              uris: [track.uri],
-              position_ms: 0,
-            });
-          }
-        }}
+        onClick={handleTrackClick}
         className='flex items-center space-x-3 overflow-hidden'
       >
         {!dropImage && (
