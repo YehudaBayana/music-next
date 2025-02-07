@@ -1,5 +1,5 @@
-import PlaylistInfo from '@/app/playlists/playlistCard/PlaylistInfo';
-import PlaylistTracks from '@/app/playlists/playlistCard/PlaylistTracks';
+import PlaylistInfo from '@/app/playlists/components/drafts/playlistCard/PlaylistInfo';
+import PlaylistTracks from '@/app/playlists/components/drafts/playlistCard/PlaylistTracks';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
 import { spotifyApi, SpotifyApiGetEndpoints } from '@/utils/spotifyApi';
 import { GetPlaylistTracksRes, MyPlaylistItem, Track } from '@/utils/types';

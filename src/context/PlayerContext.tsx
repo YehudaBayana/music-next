@@ -106,7 +106,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         player.removeListener('player_state_changed');
       }
     };
-  }, [player]);
+  }, [player, accessToken]);
 
   useEffect(() => {
     let progressInterval: number | undefined;
@@ -128,19 +128,11 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     async function getAvailableDevices() {
-      // const response = await fetch('/api/spotify/player/devices', {
-      //   method: 'GET',
-      //   headers: { 'Content-Type': 'application/json' },
-      // });
       if (!accessToken) {
         return console.log('no access token, please login');
       }
       const data = (await getMyDevice(accessToken)) as string;
-      // console.log('data ', data);
 
-      // if (!response.ok) {
-      //   return console.log('Failed to get a device');
-      // }
       setDeviceId(data);
     }
     if (!deviceId) {
@@ -148,7 +140,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     return () => {};
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [accessToken]);
 
   const playTrack = async ({
     uris,

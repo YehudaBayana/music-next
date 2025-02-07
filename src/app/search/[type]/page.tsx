@@ -4,7 +4,7 @@ import { useSearchParams, useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { searchSpotify } from '@/utils/spotifyApi';
-import TrackItem from '@/app/playlists/playlistCard/TrackItem';
+import TrackItem from '@/components/TrackItem';
 import Album from '@/app/search/components/albums/Album';
 import Playlist from '@/app/search/components/playlists/Playlist';
 import Artist from '@/app/search/components/artists/Artist';

@@ -1,6 +1,6 @@
-import React from "react";
-import { Track } from "@/utils/types";
-import TrackItem from "./TrackItem";
+import React from 'react';
+import { Track } from '@/utils/types';
+import TrackItem from '../../../../../components/TrackItem';
 
 const PlaylistTracks = ({
   tracks,
@@ -12,7 +12,7 @@ const PlaylistTracks = ({
   playlistId: string;
 }) => {
   return (
-    <div className="mt-4">
+    <div className='mt-4'>
       {isLoading ? (
         <p>Loading...</p>
       ) : (

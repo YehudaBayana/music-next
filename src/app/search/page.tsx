@@ -67,25 +67,25 @@ const SearchResults = () => {
       {results.tracks.length > 0 && (
         <Tracks
           tracks={results.tracks}
-          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+          path={`${PATHS.search}/track?query=${encodeURIComponent(query)}`}
         />
       )}
       {results.albums.length > 0 && (
         <Albums
           albums={results.albums}
-          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+          path={`${PATHS.search}/album?query=${encodeURIComponent(query)}`}
         />
       )}
       {results.artists.length > 0 && (
         <Artists
           artists={results.artists}
-          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+          path={`${PATHS.search}/artist?query=${encodeURIComponent(query)}`}
         />
       )}
       {results.playlists.length > 0 && (
         <Playlists
           playlists={results.playlists}
-          path={`/${PATHS.search}/track?query=${encodeURIComponent(query)}`}
+          path={`${PATHS.search}/playlist?query=${encodeURIComponent(query)}`}
         />
       )}
     </div>

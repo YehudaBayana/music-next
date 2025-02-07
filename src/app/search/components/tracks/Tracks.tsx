@@ -1,4 +1,4 @@
-import TrackItem from '@/app/playlists/playlistCard/TrackItem';
+import TrackItem from '@/components/TrackItem';
 import { Track } from '@/utils/types';
 import Link from 'next/link';
 import React from 'react';

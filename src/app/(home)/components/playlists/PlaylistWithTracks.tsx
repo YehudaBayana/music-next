@@ -1,5 +1,5 @@
 'use client';
-import TrackItem from '@/app/playlists/playlistCard/TrackItem';
+import TrackItem from '@/components/TrackItem';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
 import { Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';

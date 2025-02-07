@@ -1,6 +1,6 @@
 import React from 'react';
 import { MyPlaylistItem } from '@/utils/types';
-import PlaylistCard from '@/app/playlists/playlistCard/PlaylistCard';
+import PlaylistCard from '@/app/playlists/components/drafts/playlistCard/PlaylistCard';
 
 interface PlaylistContainerProps {
   playlists: MyPlaylistItem[];

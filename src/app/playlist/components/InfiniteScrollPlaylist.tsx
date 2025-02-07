@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Track } from '@/utils/types';
-import TrackItem from '@/app/playlists/playlistCard/TrackItem';
+import TrackItem from '@/components/TrackItem';
 import uniqBy from 'lodash/uniqBy';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
 
@@ -62,7 +62,7 @@ const InfiniteScrollPlaylist = ({
   }, [handleScroll]);
 
   return (
-    <div>
+    <div className='px-6'>
       {uniqBy(tracks, 'id').map((track) => (
         <TrackItem key={track.id} track={track} playlistId={playlistId} />
       ))}
