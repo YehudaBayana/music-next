@@ -27,3 +27,5 @@ export const thisDeviceName = 'Web Player (Chrome)';
 export enum userIds {
   topsify = 'topsify',
 }
+
+export const SPOTIFY_API_URL = 'https://api.spotify.com/v1';

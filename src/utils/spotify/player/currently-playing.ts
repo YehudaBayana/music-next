@@ -1,9 +1,10 @@
+import { SPOTIFY_API_URL } from '@/utils/constants';
 import { GetCurrentlyPlayingTrackResponse } from '../../types';
 
 export const getCurrentPlayback = async (
   accessToken: string
 ): Promise<GetCurrentlyPlayingTrackResponse | undefined> => {
-  const url = 'https://api.spotify.com/v1/me/player/currently-playing';
+  const url = `${SPOTIFY_API_URL}/me/player/currently-playing`;
 
   try {
     const response = await fetch(url, {

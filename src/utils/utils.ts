@@ -1,4 +1,3 @@
-import { SpotifyApiEndpoint } from '@/utils/spotifyApi';
 
 export function buildEndpoint( //<T extends SpotifyApiEndpoint>
   endpoint: string,

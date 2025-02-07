@@ -1,3 +1,6 @@
+import { SPOTIFY_API_URL } from '@/utils/constants';
+
+
 export const playOnSpotify = async (
   data: {
     accessToken: string;
@@ -12,7 +15,7 @@ export const playOnSpotify = async (
   deviceId?: string
 ) => {
   const url =
-    'https://api.spotify.com/v1/me/player/play' +
+    `${SPOTIFY_API_URL}/me/player/play` +
     (deviceId ? `?device_id=${deviceId}` : '');
   console.log('url ', url);
 

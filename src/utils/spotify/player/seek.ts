@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { catchError } from '@/utils/utils';
+import { SPOTIFY_API_URL } from '@/utils/constants';
 
 export const seekTrackRequest = async (
   data: {
@@ -10,9 +11,8 @@ export const seekTrackRequest = async (
   },
   deviceId?: string
 ) => {
-  const url = `https://api.spotify.com/v1/me/player/seek?position_ms=${
-    data.position_ms
-  }${deviceId ? `&device_id=${deviceId}` : ''}`;
+  const url = `${SPOTIFY_API_URL}/me/player/seek?position_ms=${data.position_ms
+    }${deviceId ? `&device_id=${deviceId}` : ''}`;
   console.log('url ', url);
 
   const [error] = await catchError(

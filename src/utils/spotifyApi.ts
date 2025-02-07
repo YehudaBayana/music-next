@@ -1,5 +1,6 @@
 // utils/spotifyApi.ts
 
+import { SPOTIFY_API_URL } from '@/utils/constants';
 import { GetPlaylistTracksRes, SearchSpotifyResponse } from '@/utils/types';
 import { buildEndpoint } from '@/utils/utils';
 
@@ -41,7 +42,6 @@ export type SpotifyApiEndpoint =
   | SpotifyApiPutEndpoints
   | SpotifyApiDeleteEndpoints;
 
-const SPOTIFY_API_URL = 'https://api.spotify.com/v1';
 
 export const spotifyApi = {
   get: async <T>(endpoint: string, accessToken: string): Promise<T> => {

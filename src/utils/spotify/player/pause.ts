@@ -2,6 +2,7 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../../pages/api/auth/[...nextauth]';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { catchError } from '@/utils/utils';
+import { SPOTIFY_API_URL } from '@/utils/constants';
 
 export const pauseRequest = async (
   data: {
@@ -10,7 +11,7 @@ export const pauseRequest = async (
   deviceId?: string
 ) => {
   const url =
-    'https://api.spotify.com/v1/me/player/pause' +
+    `${SPOTIFY_API_URL}/me/player/pause` +
     (deviceId ? `?device_id=${deviceId}` : '');
   console.log('url ', url);
 
