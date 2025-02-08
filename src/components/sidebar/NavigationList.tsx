@@ -27,7 +27,9 @@ const NavigationList: React.FC<NavigationListProps> = ({
           >
             <li
               className={`flex items-center gap-4 mb-2 cursor-pointer p-2 rounded-lg ${
-                isActive ? 'bg-gray-700 text-purple-400' : 'hover:bg-gray-700'
+                isActive
+                  ? 'bg-textBase text-primary'
+                  : 'hover:bg-textBase hover:text-primary'
               }`}
             >
               <item.Icon className='text-xl' />

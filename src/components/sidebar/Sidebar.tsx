@@ -14,10 +14,10 @@ const Sidebar: React.FC = () => {
   return (
     <>
       {/* Desktop Sidebar (Hidden on small screens) */}
-      <div className='bg-gray-800 text-white w-64 h-screen fixed top-0 left-0 p-6 overflow-auto hidden sm:flex flex-col'>
+      <div className='bg-secondary w-64 h-screen fixed top-0 left-0 p-6 overflow-auto hidden sm:flex flex-col'>
         <div className='flex flex-col items-center mb-8'>
-          <SicupLogo width='24' />
-          <h1 className='text-lg font-semibold'>Ayne Mekonen</h1>
+          {/* <SicupLogo width='24' /> */}
+          <h1 className='text-lg font-semibold'>user name</h1>
         </div>
 
         <div className='space-y-4'>
@@ -30,9 +30,7 @@ const Sidebar: React.FC = () => {
           </nav>
 
           <div>
-            <h2 className='text-xs uppercase tracking-wide text-gray-400 mb-2'>
-              Library
-            </h2>
+            <h2 className='text-xs uppercase tracking-wide mb-2'>Library</h2>
             <NavigationList
               setIsOpen={setIsOpen}
               items={libraryItems}
@@ -41,9 +39,7 @@ const Sidebar: React.FC = () => {
           </div>
 
           <div>
-            <h2 className='text-xs uppercase tracking-wide text-gray-400 mb-2'>
-              Podcasts
-            </h2>
+            <h2 className='text-xs uppercase tracking-wide mb-2'>Podcasts</h2>
             <NavigationList
               setIsOpen={setIsOpen}
               items={podcastItems}
@@ -55,7 +51,7 @@ const Sidebar: React.FC = () => {
 
       {/* Mobile Sidebar Toggle Button */}
       <button
-        className='sm:hidden flex justify-start items-start fixed top-4 left-4 z-50 bg-gray-800 text-white p-2 rounded-md'
+        className='sm:hidden flex justify-start items-start fixed top-4 left-4 z-50 bg-primary text-textBase p-2 rounded-md'
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? (
@@ -74,10 +70,10 @@ const Sidebar: React.FC = () => {
 
       {/* Mobile Sidebar (Overlay) */}
       {isOpen && (
-        <div className='bg-gray-800 text-white w-64 h-screen fixed top-0 left-0 p-6 overflow-auto flex flex-col z-40'>
+        <div className='bg-secondary w-64 h-screen fixed top-0 left-0 p-6 overflow-auto flex flex-col z-40'>
           <div className='flex flex-col items-center mb-8'>
-            <SicupLogo width='24' />
-            <h1 className='text-lg font-semibold'>Ayne Mekonen</h1>
+            {/* <SicupLogo width='24' /> */}
+            <h1 className='text-lg font-semibold'>user name</h1>
           </div>
 
           <div className='space-y-4'>
@@ -90,9 +86,7 @@ const Sidebar: React.FC = () => {
             </nav>
 
             <div>
-              <h2 className='text-xs uppercase tracking-wide text-gray-400 mb-2'>
-                Library
-              </h2>
+              <h2 className='text-xs uppercase tracking-wide mb-2'>Library</h2>
               <NavigationList
                 setIsOpen={setIsOpen}
                 items={libraryItems}
@@ -101,9 +95,7 @@ const Sidebar: React.FC = () => {
             </div>
 
             <div>
-              <h2 className='text-xs uppercase tracking-wide text-gray-400 mb-2'>
-                Podcasts
-              </h2>
+              <h2 className='text-xs uppercase tracking-wide mb-2'>Podcasts</h2>
               <NavigationList
                 setIsOpen={setIsOpen}
                 items={podcastItems}

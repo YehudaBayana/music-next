@@ -32,6 +32,12 @@ const SearchBar = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+  useEffect(() => {
+    if (!query) {
+      setIsOpen(false);
+    }
+    return () => {};
+  }, [query]);
 
   useEffect(() => {
     if (!debouncedQuery || !accessToken) {
@@ -76,11 +82,11 @@ const SearchBar = () => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyDown={handleSearchSubmit} // Capture "Enter" key press
-        className='w-full p-3 rounded-lg bg-gray-200 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring focus:ring-green-400'
+        className='w-full p-3 rounded-lg bg-bgPrimary text-darkSecondary placeholder-primary focus:outline-none focus:ring focus:ring-primary'
       />
 
       {isOpen && (
-        <div className='p-2 absolute top-full left-0 w-full bg-white shadow-lg rounded-lg mt-2 z-50'>
+        <div className='p-2 absolute top-full left-0 w-full bg-primary shadow-lg rounded-lg mt-2 z-50'>
           {tracks.map((track) => (
             // <Link
             //   key={track.id}

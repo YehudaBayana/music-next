@@ -79,7 +79,9 @@ const CurrentPlayingSong = () => {
                 max={currentTrack?.duration_ms || 100} // Use the track's duration
                 value={progress} // Bind slider to the progress value
                 onChange={handleSliderChange} // Handler for slider changes
-                className='w-full h-1 bg-gray-400 rounded-lg appearance-none cursor-pointer accent-blue-500 thumb-sm relative z-10'
+                className='w-full h-1 bg-darkSecondary rounded-lg appearance-none cursor-pointer accent-primary thumb-sm relative z-10
+                [&::-webkit-slider-thumb]:bg-primary
+                '
               />
             </div>
           </>

@@ -12,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className='sm:pl-64 sm:pt-28 pt-8 pb-16'>
+      <body className='sm:pl-64 sm:pt-28 pt-8 pb-16 bg-bgPrimary'>
         <Providers>
           <Player />
           <Sidebar />

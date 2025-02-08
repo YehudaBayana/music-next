@@ -18,6 +18,11 @@ export default {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        primary: 'var(--color-primary)',
+        secondary: 'var(--color-secondary)',
+        darkSecondary: 'var(--color-dark-secondary)',
+        bgPrimary: 'var(--color-bg-primary)',
+        textBase: 'var(--color-text-base)',
       },
     },
   },

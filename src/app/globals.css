@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --color-primary: #d4a373;
+    --color-secondary: #faedcd;
+    --color-dark-secondary: #8a7e64;
+    --color-text-base: black;
+    --color-bg-primary: #e0eabf;
+    --color-bg-secondary: #faedcd;
+  }
+}
+
+.theme-black {
+  --color-primary: black;
+  --color-secondary: lightgray;
+}
+
+.theme-blue {
+  --color-primary: rgb(24, 24, 76);
+  --color-secondary: rgb(162, 162, 237);
+}
+
+.theme-purple {
+  --color-primary: rgb(50, 24, 76);
+  --color-secondary: rgb(216, 162, 237);
+}
+
 @layer utilities {
   ::-webkit-scrollbar {
     width: 8px;

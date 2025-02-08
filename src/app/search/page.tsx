@@ -40,7 +40,7 @@ const SearchResults = () => {
           accessToken,
           'track,album,artist,playlist',
           0,
-          6
+          20
         ); // Show limited results
         setResults({
           tracks: response?.tracks?.items.filter((item) => item) || [],
@@ -71,12 +71,12 @@ const SearchResults = () => {
           path={`${PATHS.search}/album?query=${encodeURIComponent(query)}`}
         />
       )}
-      {results.artists.length > 0 && (
+      {/* {results.artists.length > 0 && (
         <Artists
           artists={results.artists}
           path={`${PATHS.search}/artist?query=${encodeURIComponent(query)}`}
         />
-      )}
+      )} */}
       {results.playlists.length > 0 && (
         <Playlists
           playlists={results.playlists}
