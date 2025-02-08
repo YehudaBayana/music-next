@@ -9,18 +9,6 @@ import { useSession } from 'next-auth/react';
 
 const seekToPosition = async (accessToken: string, newPosition: number) => {
   await seekTrackRequest({ accessToken, position_ms: newPosition });
-  // const [error] = await catchError(
-  //   fetch('/api/spotify/player/seek', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ position_ms: newPosition }),
-  //   })
-  // );
-  // if (error) {
-  //   console.log('yuda  ', error);
-  // }
 };
 
 const CurrentPlayingSong = () => {

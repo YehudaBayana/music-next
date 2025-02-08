@@ -15,8 +15,8 @@ const PageInfo = ({
       <Image
         src={src}
         alt={alt}
-        layout='fill'
-        objectFit='cover'
+        fill
+        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
         className='absolute inset-0 w-full h-full object-cover blur-sm brightness-50 -z-10'
       />
       <Image

@@ -40,7 +40,7 @@ const SearchResults = () => {
           accessToken,
           'track,album,artist,playlist',
           0,
-          20
+          6
         ); // Show limited results
         setResults({
           tracks: response?.tracks?.items.filter((item) => item) || [],
@@ -57,7 +57,7 @@ const SearchResults = () => {
   }, [query, accessToken]);
 
   return (
-    <div className='mx-auto p-6'>
+    <div>
       <h1 className='text-3xl font-bold mb-6'>Search Results for "{query}"</h1>
       {results.tracks.length > 0 && (
         <Tracks

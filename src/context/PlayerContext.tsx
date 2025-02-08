@@ -40,49 +40,34 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     if (!accessToken) return;
+    const checkForSpotify = () => {
+      if (window.Spotify) {
+        const spotifyPlayer = new window.Spotify.Player({
+          name: thisDeviceName,
+          getOAuthToken: (cb: (token: string) => void) => cb(accessToken),
+          volume: 0.5,
+        });
 
-    const script = document.createElement('script');
-    script.src = 'https://sdk.scdn.co/spotify-player.js';
-    script.async = true;
-    document.body.appendChild(script);
+        spotifyPlayer.addListener('ready', ({ device_id }) => {
+          console.log('Ready with Device ID:', device_id);
+          setDeviceId(device_id);
+        });
 
-    script.onload = () => {
-      const spotifyPlayer = new window.Spotify.Player({
-        name: thisDeviceName,
-        getOAuthToken: (cb: (token: string) => void) => {
-          cb(accessToken);
-        },
-        volume: 0.5,
-      });
+        spotifyPlayer.addListener('not_ready', ({ device_id }) => {
+          console.log('Device ID has gone offline:', device_id);
+        });
 
-      spotifyPlayer.addListener('initialization_error', ({ message }) =>
-        console.error(message)
-      );
-      spotifyPlayer.addListener('authentication_error', ({ message }) =>
-        console.error(message)
-      );
-      spotifyPlayer.addListener('account_error', ({ message }) =>
-        console.error(message)
-      );
-      spotifyPlayer.addListener('playback_error', ({ message }) =>
-        console.error(message)
-      );
-
-      spotifyPlayer.addListener('ready', ({ device_id }) => {
-        console.log('Ready with Device ID:', device_id);
-        setDeviceId(device_id);
-      });
-
-      spotifyPlayer.addListener('not_ready', ({ device_id }) => {
-        console.log('Device ID has gone offline:', device_id);
-      });
-
-      spotifyPlayer.connect();
-      setPlayer(spotifyPlayer);
+        spotifyPlayer.connect();
+        setPlayer(spotifyPlayer);
+      } else {
+        console.log('Spotify SDK not available yet. Retrying...');
+        setTimeout(checkForSpotify, 1000); // Retry every 1000ms
+      }
     };
 
+    checkForSpotify(); // Start checking
+
     return () => {
-      document.body.removeChild(script);
       if (player) {
         player.disconnect();
       }
@@ -94,6 +79,8 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!player) return;
 
     player.addListener('player_state_changed', (state: PlayerState) => {
+      console.log('state ', state);
+
       if (state) {
         setCurrentTrack(state.track_window.current_track);
         setProgress(state.position);
@@ -129,9 +116,10 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     async function getAvailableDevices() {
       if (!accessToken) {
-        return console.log('no access token, please login');
+        return;
       }
       const data = (await getMyDevice(accessToken)) as string;
+      console.log('data ', data);
 
       setDeviceId(data);
     }

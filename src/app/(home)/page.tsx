@@ -6,7 +6,7 @@ import { signIn } from 'next-auth/react';
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
   if (!session?.accessToken) {
-    return <h1>no session token, please login</h1>;
+    throw new Error('no session token, please login');
   }
   if (session) {
     return (

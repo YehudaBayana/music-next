@@ -49,7 +49,7 @@ const SearchByTypePage = () => {
   }, [query, accessToken, type]);
 
   return (
-    <div className='max-w-6xl mx-auto p-6'>
+    <div>
       <h1 className='text-3xl font-bold mb-6'>
         Showing {type} results for "{query}"
       </h1>
