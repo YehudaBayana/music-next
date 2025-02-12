@@ -1,10 +1,7 @@
 import PlaylistInfo from '@/app/playlists/components/drafts/playlistCard/PlaylistInfo';
 import PlaylistTracks from '@/app/playlists/components/drafts/playlistCard/PlaylistTracks';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
-import { spotifyApi, SpotifyApiGetEndpoints } from '@/utils/spotifyApi';
-import { GetPlaylistTracksRes, MyPlaylistItem, Track } from '@/utils/types';
-import { buildEndpoint } from '@/utils/utils';
-import { access } from 'fs';
+import { MyPlaylistItem, Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';

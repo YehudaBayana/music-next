@@ -1,7 +1,7 @@
 import Album from '@/components/albums/Album';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { spotifyApi } from '@/utils/spotifyApi';
-import { GetAlbumsResponse, GetMyPlaylistsResponse } from '@/utils/types';
+import { GetAlbumsResponse } from '@/utils/types';
 import { getServerSession } from 'next-auth';
 
 export default async function MyAlbumsPage() {

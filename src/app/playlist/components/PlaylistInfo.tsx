@@ -1,7 +1,6 @@
 import ContextPlayButton from '@/components/ContextPlayButton';
 import PageInfo from '@/components/PageInfo';
 import { MyPlaylistItem } from '@/utils/types';
-import Image from 'next/image';
 import React from 'react';
 
 const PlaylistInfo = ({

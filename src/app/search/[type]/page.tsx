@@ -9,9 +9,16 @@ import Album from '@/components/albums/Album';
 import Playlist from '@/components/playlists/Playlist';
 import Artist from '@/components/artists/Artist';
 
+const validTypes = ['track', 'album', 'artist', 'playlist'] as const;
+
 const SearchByTypePage = () => {
   const params = useParams();
-  const type = params?.type as string | undefined;
+  const type = params?.type as
+    | 'track'
+    | 'album'
+    | 'artist'
+    | 'playlist'
+    | undefined;
   const searchParams = useSearchParams();
   const query = searchParams?.get('query') || '';
   const { data: session } = useSession();
@@ -32,8 +39,7 @@ const SearchByTypePage = () => {
           20
         );
 
-        const validTypes = ['track', 'album', 'artist', 'playlist'] as const;
-        if (validTypes.includes(type as any)) {
+        if (validTypes.includes(type)) {
           setResults(
             (response as any)[type + 's']?.items.filter(
               (item: unknown) => item

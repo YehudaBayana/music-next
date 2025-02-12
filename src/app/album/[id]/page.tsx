@@ -1,12 +1,8 @@
 // playlist/[id]/page.tsx
-import uniqBy from 'lodash/uniqBy';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import InfiniteScrollPlaylist from '@/app/playlist/components/InfiniteScrollPlaylist';
-import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
 import TrackItem from '@/components/TrackItem';
 import { getAlbum } from '@/utils/spotify/album/album';
-import Image from 'next/image';
 import { Album } from '@/utils/types';
 import PageInfo from '@/components/PageInfo';
 

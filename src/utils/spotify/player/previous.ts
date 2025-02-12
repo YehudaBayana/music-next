@@ -1,6 +1,3 @@
-import { getServerSession } from 'next-auth/next';
-import { authOptions } from '../../../pages/api/auth/[...nextauth]';
-import type { NextApiRequest, NextApiResponse } from 'next';
 import { catchError } from '@/utils/utils';
 
 export const previousTrackRequest = async (

@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Track } from '@/utils/types';
 import { searchSpotify } from '@/utils/spotifyApi';
 import TrackItem from '@/components/TrackItem';

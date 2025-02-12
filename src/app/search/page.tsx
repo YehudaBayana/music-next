@@ -1,13 +1,12 @@
 'use client';
 
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Album, Artist, MyPlaylistItem, Track } from '@/utils/types';
 import { searchSpotify } from '@/utils/spotifyApi';
 import Tracks from '@/components/tracks/Tracks';
 import Albums from '@/components/albums/Albums';
-import Artists from '@/components/artists/Artists';
 import Playlists from '@/components/playlists/Playlists';
 import { PATHS } from '@/components/sidebar/sidebarData';
 
@@ -16,7 +15,6 @@ const SearchResults = () => {
   const accessToken = session?.accessToken;
   const searchParams = useSearchParams();
   const query = searchParams?.get('query') || '';
-  const router = useRouter();
 
   const [results, setResults] = useState<{
     tracks: Track[];

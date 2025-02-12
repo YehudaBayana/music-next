@@ -1,8 +1,7 @@
 // utils/spotifyApi.ts
 
 import { SPOTIFY_API_URL } from '@/utils/constants';
-import { GetPlaylistTracksRes, SearchSpotifyResponse } from '@/utils/types';
-import { buildEndpoint } from '@/utils/utils';
+import { SearchSpotifyResponse } from '@/utils/types';
 
 export type SpotifyApiGetEndpoints =
   | '/albums'

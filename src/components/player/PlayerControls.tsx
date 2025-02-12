@@ -2,7 +2,6 @@ import { usePlayer } from '@/context/PlayerContext';
 import { nextTrackRequest } from '@/utils/spotify/player/next';
 import { pauseRequest } from '@/utils/spotify/player/pause';
 import { previousTrackRequest } from '@/utils/spotify/player/previous';
-import { catchError } from '@/utils/utils';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import {

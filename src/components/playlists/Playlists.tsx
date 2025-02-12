@@ -1,7 +1,6 @@
 import CardsSlider from '@/components/CardsSlider';
 import Playlist from '@/components/playlists/Playlist';
 import { MyPlaylistItem } from '@/utils/types';
-import Link from 'next/link';
 import React from 'react';
 
 const Playlists = ({

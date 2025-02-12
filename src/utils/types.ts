@@ -100,7 +100,7 @@ export interface Linkedfrom {
 export interface Artist {
   external_urls: ExternalUrls;
   followers: Followers;
-  genres: any[];
+  genres: unknown[];
   href: string;
   id: string;
   images: Image[];
@@ -299,7 +299,7 @@ export interface Context {
 //   is_local: boolean;
 //   name: string;
 //   popularity: number;
-//   preview_url: any;
+//   preview_url: unknown;
 //   track_number: number;
 //   type: string;
 //   uri: string;
@@ -491,7 +491,7 @@ export interface Artists {
   limit: number;
   next: string;
   offset: number;
-  previous: any;
+  previous: unknown;
   total: number;
   items: Artist[];
 }
@@ -500,7 +500,7 @@ export interface Albums {
   limit: number;
   next: string;
   offset: number;
-  previous: any;
+  previous: unknown;
   total: number;
   items: Album[];
 }
@@ -510,7 +510,7 @@ export interface Playlists {
   limit: number;
   next: string;
   offset: number;
-  previous: any;
+  previous: unknown;
   total: number;
   items: MyPlaylistItem[];
 }
@@ -535,7 +535,7 @@ export interface AlbumTracks {
   href: string;
   id: string;
   name: string;
-  preview_url: any;
+  preview_url: unknown;
   track_number: number;
   type: string;
   uri: string;
@@ -558,7 +558,7 @@ export interface GetAlbumRes {
   tracks: Tracks;
   copyrights: Copyright[];
   external_ids: ExternalIds;
-  genres: any[];
+  genres: unknown[];
   label: string;
   popularity: number;
 }
