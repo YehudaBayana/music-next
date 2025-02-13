@@ -21,7 +21,7 @@ const CurrentPlayingSong = () => {
         seekToPosition(session.accessToken, newPosition);
       }
     }, 300),
-    [session]
+    [session?.accessToken]
   );
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {

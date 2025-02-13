@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import React from 'react';
 
 const ArtistInfo = () => {
@@ -21,14 +22,14 @@ const ArtistInfo = () => {
     <div className='min-h-screen bg-gray-900 text-white'>
       {/* Hero Section */}
       <div className='relative w-full h-[400px] overflow-hidden'>
-        <img
+        <Image
           src={artist.image}
           alt={artist.name}
           className='absolute inset-0 w-full h-full object-cover blur-lg brightness-50'
         />
         <div className='absolute inset-0 bg-gradient-to-b from-transparent to-gray-900'></div>
         <div className='relative z-10 flex flex-col items-center justify-center h-full'>
-          <img
+          <Image
             src={artist.image}
             alt={artist.name}
             className='w-36 h-36 sm:w-48 sm:h-48 rounded-full shadow-xl border-4 border-white'

@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams, useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { searchSpotify } from '@/utils/spotifyApi';
 import TrackItem from '@/components/TrackItem';
@@ -11,7 +11,7 @@ import Artist from '@/components/artists/Artist';
 
 const validTypes = ['track', 'album', 'artist', 'playlist'] as const;
 
-const SearchByTypePage = () => {
+const SearchByType = () => {
   const params = useParams();
   const type = params?.type as
     | 'track'
@@ -57,7 +57,7 @@ const SearchByTypePage = () => {
   return (
     <div>
       <h1 className='text-3xl font-bold mb-6'>
-        Showing {type} results for "{query}"
+        Showing {type} results for {query}
       </h1>
       {type === 'track' && (
         <div className='grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -88,6 +88,13 @@ const SearchByTypePage = () => {
         </div>
       )}
     </div>
+  );
+};
+const SearchByTypePage = () => {
+  return (
+    <Suspense fallback={<div>Loading search results...</div>}>
+      <SearchByType />
+    </Suspense>
   );
 };
 

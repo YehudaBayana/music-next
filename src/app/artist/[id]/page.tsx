@@ -21,7 +21,7 @@ export default async function ArtistPage({
 
   return (
     <div>
-      <h4>Artist</h4>
+      <h4>Artist {artist?.name}</h4>
       <ArtistInfo />
       {/* {album?.tracks.items.map((track) => (
         <TrackItem dropImage track={track} key={track.id} />

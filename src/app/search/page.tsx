@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Album, Artist, MyPlaylistItem, Track } from '@/utils/types';
 import { searchSpotify } from '@/utils/spotifyApi';
@@ -56,7 +56,7 @@ const SearchResults = () => {
 
   return (
     <div>
-      <h1 className='text-3xl font-bold mb-6'>Search Results for "{query}"</h1>
+      <h1 className='text-3xl font-bold mb-6'>Search Results for {query}</h1>
       {results.tracks.length > 0 && (
         <Tracks
           tracks={results.tracks}
@@ -85,4 +85,12 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+const SearchResultsPage = () => {
+  return (
+    <Suspense fallback={<div>Loading search results...</div>}>
+      <SearchResults />
+    </Suspense>
+  );
+};
+
+export default SearchResultsPage;

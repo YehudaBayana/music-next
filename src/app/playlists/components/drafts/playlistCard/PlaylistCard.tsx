@@ -7,7 +7,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading] = useState(true);
   const [tracks, setTracks] = useState<Track[]>([]);
   const { data: session } = useSession();
   useEffect(() => {
