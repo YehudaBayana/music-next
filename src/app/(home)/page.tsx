@@ -5,10 +5,10 @@ import { signIn } from 'next-auth/react';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
-  if (!session?.accessToken) {
-    throw new Error('no session token, please login');
-  }
-  if (session) {
+  // if (!session?.accessToken) {
+  //   throw new Error('no session token, please login');
+  // }
+  if (session?.accessToken) {
     return (
       <>
         <Home accessToken={session.accessToken} />
