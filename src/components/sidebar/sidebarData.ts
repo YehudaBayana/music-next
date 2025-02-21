@@ -1,10 +1,6 @@
-import { AiFillHome, AiOutlineAppstore, AiOutlineStar } from 'react-icons/ai';
+import { AiFillHome, } from 'react-icons/ai';
 import {
-  BiMusic,
-  BiTime,
   BiFolder,
-  BiPodcast,
-  BiBookmark,
 } from 'react-icons/bi';
 import { IconType } from 'react-icons/lib';
 import { TbPlaylistAdd } from 'react-icons/tb';
