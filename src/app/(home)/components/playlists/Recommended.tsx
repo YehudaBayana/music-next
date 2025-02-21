@@ -9,7 +9,7 @@ const Recommended = async ({ accessToken }: { accessToken: string }) => {
     await fetchUserPlaylists<GetMyPlaylistsResponse>(
       userIds.topsify,
       accessToken,
-      5
+      30
     )
   ).items;
   const hiphopPlaylists = (
@@ -17,8 +17,6 @@ const Recommended = async ({ accessToken }: { accessToken: string }) => {
   )?.playlists.items.filter((item) => item);
   return (
     <>
-      <h1 className='text-3x'>recommended for you</h1>
-      <hr className='my-5 border-t-2 border-stone-800' />
       {playlists.length > 0 && (
         <Playlists playlists={playlists} title={'hot playlists'} />
       )}

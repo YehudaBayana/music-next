@@ -41,25 +41,25 @@ export const PATHS = {
 // Navigation Items
 export const navigationItems: NavigationItem[] = [
   { path: PATHS.home, label: 'Home', Icon: AiFillHome },
-  { path: PATHS.new, label: 'New', Icon: AiOutlineAppstore },
+  // { path: PATHS.new, label: 'New', Icon: AiOutlineAppstore },
 ];
 
 export const libraryItems: NavigationItem[] = [
-  { path: PATHS.songs, label: 'Songs', Icon: BiMusic },
-  { path: PATHS.recentlyAdded, label: 'Recently Added', Icon: BiTime },
+  // { path: PATHS.songs, label: 'Songs', Icon: BiMusic },
+  // { path: PATHS.recentlyAdded, label: 'Recently Added', Icon: BiTime },
   { path: PATHS.albums, label: 'Albums', Icon: BiFolder },
-  { path: PATHS.favoriteSongs, label: 'Favorite Songs', Icon: AiOutlineStar },
+  // { path: PATHS.favoriteSongs, label: 'Favorite Songs', Icon: AiOutlineStar },
   { path: PATHS.myPlaylists, label: 'All Playlists', Icon: TbPlaylistAdd },
 ];
 
 export const podcastItems: NavigationItem[] = [
-  { path: PATHS.podcasts.new, label: 'New', Icon: BiPodcast },
-  { path: PATHS.podcasts.browse, label: 'Browse', Icon: BiPodcast },
-  { path: PATHS.podcasts.shows, label: 'Shows', Icon: BiPodcast },
-  { path: PATHS.podcasts.saved, label: 'Saved', Icon: BiBookmark },
-  {
-    path: PATHS.podcasts.repeatedHearing,
-    label: 'Repeated Hearing',
-    Icon: BiTime,
-  },
+  // { path: PATHS.podcasts.new, label: 'New', Icon: BiPodcast },
+  // { path: PATHS.podcasts.browse, label: 'Browse', Icon: BiPodcast },
+  // { path: PATHS.podcasts.shows, label: 'Shows', Icon: BiPodcast },
+  // { path: PATHS.podcasts.saved, label: 'Saved', Icon: BiBookmark },
+  // {
+  //   path: PATHS.podcasts.repeatedHearing,
+  //   label: 'Repeated Hearing',
+  //   Icon: BiTime,
+  // },
 ];
