@@ -1,11 +1,11 @@
 // contexts/PlayerContext.tsx
 'use client';
-import { playOnSpotify } from '@/utils/spotify/player/play';
+import { playOnSpotify } from '@/api/spotify/player/play';
 import { thisDeviceName } from '@/utils/constants';
 import { CurrentTrack, PlayerState, Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getMyDevice } from '@/utils/spotify/player/devices';
+import { getMyDevice } from '@/api/spotify/player/devices';
 
 interface PlayerContextType {
   currentTrack: Track | CurrentTrack | null;

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { MyPlaylistItem, Track } from '@/utils/types';
 import TrackItem from '@/components/trackItem/TrackItem';
 import uniqBy from 'lodash/uniqBy';
-import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
+import { getPlaylistTracks } from '@/api/spotify/playlist/playlist-tracks';
 import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';
 
 const InfiniteScrollPlaylist = ({
@@ -22,6 +22,12 @@ const InfiniteScrollPlaylist = ({
   const [hasMore, setHasMore] = useState(true);
   const [selectedTrackUris, setSelectedTrackUris] = useState<string[]>([]);
   const [lastSelectedUri, setLastSelectedUri] = useState<string | null>(null);
+
+  const handleTracksDeleted = (deletedTrackUris: string[]) => {
+    setTracks((prevTracks) =>
+      prevTracks.filter((track) => !deletedTrackUris.includes(track.uri))
+    );
+  };
 
   const fetchMoreTracks = useCallback(async () => {
     if (loading || !hasMore) return;
@@ -121,6 +127,7 @@ const InfiniteScrollPlaylist = ({
         setSelectedTrackUris={setSelectedTrackUris}
         contextId={playlist.id}
         contextType='playlist'
+        onTracksDeleted={handleTracksDeleted} // ✅ Pass the new function
       />
     </div>
   );

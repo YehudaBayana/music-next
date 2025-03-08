@@ -1,9 +1,14 @@
+import { noTokenMessage } from '@/utils/constants';
+
 export const deleteTracksFromPlaylist = async (
-  accessToken: string,
+  accessToken: string | undefined,
   playlistId: string,
   uris: string[],
   snapshot_id: string
 ) => {
+  if (!accessToken) {
+    throw new Error(noTokenMessage('deleteTracksFromPlaylist'));
+  }
   const url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
   const formattedUris = uris.map((uri) => ({ uri }));
 

@@ -1,7 +1,7 @@
 // playlist/[id]/page.tsx
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { getArtist } from '@/utils/spotify/artist/artist';
+import { getArtist } from '@/api/spotify/artist/artist';
 import ArtistInfo from '@/app/artist/components/ArtistInfo';
 
 export default async function ArtistPage({

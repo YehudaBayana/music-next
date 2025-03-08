@@ -1,6 +1,6 @@
 import PlaylistInfo from '@/app/playlists/components/drafts/playlistCard/PlaylistInfo';
 import PlaylistTracks from '@/app/playlists/components/drafts/playlistCard/PlaylistTracks';
-import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
+import { getPlaylistTracks } from '@/api/spotify/playlist/playlist-tracks';
 import { MyPlaylistItem, Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';

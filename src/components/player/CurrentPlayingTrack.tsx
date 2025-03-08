@@ -4,7 +4,7 @@ import { FaMusic } from 'react-icons/fa';
 import SicupLogo from '@/components/SicupLogo';
 import Image from 'next/image';
 import debounce from 'lodash/debounce';
-import { seekTrackRequest } from '@/utils/spotify/player/seek';
+import { seekTrackRequest } from '@/api/spotify/player/seek';
 import { useSession } from 'next-auth/react';
 
 const seekToPosition = async (accessToken: string, newPosition: number) => {

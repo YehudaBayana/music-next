@@ -29,3 +29,6 @@ export enum userIds {
 }
 
 export const SPOTIFY_API_URL = 'https://api.spotify.com/v1';
+
+export const noTokenMessage = (functionName: string) =>
+  `no access token provided in: ${functionName}`;

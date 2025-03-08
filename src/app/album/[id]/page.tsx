@@ -1,7 +1,7 @@
 // app/album/[id]/page.tsx
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { getAlbum } from '@/utils/spotify/album/album';
+import { getAlbum } from '@/api/spotify';
 import PageInfo from '@/components/PageInfo';
 import AlbumTrackList from './AlbumTrackList';
 import { Album } from '@/utils/types';
@@ -35,7 +35,7 @@ export default async function AlbumPage({
     return <p>You need to login to view this content</p>;
   }
 
-  const album = await getAlbum(session.accessToken, id);
+  const album = await getAlbum(id);
 
   if (!album) {
     return <h1>Album not found</h1>;

@@ -3,8 +3,8 @@ import uniqBy from 'lodash/uniqBy';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import InfiniteScrollPlaylist from '@/app/playlist/components/InfiniteScrollPlaylist';
-import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
-import { getPlaylist } from '@/utils/spotify/playlist/playlist';
+import { getPlaylistTracks } from '@/api/spotify/playlist/playlist-tracks';
+import { getPlaylist } from '@/api/spotify/playlist/playlist';
 import PlaylistInfo from '@/app/playlist/components/PlaylistInfo';
 
 export default async function PlaylistPage({
