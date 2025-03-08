@@ -5,7 +5,7 @@ import { MyPlaylistItem, Track } from '@/utils/types';
 import TrackItem from '@/components/trackItem/TrackItem';
 import uniqBy from 'lodash/uniqBy';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
-import FloatingSelected from '@/components/floatingSelected/FloatingSelected';
+import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';
 
 const InfiniteScrollPlaylist = ({
   playlist,
@@ -116,7 +116,7 @@ const InfiniteScrollPlaylist = ({
       ))}
       {loading && <p>Loading more tracks...</p>}
       {/* Floating Action Menu */}
-      <FloatingSelected
+      <BulkActionsBar
         selectedTrackUris={selectedTrackUris}
         setSelectedTrackUris={setSelectedTrackUris}
         contextId={playlist.id}

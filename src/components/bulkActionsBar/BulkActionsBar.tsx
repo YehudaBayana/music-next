@@ -9,7 +9,7 @@ import { GetMyPlaylistsResponse } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import React from 'react';
 
-interface FloatingSelectedProps {
+interface BulkActionsBarProps {
   selectedTrackUris: string[];
   setSelectedTrackUris: React.Dispatch<React.SetStateAction<string[]>>;
   contextType: 'playlist' | 'album';
@@ -17,7 +17,7 @@ interface FloatingSelectedProps {
   snapshotId?: string; // Optional for playlists
 }
 
-const FloatingSelected: React.FC<FloatingSelectedProps> = ({
+const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   selectedTrackUris,
   setSelectedTrackUris,
   contextType,
@@ -127,4 +127,4 @@ const FloatingSelected: React.FC<FloatingSelectedProps> = ({
   );
 };
 
-export default FloatingSelected;
+export default BulkActionsBar;

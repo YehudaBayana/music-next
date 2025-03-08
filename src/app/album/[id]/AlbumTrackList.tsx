@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import TrackItem from '@/components/trackItem/TrackItem';
-import FloatingSelected from '@/components/floatingSelected/FloatingSelected';
+import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';
 import { Album } from '@/utils/types';
 
 const AlbumTrackList = ({ album }: { album: Album }) => {
@@ -65,7 +65,7 @@ const AlbumTrackList = ({ album }: { album: Album }) => {
         />
       ))}
 
-      <FloatingSelected
+      <BulkActionsBar
         selectedTrackUris={selectedTrackUris}
         setSelectedTrackUris={setSelectedTrackUris}
         contextType='album'
