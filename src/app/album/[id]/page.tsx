@@ -25,15 +25,17 @@ const AlbumInfo = ({ album }: { album: Album }) => (
 export default async function AlbumPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const id = (await params).id;
+
   const session = await getServerSession(authOptions);
 
   if (!session?.accessToken) {
     return <p>You need to login to view this content</p>;
   }
 
-  const album = await getAlbum(session.accessToken, params.id);
+  const album = await getAlbum(session.accessToken, id);
 
   if (!album) {
     return <h1>Album not found</h1>;
