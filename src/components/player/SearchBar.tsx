@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Track } from '@/utils/types';
 import { searchSpotify } from '@/utils/spotifyApi';
-import TrackItem from '@/components/TrackItem';
+import TrackItem from '@/components/trackItem/TrackItem';
 
 const SearchBar = () => {
   const { data: session } = useSession();

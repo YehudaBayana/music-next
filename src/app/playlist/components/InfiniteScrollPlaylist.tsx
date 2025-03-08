@@ -1,17 +1,18 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Track } from '@/utils/types';
-import TrackItem from '@/components/TrackItem';
+import { MyPlaylistItem, Track } from '@/utils/types';
+import TrackItem from '@/components/trackItem/TrackItem';
 import uniqBy from 'lodash/uniqBy';
 import { getPlaylistTracks } from '@/utils/spotify/playlist/playlist-tracks';
+import FloatingSelected from '@/components/floatingSelected/FloatingSelected';
 
 const InfiniteScrollPlaylist = ({
-  playlistId,
+  playlist,
   accessToken,
   initialTracks,
 }: {
-  playlistId: string;
+  playlist: MyPlaylistItem;
   accessToken: string;
   initialTracks: Track[];
 }) => {
@@ -19,6 +20,8 @@ const InfiniteScrollPlaylist = ({
   const [loading, setLoading] = useState(false);
   const [offset, setOffset] = useState(initialTracks.length);
   const [hasMore, setHasMore] = useState(true);
+  const [selectedTrackUris, setSelectedTrackUris] = useState<string[]>([]);
+  const [lastSelectedUri, setLastSelectedUri] = useState<string | null>(null);
 
   const fetchMoreTracks = useCallback(async () => {
     if (loading || !hasMore) return;
@@ -29,7 +32,7 @@ const InfiniteScrollPlaylist = ({
         newTracks,
         hasMoreServer,
       }: { newTracks: Track[]; hasMoreServer: boolean } =
-        await getPlaylistTracks(playlistId, accessToken, offset);
+        await getPlaylistTracks(playlist.id, accessToken, offset);
 
       if (hasMoreServer) {
         setTracks((prev) => uniqBy([...prev, ...newTracks], 'id'));
@@ -42,7 +45,7 @@ const InfiniteScrollPlaylist = ({
     } finally {
       setLoading(false);
     }
-  }, [playlistId, accessToken, offset, hasMore, loading]);
+  }, [playlist, accessToken, offset, hasMore, loading]);
 
   const handleScroll = useCallback(() => {
     if (
@@ -54,21 +57,71 @@ const InfiniteScrollPlaylist = ({
   }, [fetchMoreTracks]);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedTrackUris([]);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
+
+  const handleTrackSelect = (trackUri: string, e: React.MouseEvent) => {
+    if (e.shiftKey && lastSelectedUri) {
+      // Find indices of last selected and current track
+      const lastIndex = tracks.findIndex((t) => t.uri === lastSelectedUri);
+      const currentIndex = tracks.findIndex((t) => t.uri === trackUri);
+
+      if (lastIndex === -1 || currentIndex === -1) return;
+
+      // Create range from indices
+      const start = Math.min(lastIndex, currentIndex);
+      const end = Math.max(lastIndex, currentIndex);
+      const rangeUris = tracks.slice(start, end + 1).map((t) => t.uri);
+
+      // Merge with existing selection
+      setSelectedTrackUris((prev) => [...new Set([...prev, ...rangeUris])]);
+    } else {
+      // Normal toggle selection
+      setSelectedTrackUris((prev) =>
+        prev.includes(trackUri)
+          ? prev.filter((id) => id !== trackUri)
+          : [...prev, trackUri]
+      );
+    }
+
+    // Always update last selected ID
+    setLastSelectedUri(trackUri);
+  };
 
   return (
     <div className='px-6'>
       {uniqBy(tracks, 'id').map((track) => (
         <TrackItem
           context='playlist'
-          key={track.id}
+          key={track.uri}
           track={track}
-          playlistId={playlistId}
+          playlistId={playlist.id}
+          isSelected={selectedTrackUris.includes(track.uri)}
+          onToggleSelect={(e: React.MouseEvent) =>
+            handleTrackSelect(track.uri, e)
+          }
         />
       ))}
       {loading && <p>Loading more tracks...</p>}
+      {/* Floating Action Menu */}
+      <FloatingSelected
+        selectedTrackUris={selectedTrackUris}
+        setSelectedTrackUris={setSelectedTrackUris}
+        contextId={playlist.id}
+        contextType='playlist'
+      />
     </div>
   );
 };

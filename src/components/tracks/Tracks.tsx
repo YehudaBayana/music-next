@@ -1,4 +1,4 @@
-import TrackItem from '@/components/TrackItem';
+import TrackItem from '@/components/trackItem/TrackItem';
 import { Track } from '@/utils/types';
 import Link from 'next/link';
 import React from 'react';

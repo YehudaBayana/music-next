@@ -1,12 +1,18 @@
-"use client";
+'use client';
 
-import { PlayerProvider } from "@/context/PlayerContext";
-import { SessionProvider } from "next-auth/react";
+import { ContextMenuProvider } from '@/context/ContextMenuContext';
+import { ModalProvider } from '@/context/ModalContext';
+import { PlayerProvider } from '@/context/PlayerContext';
+import { SessionProvider } from 'next-auth/react';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <SessionProvider>
-      <PlayerProvider>{children}</PlayerProvider>
+      <ContextMenuProvider>
+        <ModalProvider>
+          <PlayerProvider>{children}</PlayerProvider>
+        </ModalProvider>
+      </ContextMenuProvider>
     </SessionProvider>
   );
 };

@@ -26,18 +26,20 @@ export default async function PlaylistPage({
   return (
     <div className='min-h-screen'>
       {playlist ? (
-        <PlaylistInfo
-          playlist={playlist}
-          firstTrackUri={initialTracks[0].uri}
-        />
+        <>
+          <PlaylistInfo
+            playlist={playlist}
+            firstTrackUri={initialTracks[0].uri}
+          />
+          <InfiniteScrollPlaylist
+            playlist={playlist}
+            accessToken={session.accessToken}
+            initialTracks={initialTracks}
+          />
+        </>
       ) : (
         <h1>no playlist info</h1>
       )}
-      <InfiniteScrollPlaylist
-        playlistId={id}
-        accessToken={session.accessToken}
-        initialTracks={initialTracks}
-      />
     </div>
   );
 }

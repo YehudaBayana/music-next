@@ -3,7 +3,7 @@
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.tsserver.log": "verbose",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "editor.defaultFormatter": "vscode.typescript-language-features",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -20,5 +20,5 @@
   "prettier.singleQuote": true,
   "prettier.jsxSingleQuote": true,
   "window.zoomLevel": 1,
-  "workbench.iconTheme": "vscode-icons",
+  "workbench.iconTheme": "vscode-icons"
 }
