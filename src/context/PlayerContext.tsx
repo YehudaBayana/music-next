@@ -2,13 +2,13 @@
 'use client';
 import { playOnSpotify } from '@/api/spotify/player/play';
 import { thisDeviceName } from '@/utils/constants';
-import { CurrentTrack, PlayerState, Track } from '@/utils/types';
+// import { CurrentTrack, PlayerState, Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { getMyDevice } from '@/api/spotify/player/devices';
 
 interface PlayerContextType {
-  currentTrack: Track | CurrentTrack | null;
+  currentTrack: Spotify.Track | Spotify.Episode | Spotify.CurrentTrack | null;
   playTrack: (data: {
     uris?: string[];
     context_uri?: string;
@@ -28,9 +28,9 @@ const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [currentTrack, setCurrentTrack] = useState<Track | CurrentTrack | null>(
-    null
-  );
+  const [currentTrack, setCurrentTrack] = useState<
+    Spotify.Track | Spotify.Episode | Spotify.CurrentTrack | null
+  >(null);
   const [progress, setProgress] = useState<number>(0);
   const [deviceId, setDeviceId] = useState<string>();
   const [player, setPlayer] = useState<SpotifyPlayerInstance | null>(null);
@@ -78,7 +78,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     if (!player) return;
 
-    player.addListener('player_state_changed', (state: PlayerState) => {
+    player.addListener('player_state_changed', (state: Spotify.PlayerState) => {
       console.log('state ', state);
 
       if (state) {

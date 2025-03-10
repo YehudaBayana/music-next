@@ -1,7 +1,6 @@
 // components/TrackItem.tsx
 'use client';
 import React from 'react';
-import { Track } from '@/utils/types';
 import { BsThreeDots } from 'react-icons/bs';
 import { msToMinutesAndSeconds } from '@/utils/utils';
 import { usePlayer } from '@/context/PlayerContext';
@@ -19,7 +18,7 @@ const TrackItem = ({
   isSelected,
   onToggleSelect,
 }: {
-  track: Track;
+  track: Spotify.Track | Spotify.Episode;
   playlistId?: string;
   albumId?: string;
   dropContext?: boolean;
@@ -28,6 +27,7 @@ const TrackItem = ({
   isSelected?: boolean;
   onToggleSelect?: (e: React.MouseEvent) => void;
 }) => {
+  const isTrack = track.type === 'track';
   const { playTrack } = usePlayer();
   const contextMenuOptions = useContextMenuOptions({ track });
 
@@ -67,7 +67,7 @@ const TrackItem = ({
           onClick={handleTrackClick}
           className='flex items-center space-x-3 overflow-hidden'
         >
-          {!dropImage && (
+          {!dropImage && isTrack ? (
             <Image
               src={track.album.images[0].url}
               width={track.album.images[0].width || 12}
@@ -75,7 +75,15 @@ const TrackItem = ({
               alt={track.name}
               className='w-12 h-12 rounded-lg object-cover'
             />
-          )}
+          ) : !dropImage && track.type === 'episode' ? (
+            <Image
+              src={track.images[0].url}
+              width={track.images[0].width || 12}
+              height={track.images[0].height || 12}
+              alt={track.name}
+              className='w-12 h-12 rounded-lg object-cover'
+            />
+          ) : null}
 
           <div className='overflow-hidden'>
             <p
@@ -86,9 +94,9 @@ const TrackItem = ({
             </p>
             <p
               className='text-xs text-gray-500 truncate overflow-hidden text-ellipsis'
-              title={track.artists[0].name}
+              title={isTrack ? track.artists[0].name : 'TODO: put show'}
             >
-              {track.artists[0].name}
+              {isTrack ? track.artists[0].name : 'TODO: put show'}
             </p>
           </div>
         </div>

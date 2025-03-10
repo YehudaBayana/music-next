@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 type PlaylistSelectorModalProps = {
-  //   track: Track;
+  //   track: (Spotify.Track | Spotify.Episode)
   onSelect: (playlistId: string) => void;
 };
 

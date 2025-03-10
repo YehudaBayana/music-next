@@ -1,12 +1,11 @@
 'use client';
 import TrackItem from '@/components/trackItem/TrackItem';
-import { getPlaylistTracks } from '@/api/spotify/playlist/playlist-tracks';
-import { Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
+import { getPlaylistItems } from '@/api/spotify';
 
 const PlaylistWithTracks = ({ playlistId }: { playlistId: string }) => {
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const [tracks, setTracks] = useState<(Spotify.Track | Spotify.Episode)[]>([]);
   const { data: session } = useSession();
   useEffect(() => {
     if (!session?.accessToken) {
@@ -32,7 +31,7 @@ const PlaylistWithTracks = ({ playlistId }: { playlistId: string }) => {
     //     setIsLoading(false);
     //   }
     // };
-    getPlaylistTracks(playlistId, session.accessToken).then((res) => {
+    getPlaylistItems(playlistId).then((res) => {
       setTracks(res.newTracks);
     });
     return () => {};

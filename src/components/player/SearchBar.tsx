@@ -4,9 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Track } from '@/utils/types';
-import { searchSpotify } from '@/utils/spotifyApi';
 import TrackItem from '@/components/trackItem/TrackItem';
+import { spotifyClient } from '@/api/spotify';
 
 const SearchBar = () => {
   const { data: session } = useSession();
@@ -14,7 +13,7 @@ const SearchBar = () => {
   const router = useRouter();
 
   const [query, setQuery] = useState('');
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const [tracks, setTracks] = useState<Spotify.Track[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const debouncedQuery = useDebounce(query, 300);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -46,16 +45,13 @@ const SearchBar = () => {
 
     const fetchTracks = async () => {
       try {
-        const response = await searchSpotify(
-          debouncedQuery,
-          accessToken,
-          'track',
-          0,
-          5
-        );
+        const response = await spotifyClient.search(debouncedQuery, ['track'], {
+          offset: 0,
+          limit: 5,
+        });
         setTracks(response?.tracks?.items || []);
         if (response) {
-          setIsOpen(response?.tracks?.items.length > 0);
+          setIsOpen(!!response?.tracks?.items?.length);
         }
       } catch (error) {
         console.error('Error fetching tracks:', error);

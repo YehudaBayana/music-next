@@ -1,7 +1,7 @@
 // app/album/[id]/page.tsx
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { getAlbum } from '@/api/spotify';
+import { getAlbum, getAlbumTracks } from '@/api/spotify';
 import PageInfo from '@/components/PageInfo';
 import AlbumTrackList from './AlbumTrackList';
 import { Album } from '@/utils/types';
@@ -36,6 +36,7 @@ export default async function AlbumPage({
   }
 
   const album = await getAlbum(id);
+  const tracks = (await getAlbumTracks(id)).items;
 
   if (!album) {
     return <h1>Album not found</h1>;
@@ -44,7 +45,7 @@ export default async function AlbumPage({
   return (
     <div>
       <AlbumInfo album={album} />
-      <AlbumTrackList album={album} />
+      <AlbumTrackList album={album} tracks={tracks} />
     </div>
   );
 }

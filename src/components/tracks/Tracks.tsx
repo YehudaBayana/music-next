@@ -1,9 +1,14 @@
 import TrackItem from '@/components/trackItem/TrackItem';
-import { Track } from '@/utils/types';
 import Link from 'next/link';
 import React from 'react';
 
-const Tracks = ({ tracks, path }: { tracks: Track[]; path: string }) => {
+const Tracks = ({
+  tracks,
+  path,
+}: {
+  tracks: (Spotify.Track | Spotify.Episode)[];
+  path: string;
+}) => {
   return (
     <section>
       <div className='flex justify-between items-center mb-4'>

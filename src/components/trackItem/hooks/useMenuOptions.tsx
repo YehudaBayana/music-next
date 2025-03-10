@@ -4,14 +4,18 @@ import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal
 import { PATHS } from '@/components/sidebar/sidebarData';
 import { useModal } from '@/context/ModalContext';
 // import { addTracksToPlaylist } from '@/api/spotify/playlist/add-tracks-to-playlist';
-import { Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-export const useContextMenuOptions = ({ track }: { track: Track }) => {
+export const useContextMenuOptions = ({
+  track,
+}: {
+  track: Spotify.Track | Spotify.Episode;
+}) => {
   const { openModal, closeModal } = useModal();
   const router = useRouter();
   const { data: session } = useSession();
+  const isTrack = track.type === 'track';
   const onDelete = () => {
     console.log('TODO: handle delete');
     closeModal();
@@ -53,8 +57,9 @@ export const useContextMenuOptions = ({ track }: { track: Track }) => {
         ),
     },
     {
-      label: 'Go To Album',
-      action: () => router.push(`${PATHS.album}/${track.album.id}`),
+      label: isTrack ? 'Go To Album' : 'Go To Show(not yet)',
+      action: () =>
+        router.push(`${PATHS.album}/${isTrack ? track.album.id : ''}`),
     },
     {
       label: 'Go To Artist',

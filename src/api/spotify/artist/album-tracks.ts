@@ -8,7 +8,7 @@
 //   // offset: number = 0,
 //   // limit: number = 20 // Default Spotify limit for pagination
 // ): Promise<{
-//   newTracks: Track[];
+//   newTracks: (Spotify.Track | Spotify.Episode) [];
 //   hasMoreServer: boolean;
 // }> => {
 //   const endpoint = buildEndpoint('/albums/{album_id}/tracks', {

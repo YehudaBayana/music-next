@@ -41,9 +41,8 @@ declare namespace Spotify {
     preview_url?: unknown;
     available_markets: string[];
     explicit: boolean;
-    type: string;
-    episode: boolean;
-    track: boolean;
+    type: 'track';
+    // track: boolean;
     album: Album;
     artists: Artist[];
     disc_number: number;
@@ -122,20 +121,51 @@ declare namespace Spotify {
     timestamp: number;
     context: unknown;
     progress_ms: number;
-    item: Item;
-    currently_playing_type: string;
+    item: Track | null;
+    currently_playing_type: 'episode' | 'track';
     actions: Actions;
     is_playing: boolean;
   }
 
   interface PlayerState {
-    device: Device;
     repeat_state: 'off' | 'track' | 'context';
-    shuffle_state: boolean;
-    is_playing: boolean;
-    item: Track | null;
-    progress_ms: number;
     timestamp: number;
+    context: Context;
+    position: number;
+    duration: number;
+    paused: boolean;
+    playback_quality: string;
+    playback_features: PlaybackFeatures;
+    shuffle: boolean;
+    shuffle_mode: number;
+    repeat_mode: number;
+    track_window: TrackWindow;
+    restrictions: Restrictions;
+    disallows: Disallows;
+    loading: boolean;
+    playback_speed: number;
+    playback_id: string;
+  }
+
+  interface TrackWindow {
+    current_track: CurrentTrack;
+    next_tracks: unknown[];
+    previous_tracks: unknown[];
+  }
+
+  interface CurrentTrack {
+    id: string;
+    uri: string;
+    type: 'track';
+    uid: string;
+    linked_from: LinkedFrom;
+    media_type: string;
+    track_type: string;
+    name: string;
+    duration_ms: number;
+    artists: Artist[];
+    album: Album;
+    is_playable: boolean;
   }
 
   interface Device {
@@ -235,6 +265,8 @@ declare namespace Spotify {
     release_date: string;
     images: Image[];
     audio_preview_url: string | null;
+    uri: string;
+    type: 'episode';
   }
 
   interface User {

@@ -1,14 +1,14 @@
+import { getPlaylistItems } from '@/api/spotify';
 import PlaylistInfo from '@/app/playlists/components/drafts/playlistCard/PlaylistInfo';
 import PlaylistTracks from '@/app/playlists/components/drafts/playlistCard/PlaylistTracks';
-import { getPlaylistTracks } from '@/api/spotify/playlist/playlist-tracks';
-import { MyPlaylistItem, Track } from '@/utils/types';
+import { MyPlaylistItem } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 
 const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
   const [isLoading] = useState(true);
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const [tracks, setTracks] = useState<Spotify.Track[]>([]);
   const { data: session } = useSession();
   useEffect(() => {
     if (!session?.accessToken) {
@@ -34,8 +34,8 @@ const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
     //     setIsLoading(false);
     //   }
     // };
-    getPlaylistTracks(playlist.id, session.accessToken).then((res) => {
-      setTracks(res.newTracks);
+    getPlaylistItems(playlist.id).then((res) => {
+      setTracks(res.newTracks as Spotify.Track[]);
     });
     return () => {};
   }, [playlist.id, session]);

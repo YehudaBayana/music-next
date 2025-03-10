@@ -3,12 +3,12 @@
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Album, Artist, MyPlaylistItem, Track } from '@/utils/types';
-import { searchSpotify } from '@/utils/spotifyApi';
+import { Album, Artist, MyPlaylistItem } from '@/utils/types';
 import Tracks from '@/components/tracks/Tracks';
 import Albums from '@/components/albums/Albums';
 import Playlists from '@/components/playlists/Playlists';
 import { PATHS } from '@/components/sidebar/sidebarData';
+import { spotifyClient } from '@/api/spotify';
 
 const SearchResults = () => {
   const { data: session } = useSession();
@@ -17,7 +17,7 @@ const SearchResults = () => {
   const query = searchParams?.get('query') || '';
 
   const [results, setResults] = useState<{
-    tracks: Track[];
+    tracks: (Spotify.Track | Spotify.Episode)[];
     albums: Album[];
     artists: Artist[];
     playlists: MyPlaylistItem[];
@@ -33,12 +33,10 @@ const SearchResults = () => {
 
     const fetchSearchResults = async () => {
       try {
-        const response = await searchSpotify(
+        const response = await spotifyClient.search(
           query,
-          accessToken,
-          'track,album,artist,playlist',
-          0,
-          6
+          ['track', 'album', 'artist', 'playlist'],
+          { offset: 0, limit: 6 }
         ); // Show limited results
         setResults({
           tracks: response?.tracks?.items.filter((item) => item) || [],

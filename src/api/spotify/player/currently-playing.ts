@@ -1,5 +1,5 @@
 import { SPOTIFY_API_URL } from '@/utils/constants';
-import { GetCurrentlyPlayingTrackResponse } from '../../types';
+import { GetCurrentlyPlayingTrackResponse } from '@/utils/types';
 
 export const getCurrentPlayback = async (
   accessToken: string

@@ -1,22 +1,21 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { MyPlaylistItem, Track } from '@/utils/types';
+import { MyPlaylistItem } from '@/utils/types';
 import TrackItem from '@/components/trackItem/TrackItem';
 import uniqBy from 'lodash/uniqBy';
-import { getPlaylistTracks } from '@/api/spotify/playlist/playlist-tracks';
 import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';
+import { getPlaylistItems } from '@/api/spotify';
 
 const InfiniteScrollPlaylist = ({
   playlist,
-  accessToken,
   initialTracks,
 }: {
   playlist: MyPlaylistItem;
-  accessToken: string;
-  initialTracks: Track[];
+  initialTracks: (Spotify.Track | Spotify.Episode)[];
 }) => {
-  const [tracks, setTracks] = useState<Track[]>(initialTracks);
+  const [tracks, setTracks] =
+    useState<(Spotify.Track | Spotify.Episode)[]>(initialTracks);
   const [loading, setLoading] = useState(false);
   const [offset, setOffset] = useState(initialTracks.length);
   const [hasMore, setHasMore] = useState(true);
@@ -37,8 +36,10 @@ const InfiniteScrollPlaylist = ({
       const {
         newTracks,
         hasMoreServer,
-      }: { newTracks: Track[]; hasMoreServer: boolean } =
-        await getPlaylistTracks(playlist.id, accessToken, offset);
+      }: {
+        newTracks: (Spotify.Track | Spotify.Episode)[];
+        hasMoreServer: boolean;
+      } = await getPlaylistItems(playlist.id, { offset });
 
       if (hasMoreServer) {
         setTracks((prev) => uniqBy([...prev, ...newTracks], 'id'));
@@ -51,7 +52,7 @@ const InfiniteScrollPlaylist = ({
     } finally {
       setLoading(false);
     }
-  }, [playlist, accessToken, offset, hasMore, loading]);
+  }, [playlist, offset, hasMore, loading]);
 
   const handleScroll = useCallback(() => {
     if (

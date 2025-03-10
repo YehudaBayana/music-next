@@ -3,9 +3,8 @@ import uniqBy from 'lodash/uniqBy';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import InfiniteScrollPlaylist from '@/app/playlist/components/InfiniteScrollPlaylist';
-import { getPlaylistTracks } from '@/api/spotify/playlist/playlist-tracks';
-import { getPlaylist } from '@/api/spotify/playlist/playlist';
 import PlaylistInfo from '@/app/playlist/components/PlaylistInfo';
+import { getPlaylist, getPlaylistItems } from '@/api/spotify';
 
 export default async function PlaylistPage({
   params,
@@ -19,8 +18,8 @@ export default async function PlaylistPage({
     return <p>You are not authenticated. Please log in.</p>;
   }
 
-  const { newTracks } = await getPlaylistTracks(id, session.accessToken);
-  const playlist = await getPlaylist(session.accessToken, id);
+  const { newTracks } = await getPlaylistItems(id);
+  const playlist = await getPlaylist(id);
   const initialTracks = uniqBy(newTracks, 'id');
 
   return (
@@ -33,7 +32,6 @@ export default async function PlaylistPage({
           />
           <InfiniteScrollPlaylist
             playlist={playlist}
-            accessToken={session.accessToken}
             initialTracks={initialTracks}
           />
         </>

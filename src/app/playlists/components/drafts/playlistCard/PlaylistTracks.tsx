@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Track } from '@/utils/types';
 import TrackItem from '../../../../../components/trackItem/TrackItem';
 
 const PlaylistTracks = ({
@@ -7,7 +6,7 @@ const PlaylistTracks = ({
   isLoading,
   playlistId,
 }: {
-  tracks: Track[];
+  tracks: (Spotify.Track | Spotify.Episode)[];
   isLoading: boolean;
   playlistId: string;
 }) => {

@@ -2,6 +2,74 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 
 // Core API Handler with full method support
+
+// lib/spotify-client.ts
+class SpotifyClient {
+  private static instance: SpotifyClient;
+  private accessToken: string | null = null;
+
+  private constructor() {}
+
+  public static getInstance(): SpotifyClient {
+    if (!SpotifyClient.instance) {
+      SpotifyClient.instance = new SpotifyClient();
+    }
+    return SpotifyClient.instance;
+  }
+
+  public setAccessToken(token: string) {
+    this.accessToken = token;
+  }
+
+  private async request<T>(
+    endpoint: string,
+    params?: Record<string, any>
+  ): Promise<T> {
+    if (!this.accessToken) {
+      throw new Error('Access token not set - call setAccessToken() first');
+    }
+
+    const queryString = params
+      ? `?${new URLSearchParams(params).toString()}`
+      : '';
+    const response = await fetch(
+      `https://api.spotify.com/v1/${endpoint}${queryString}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error?.message || 'Spotify API error');
+    }
+
+    return response.json();
+  }
+
+  // Example endpoint methods
+  public search = async (
+    query: string,
+    types: string[] = ['track'],
+    params?: { market?: string; limit?: number; offset?: number }
+  ): Promise<Spotify.SearchResult> =>
+    this.request('search', {
+      q: query,
+      type: types.join(','),
+      ...params,
+    });
+
+  public getTrack = async (id: string, params?: any) => {
+    return this.request<Spotify.Track>(`tracks/${id}`, params);
+  };
+
+  // Add all other endpoints following this pattern...
+}
+
+export const spotifyClient = SpotifyClient.getInstance();
+
 const spotifyApi = async <T>(
   endpoint: string,
   params?: Record<string, string | number | string[]>,
@@ -63,6 +131,13 @@ export const getSeveralAlbums = async (
   params?: { market?: string }
 ): Promise<{ albums: Spotify.Album[] }> =>
   spotifyApi('albums', { ...params, ids: ids.join(',') });
+
+export const getCurrentUserAlbums = async (params?: {
+  market?: string;
+  limit?: number;
+  offset?: number;
+}): Promise<Spotify.PagingObject<{ album: Spotify.Album }>> =>
+  spotifyApi('/me/albums', { ...params });
 
 export const getAlbumTracks = async (
   id: string,
@@ -240,8 +315,22 @@ export const updatePlaylistDetails = async (
 export const getPlaylistItems = async (
   id: string,
   params?: { fields?: string; limit?: number; offset?: number; market?: string }
-): Promise<Spotify.PlaylistTrackResponse> =>
-  spotifyApi(`playlists/${id}/tracks`, params);
+): Promise<{
+  newTracks: (Spotify.Track | Spotify.Episode)[];
+  hasMoreServer: boolean;
+}> => {
+  try {
+    const res = await spotifyApi<Promise<Spotify.PlaylistTrackResponse>>(
+      `playlists/${id}/tracks`,
+      params
+    );
+    const tracks = res.items.map((item) => item.track);
+    return { newTracks: tracks, hasMoreServer: tracks.length > 0 };
+  } catch (error) {
+    console.error('Error fetching tracks:', error);
+    return { newTracks: [], hasMoreServer: false };
+  }
+};
 
 export const addItemsToPlaylist = async (
   id: string,

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { usePlayer } from '@/context/PlayerContext';
 import { FaMusic } from 'react-icons/fa';
 import SicupLogo from '@/components/SicupLogo';
@@ -15,14 +15,20 @@ const CurrentPlayingSong = () => {
   const { data: session } = useSession();
 
   const { currentTrack, progress, setProgress } = usePlayer();
-  const debouncedSeek = useCallback(
-    debounce((newPosition: number) => {
+  const isTrack = currentTrack?.type === 'track';
+  const debouncedSeek = useMemo(() => {
+    return debounce((newPosition: number) => {
       if (session?.accessToken) {
         seekToPosition(session.accessToken, newPosition);
       }
-    }, 300),
-    [session?.accessToken]
-  );
+    }, 300);
+  }, [session?.accessToken]);
+
+  useEffect(() => {
+    return () => {
+      debouncedSeek.cancel();
+    };
+  }, [debouncedSeek]);
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
@@ -33,13 +39,23 @@ const CurrentPlayingSong = () => {
   return (
     <div className='flex items-center p-2 border-2 border-neutral-400 space-x-4 md:w-1/2 w-full overflow-hidden h-16'>
       {currentTrack ? (
-        <Image
-          src={currentTrack?.album.images[0].url}
-          width={currentTrack?.album.images[0].width || 12}
-          height={currentTrack?.album.images[0].height || 12}
-          alt={currentTrack?.name || 'Album Cover'}
-          className='w-12 h-12 rounded-lg object-cover flex-none'
-        />
+        isTrack ? (
+          <Image
+            src={currentTrack?.album.images[0].url}
+            width={currentTrack?.album.images[0].width || 12}
+            height={currentTrack?.album.images[0].height || 12}
+            alt={currentTrack?.name || 'Album Cover'}
+            className='w-12 h-12 rounded-lg object-cover flex-none'
+          />
+        ) : (
+          <Image
+            src={currentTrack?.images[0].url}
+            width={currentTrack?.images[0].width || 12}
+            height={currentTrack?.images[0].height || 12}
+            alt={currentTrack?.name || 'Album Cover'}
+            className='w-12 h-12 rounded-lg object-cover flex-none'
+          />
+        )
       ) : (
         <FaMusic className='text-gray-600 w-6 h-6' />
       )}
@@ -55,9 +71,11 @@ const CurrentPlayingSong = () => {
             </h4>
             <p
               className='text-sm text-gray-500 truncate w-full text-center'
-              title={currentTrack?.artists[0].name || 'Unknown Artist'}
+              title={
+                (isTrack && currentTrack?.artists[0].name) || 'Unknown Artist'
+              }
             >
-              {currentTrack?.artists[0].name || 'Unknown Artist'}
+              {(isTrack && currentTrack?.artists[0].name) || 'Unknown Artist'}
             </p>
             <div className='overflow-visible w-full flex p-1'>
               <input

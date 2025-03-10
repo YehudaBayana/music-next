@@ -4,9 +4,14 @@
 import { useState, useEffect } from 'react';
 import TrackItem from '@/components/trackItem/TrackItem';
 import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';
-import { Album } from '@/utils/types';
 
-const AlbumTrackList = ({ album }: { album: Album }) => {
+const AlbumTrackList = ({
+  album,
+  tracks,
+}: {
+  album: Spotify.Album;
+  tracks: Spotify.Track[];
+}) => {
   const [selectedTrackUris, setSelectedTrackUris] = useState<string[]>([]);
   const [lastSelectedUri, setLastSelectedUri] = useState<string | null>(null);
 
@@ -23,20 +28,14 @@ const AlbumTrackList = ({ album }: { album: Album }) => {
 
   const handleTrackSelect = (trackUri: string, e: React.MouseEvent) => {
     if (e.shiftKey && lastSelectedUri) {
-      const lastIndex = album.tracks.items.findIndex(
-        (t) => t.uri === lastSelectedUri
-      );
-      const currentIndex = album.tracks.items.findIndex(
-        (t) => t.uri === trackUri
-      );
+      const lastIndex = tracks.findIndex((t) => t.uri === lastSelectedUri);
+      const currentIndex = tracks.findIndex((t) => t.uri === trackUri);
 
       if (lastIndex === -1 || currentIndex === -1) return;
 
       const start = Math.min(lastIndex, currentIndex);
       const end = Math.max(lastIndex, currentIndex);
-      const rangeUris = album.tracks.items
-        .slice(start, end + 1)
-        .map((t) => t.uri);
+      const rangeUris = tracks.slice(start, end + 1).map((t) => t.uri);
 
       setSelectedTrackUris((prev) => [...new Set([...prev, ...rangeUris])]);
     } else {
@@ -51,7 +50,7 @@ const AlbumTrackList = ({ album }: { album: Album }) => {
 
   return (
     <div className='relative'>
-      {album.tracks.items.map((track) => (
+      {tracks.map((track) => (
         <TrackItem
           key={track.uri}
           track={track}
