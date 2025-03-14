@@ -1,4 +1,4 @@
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 import { usePlayer } from '@/context/PlayerContext';
 import { useSession } from 'next-auth/react';
 import React from 'react';

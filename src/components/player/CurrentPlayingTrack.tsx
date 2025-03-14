@@ -4,7 +4,7 @@ import { FaMusic } from 'react-icons/fa';
 import SicupLogo from '@/components/SicupLogo';
 import Image from 'next/image';
 import debounce from 'lodash/debounce';
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 
 const CurrentPlayingSong = () => {
   const { currentTrack, progress, setProgress } = usePlayer();

@@ -5,7 +5,7 @@ import { ConfirmModal } from '@/components/modals/ConfirmModal';
 import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal';
 import { useModal } from '@/context/ModalContext';
 import { useSession } from 'next-auth/react';
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 
 interface BulkActionsBarProps {
   selectedTrackUris: string[];

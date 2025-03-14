@@ -1,5 +1,5 @@
 'use client';
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 import CurrentPlayingSong from '@/components/player/CurrentPlayingTrack';
 import PlayerControls from '@/components/player/PlayerControls';
 import SearchBar from '@/components/player/SearchBar';

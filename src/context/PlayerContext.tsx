@@ -1,6 +1,6 @@
 // contexts/PlayerContext.tsx
 'use client';
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 import { thisDeviceName } from '@/utils/constants';
 import { useSession } from 'next-auth/react';
 import React, { createContext, useContext, useEffect, useState } from 'react';

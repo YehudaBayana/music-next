@@ -5,7 +5,7 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import TrackItem from '@/components/trackItem/TrackItem';
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 
 const SearchBar = () => {
   const { data: session } = useSession();

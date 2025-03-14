@@ -8,7 +8,7 @@ import Tracks from '@/components/tracks/Tracks';
 import Albums from '@/components/albums/Albums';
 import Playlists from '@/components/playlists/Playlists';
 import { PATHS } from '@/components/sidebar/sidebarData';
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 
 const SearchResults = () => {
   const { data: session } = useSession();

@@ -1,4 +1,4 @@
-import { spotifyClient } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 import { ConfirmModal } from '@/components/modals/ConfirmModal';
 import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal';
 import { PATHS } from '@/components/sidebar/sidebarData';
