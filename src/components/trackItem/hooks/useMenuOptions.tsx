@@ -1,10 +1,8 @@
-import { addTracksToPlaylist } from '@/api/spotify/playlist/add-tracks-to-playlist';
+import { spotifyClient } from '@/api/spotify';
 import { ConfirmModal } from '@/components/modals/ConfirmModal';
 import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal';
 import { PATHS } from '@/components/sidebar/sidebarData';
 import { useModal } from '@/context/ModalContext';
-// import { addTracksToPlaylist } from '@/api/spotify/playlist/add-tracks-to-playlist';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export const useContextMenuOptions = ({
@@ -14,7 +12,6 @@ export const useContextMenuOptions = ({
 }) => {
   const { openModal, closeModal } = useModal();
   const router = useRouter();
-  const { data: session } = useSession();
   const isTrack = track.type === 'track';
   const onDelete = () => {
     console.log('TODO: handle delete');
@@ -28,11 +25,9 @@ export const useContextMenuOptions = ({
         openModal(
           <PlaylistSelectorModal
             onSelect={async (playlistId) => {
-              const res = await addTracksToPlaylist(
-                session?.accessToken,
-                playlistId,
-                [track.uri]
-              );
+              const res = await spotifyClient.addItemsToPlaylist(playlistId, [
+                track.uri,
+              ]);
               if (res.snapshot_id) {
                 closeModal();
               } else {

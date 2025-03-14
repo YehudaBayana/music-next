@@ -1,23 +1,20 @@
 // contexts/PlayerContext.tsx
 'use client';
-import { playOnSpotify } from '@/api/spotify/player/play';
+import { spotifyClient } from '@/api/spotify';
 import { thisDeviceName } from '@/utils/constants';
-// import { CurrentTrack, PlayerState, Track } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getMyDevice } from '@/api/spotify/player/devices';
+
+export type playTrackParams = {
+  uris?: string[];
+  context_uri?: string;
+  offset?: { position: number } | { uri: string };
+  position_ms?: number;
+};
 
 interface PlayerContextType {
   currentTrack: Spotify.Track | Spotify.Episode | Spotify.CurrentTrack | null;
-  playTrack: (data: {
-    uris?: string[];
-    context_uri?: string;
-    offset?: {
-      position?: number;
-      uri?: string;
-    };
-    position_ms?: number;
-  }) => void;
+  playTrack: (data: playTrackParams) => void;
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   isPlaying: boolean;
@@ -114,63 +111,40 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [isPlaying]);
 
   useEffect(() => {
-    async function getAvailableDevices() {
+    async function getAvailableDevicesFunc() {
       if (!accessToken) {
         return;
       }
-      const data = (await getMyDevice(accessToken)) as string;
-      console.log('data ', data);
-
-      setDeviceId(data);
+      const data = await spotifyClient.getAvailableDevices();
+      const myDevice = data.devices.find(
+        (device) => device.name === thisDeviceName
+      );
+      setDeviceId(myDevice?.id || data.devices[0].id);
     }
     if (!deviceId) {
-      getAvailableDevices();
+      getAvailableDevicesFunc();
     }
     return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken]);
+  }, [accessToken, deviceId]);
 
   const playTrack = async ({
     uris,
     context_uri,
     offset,
     position_ms,
-  }: {
-    uris?: string[];
-    context_uri?: string;
-    offset?: {
-      position?: number;
-      uri?: string;
-    };
-    position_ms?: number;
-  }) => {
-    if (!accessToken) {
-      return;
-    }
-    if (!accessToken) {
-      return;
-    }
-
+  }: playTrackParams) => {
     if (uris && context_uri) {
       throw new Error(
         'You cannot provide both `uris` and `context_uri` simultaneously.'
       );
     }
 
-    const payload: {
-      uris?: string[];
-      context_uri?: string;
-      offset?: {
-        position?: number;
-        uri?: string;
-      };
-      position_ms?: number;
-    } = {};
+    const payload: playTrackParams = {};
     if (uris) payload.uris = uris;
     if (context_uri) payload.context_uri = context_uri;
     if (offset) payload.offset = offset;
     if (position_ms) payload.position_ms = position_ms;
-    await playOnSpotify({ accessToken, ...payload }, deviceId || '');
+    spotifyClient.startPlayback({ device_id: deviceId }, { ...payload });
   };
 
   return (

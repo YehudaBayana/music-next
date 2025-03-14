@@ -4,11 +4,8 @@ import React from 'react';
 import { ConfirmModal } from '@/components/modals/ConfirmModal';
 import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal';
 import { useModal } from '@/context/ModalContext';
-// import { addTracksToPlaylist } from '@/api/spotify/playlist/add-tracks-to-playlist';
-// import { deleteTracksFromPlaylist } from '@/api/spotify/playlist/delete-tracks-from-playlist';
 import { useSession } from 'next-auth/react';
-import { addTracksToPlaylist } from '@/api/spotify/playlist/add-tracks-to-playlist';
-import { deleteTracksFromPlaylist } from '@/api/spotify/playlist/delete-tracks-from-playlist';
+import { spotifyClient } from '@/api/spotify';
 
 interface BulkActionsBarProps {
   selectedTrackUris: string[];
@@ -35,8 +32,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
     openModal(
       <PlaylistSelectorModal
         onSelect={async (playlistId) => {
-          const res = await addTracksToPlaylist(
-            session?.accessToken,
+          const res = await spotifyClient.addItemsToPlaylist(
             playlistId,
             selectedTrackUris
           );
@@ -60,13 +56,11 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
         console.error('Album track deletion not supported');
         return;
       }
-
-      const res = await deleteTracksFromPlaylist(
-        session?.accessToken,
-        contextId,
-        selectedTrackUris,
-        snapshotId!
-      );
+      const formattedUris = selectedTrackUris.map((uri) => ({ uri }));
+      const res = await spotifyClient.removeItemsFromPlaylist(contextId, {
+        tracks: formattedUris,
+        snapshot_id: snapshotId!,
+      });
       if (res?.snapshot_id) {
         console.log('Tracks deleted');
         onTracksDeleted?.(selectedTrackUris); // ✅ Call the callback to update the UI

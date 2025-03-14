@@ -9,7 +9,6 @@ import React, { useEffect } from 'react';
 const Player = () => {
   const { data: session } = useSession();
 
-  // Set access token whenever it changes
   useEffect(() => {
     if (session?.accessToken) {
       spotifyClient.setAccessToken(session.accessToken);
