@@ -1,7 +1,7 @@
 import { spotifyClient } from '@/api/spotifyClient';
 import { usePlayer } from '@/context/PlayerContext';
 import { useSession } from 'next-auth/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   IoPlaySkipBack,
   IoPlay,
@@ -15,9 +15,23 @@ const PlayerControls = () => {
   const { isPlaying, playTrack, progress } = usePlayer();
   const { data: session } = useSession();
   const accessToken = session?.accessToken;
+
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('nexttrack', async () => {
+        await spotifyClient.skipToNext();
+      });
+
+      navigator.mediaSession.setActionHandler('previoustrack', async () => {
+        await spotifyClient.skipToNext();
+      });
+    }
+  }, []);
+
   if (!accessToken) {
     return <p>no access token, please login</p>;
   }
+
   return (
     <div className='flex items-center space-x-4 text-black'>
       <IoShuffle className='w-6 h-6 cursor-pointer hover:text-gray-600' />
