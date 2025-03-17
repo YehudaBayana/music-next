@@ -29,6 +29,8 @@ const spotifyApi = async <T>(
     queryString ? `?${queryString}` : ''
   }`;
 
+  console.log('url ', url);
+
   const response = await fetch(url, {
     method,
     headers: {
@@ -40,6 +42,8 @@ const spotifyApi = async <T>(
 
   if (!response.ok) {
     const error = await response.json();
+    console.log('yuda error ', error);
+
     throw new Error(
       `Spotify API Error [${response.status}]: ${error.error.message}`
     );
@@ -68,7 +72,7 @@ export const getCurrentUserAlbums = async (params?: {
   limit?: number;
   offset?: number;
 }): Promise<Spotify.PagingObject<{ album: Spotify.Album }>> =>
-  spotifyApi('/me/albums', { ...params });
+  spotifyApi('me/albums', { ...params });
 
 export const getAlbumTracks = async (
   id: string,

@@ -1,5 +1,6 @@
 import ContextPlayButton from '@/components/ContextPlayButton';
 import PageInfo from '@/components/PageInfo';
+import ReorderButton from '@/components/ReorderButton';
 import { MyPlaylistItem } from '@/utils/types';
 import React from 'react';
 
@@ -25,6 +26,7 @@ const PlaylistInfo = ({
         {playlist.owner.display_name}
       </p>
       <ContextPlayButton contextUri={playlist.uri} trackUri={firstTrackUri} />
+      <ReorderButton playlistId={playlist.id} />
     </PageInfo>
   );
 };

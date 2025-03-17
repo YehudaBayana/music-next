@@ -76,8 +76,6 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!player) return;
 
     player.addListener('player_state_changed', (state: Spotify.PlayerState) => {
-      console.log('state ', state);
-
       if (state) {
         setCurrentTrack(state.track_window.current_track);
         setProgress(state.position);

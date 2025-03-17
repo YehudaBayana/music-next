@@ -36,7 +36,7 @@ const SearchResults = () => {
         const response = await spotifyClient.search(
           query,
           ['track', 'album', 'artist', 'playlist'],
-          { offset: 0, limit: 6 }
+          { offset: 0, limit: 16 }
         ); // Show limited results
         setResults({
           tracks: response?.tracks?.items.filter((item) => item) || [],

@@ -5,7 +5,7 @@ import { MyPlaylistItem } from '@/utils/types';
 import TrackItem from '@/components/trackItem/TrackItem';
 import uniqBy from 'lodash/uniqBy';
 import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';
-import { getPlaylistItems } from '@/api/spotify';
+import { spotifyClient } from '@/api/spotifyClient';
 
 const InfiniteScrollPlaylist = ({
   playlist,
@@ -33,13 +33,9 @@ const InfiniteScrollPlaylist = ({
 
     setLoading(true);
     try {
-      const {
-        newTracks,
-        hasMoreServer,
-      }: {
-        newTracks: (Spotify.Track | Spotify.Episode)[];
-        hasMoreServer: boolean;
-      } = await getPlaylistItems(playlist.id, { offset });
+      const res = await spotifyClient.getPlaylistItems(playlist.id, { offset });
+      const newTracks = res.items.map((item) => item.track);
+      const hasMoreServer = newTracks.length > 0;
 
       if (hasMoreServer) {
         setTracks((prev) => uniqBy([...prev, ...newTracks], 'id'));
@@ -52,7 +48,7 @@ const InfiniteScrollPlaylist = ({
     } finally {
       setLoading(false);
     }
-  }, [playlist, offset, hasMore, loading]);
+  }, [loading, hasMore, playlist.id, offset]);
 
   const handleScroll = useCallback(() => {
     if (
@@ -126,7 +122,7 @@ const InfiniteScrollPlaylist = ({
       <BulkActionsBar
         selectedTrackUris={selectedTrackUris}
         setSelectedTrackUris={setSelectedTrackUris}
-        contextId={playlist.id}
+        context={playlist}
         contextType='playlist'
         onTracksDeleted={handleTracksDeleted} // ✅ Pass the new function
       />

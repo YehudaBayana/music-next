@@ -5,12 +5,10 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
 type PlaylistSelectorModalProps = {
-  //   track: (Spotify.Track | Spotify.Episode)
   onSelect: (playlistId: string) => void;
 };
 
 export const PlaylistSelectorModal = ({
-  //   track,
   onSelect,
 }: PlaylistSelectorModalProps) => {
   const { data: session } = useSession();

@@ -217,6 +217,8 @@ declare namespace Spotify {
     limit: number;
     offset: number;
     total: number;
+    next: any;
+    previous: any;
   }
 
   interface PlaylistSnapshotResponse {
@@ -270,14 +272,28 @@ declare namespace Spotify {
   }
 
   interface User {
-    id: string;
+    country: string;
     display_name: string;
-    email?: string;
-    images: Image[];
-    followers: {
-      href: string | null;
-      total: number;
-    };
+    email: string;
+    explicit_content: ExplicitContent;
+    external_urls: ExternalUrls;
+    followers: Followers;
+    href: string;
+    id: string;
+    images: any[];
+    product: string;
+    type: string;
+    uri: string;
+  }
+
+  interface Followers {
+    href: any;
+    total: number;
+  }
+
+  interface ExplicitContent {
+    filter_enabled: boolean;
+    filter_locked: boolean;
   }
 
   interface SavedTrack {

@@ -37,9 +37,11 @@ class SpotifyClient {
     const queryString = new URLSearchParams(
       processedParams as Record<string, string>
     ).toString();
-    const url = `https://api.spotify.com/v1/${endpoint}${
-      queryString ? `?${queryString}` : ''
-    }`;
+    const url = endpoint.startsWith('https')
+      ? endpoint
+      : `https://api.spotify.com/v1/${endpoint}${
+          queryString ? `?${queryString}` : ''
+        }`;
 
     const response = await fetch(url, {
       method,
@@ -84,6 +86,18 @@ class SpotifyClient {
   // ======================
   // Playlists Endpoints
   // ======================
+
+  public getPlaylistItems = async (
+    id: string,
+    params?: {
+      fields?: string;
+      limit?: number;
+      offset?: number;
+      market?: string;
+    },
+    url?: string
+  ): Promise<Spotify.PlaylistTrackResponse> =>
+    this.request(url ? url : `playlists/${id}/tracks`, params);
 
   public addItemsToPlaylist = async (
     id: string,
@@ -179,6 +193,9 @@ class SpotifyClient {
     params?: { device_id?: string }
   ): Promise<void> =>
     this.request('me/player/shuffle', { state, ...params }, 'PUT');
+
+  public getCurrentUserProfile = async (): Promise<Spotify.User> =>
+    this.request('me');
 }
 
 export const spotifyClient = SpotifyClient.getInstance();

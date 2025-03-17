@@ -1,17 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ConfirmModal } from '@/components/modals/ConfirmModal';
 import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal';
 import { useModal } from '@/context/ModalContext';
 import { useSession } from 'next-auth/react';
 import { spotifyClient } from '@/api/spotifyClient';
+import { MyPlaylistItem } from '@/utils/types';
 
 interface BulkActionsBarProps {
   selectedTrackUris: string[];
   setSelectedTrackUris: React.Dispatch<React.SetStateAction<string[]>>;
   contextType: 'playlist' | 'album';
-  contextId: string;
+  context: MyPlaylistItem;
   snapshotId?: string; // Optional for playlists
   onTracksDeleted?: (deletedTrackUris: string[]) => void; // ✅ New callback prop
 }
@@ -20,12 +21,26 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   selectedTrackUris,
   setSelectedTrackUris,
   contextType,
-  contextId,
+  context,
   snapshotId,
   onTracksDeleted,
 }) => {
   const { data: session } = useSession();
   const { openModal, closeModal } = useModal();
+  const [isPlaylistOwner, setIsPlaylistOwner] = useState(false);
+
+  useEffect(() => {
+    if (contextType === 'playlist') {
+      const something = async () => {
+        const me = await spotifyClient.getCurrentUserProfile();
+        setIsPlaylistOwner(context.owner.id === me.id);
+      };
+
+      something();
+
+      return () => {};
+    }
+  }, [contextType, context?.owner?.id]);
 
   // ✅ Handles adding tracks to a playlist
   const handleAddToPlaylist = () => {
@@ -57,7 +72,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
         return;
       }
       const formattedUris = selectedTrackUris.map((uri) => ({ uri }));
-      const res = await spotifyClient.removeItemsFromPlaylist(contextId, {
+      const res = await spotifyClient.removeItemsFromPlaylist(context.id, {
         tracks: formattedUris,
         snapshot_id: snapshotId!,
       });
@@ -118,11 +133,14 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
         onClick={() => handleBulkAction('add-to-playlist')}
         color='blue'
       />
-      <ActionButton
-        label='Delete'
-        onClick={() => handleBulkAction('delete')}
-        color='red'
-      />
+      {isPlaylistOwner && (
+        <ActionButton
+          label='Delete'
+          onClick={() => handleBulkAction('delete')}
+          color='red'
+        />
+      )}
+
       <button
         onClick={() => setSelectedTrackUris([])}
         className='px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded'
