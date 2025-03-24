@@ -36,6 +36,10 @@ const spotifyApi = async <T>(
       'Content-Type': 'application/json',
     },
     body: body ? JSON.stringify(body) : undefined,
+    next: {
+      revalidate: 3600, // Revalidate every hour (adjust as needed)
+      tags: [endpoint], // Add tags for on-demand revalidation
+    },
   });
 
   if (!response.ok) {
@@ -193,19 +197,6 @@ export const getPlaylistItems = async (
     return { newTracks: [], hasMoreServer: false };
   }
 };
-
-// export const addItemsToPlaylist = async (
-//   id: string,
-//   uris: string[],
-//   position: number = 0
-// ): Promise<Spotify.PlaylistSnapshotResponse> =>
-//   spotifyApi(`playlists/${id}/tracks`, undefined, 'POST', { uris, position });
-
-// export const removeItemsFromPlaylist = async (
-//   id: string,
-//   body: { tracks: Array<{ uri: string }>; snapshot_id?: string }
-// ): Promise<Spotify.PlaylistSnapshotResponse> =>
-//   spotifyApi(`playlists/${id}/tracks`, undefined, 'DELETE', body);
 
 export const reorderPlaylistItems = async (
   id: string,
