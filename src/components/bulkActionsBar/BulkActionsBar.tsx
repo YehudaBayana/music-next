@@ -6,13 +6,12 @@ import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal
 import { useModal } from '@/context/ModalContext';
 import { useSession } from 'next-auth/react';
 import { spotifyClient } from '@/api/spotifyClient';
-import { MyPlaylistItem } from '@/utils/types';
 
 interface BulkActionsBarProps {
   selectedTrackUris: string[];
   setSelectedTrackUris: React.Dispatch<React.SetStateAction<string[]>>;
   contextType: 'playlist' | 'album';
-  context: MyPlaylistItem;
+  context: Spotify.Playlist | Spotify.Album;
   snapshotId?: string; // Optional for playlists
   onTracksDeleted?: (deletedTrackUris: string[]) => void; // ✅ New callback prop
 }
@@ -33,14 +32,14 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
     if (contextType === 'playlist') {
       const something = async () => {
         const me = await spotifyClient.getCurrentUserProfile();
-        setIsPlaylistOwner(context.owner.id === me.id);
+        setIsPlaylistOwner((context as any).owner.id === me.id);
       };
 
       something();
 
       return () => {};
     }
-  }, [contextType, context?.owner?.id]);
+  }, [contextType, (context as any)?.owner?.id]);
 
   // ✅ Handles adding tracks to a playlist
   const handleAddToPlaylist = () => {

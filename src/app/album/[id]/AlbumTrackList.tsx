@@ -68,7 +68,7 @@ const AlbumTrackList = ({
         selectedTrackUris={selectedTrackUris}
         setSelectedTrackUris={setSelectedTrackUris}
         contextType='album'
-        contextId={album.id}
+        context={album}
       />
     </div>
   );
