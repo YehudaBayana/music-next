@@ -54,6 +54,7 @@ class SpotifyClient {
 
     if (!response.ok) {
       const error = await response.json();
+      console.log('yuda error ', error);
       throw new Error(
         `Spotify API Error [${response.status}]: ${error.error.message}`
       );
@@ -86,6 +87,9 @@ class SpotifyClient {
   // ======================
   // Playlists Endpoints
   // ======================
+
+  public followPlaylist = async (playlistId: string): Promise<void> =>
+    this.request(`playlists/${playlistId}/followers`, undefined, 'PUT');
 
   public getPlaylistItems = async (
     id: string,

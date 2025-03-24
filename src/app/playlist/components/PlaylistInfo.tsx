@@ -1,16 +1,29 @@
+'use client';
+import { spotifyClient } from '@/api/spotifyClient';
 import ContextPlayButton from '@/components/ContextPlayButton';
 import PageInfo from '@/components/PageInfo';
 import ReorderButton from '@/components/ReorderButton';
-import { MyPlaylistItem } from '@/utils/types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const PlaylistInfo = ({
   playlist,
   firstTrackUri,
 }: {
-  playlist: MyPlaylistItem;
+  playlist: Spotify.Playlist;
   firstTrackUri: string;
 }) => {
+  const [isPlaylistOwner, setIsPlaylistOwner] = useState(false);
+
+  useEffect(() => {
+    const something = async () => {
+      const me = await spotifyClient.getCurrentUserProfile();
+      setIsPlaylistOwner(playlist.owner.id === me.id);
+    };
+
+    something();
+
+    return () => {};
+  }, [playlist]);
   return (
     <PageInfo
       src={playlist.images[0].url || '/placeholder.jpg'}
@@ -26,7 +39,7 @@ const PlaylistInfo = ({
         {playlist.owner.display_name}
       </p>
       <ContextPlayButton contextUri={playlist.uri} trackUri={firstTrackUri} />
-      <ReorderButton playlistId={playlist.id} />
+      {isPlaylistOwner && <ReorderButton playlistId={playlist.id} />}
     </PageInfo>
   );
 };

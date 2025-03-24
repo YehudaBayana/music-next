@@ -29,8 +29,6 @@ const spotifyApi = async <T>(
     queryString ? `?${queryString}` : ''
   }`;
 
-  console.log('url ', url);
-
   const response = await fetch(url, {
     method,
     headers: {
