@@ -24,7 +24,7 @@ const Tracks = ({
       </div>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
         {tracks.map((track) => (
-          <TrackItem context={null} track={track} key={track.id} />
+          <TrackItem track={track} key={track.id} />
         ))}
       </div>
     </section>
