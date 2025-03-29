@@ -39,17 +39,15 @@ const PlaylistWithTracks = ({ playlistId }: { playlistId: string }) => {
   return (
     <div className='row-span-3 overflow-x-scroll min-h-min'>
       {tracks &&
-        tracks
-          .slice(0, 5)
-          .map((track) => (
-            <TrackItem
-              track={track}
-              dropContext
-              key={track.id}
-              playlistId={playlistId}
-              context='playlist'
-            />
-          ))}
+        tracks.slice(0, 5).map((track) => (
+          <TrackItem
+            track={track}
+            dropContext
+            key={track.id}
+            // context_uri={playlistId}
+            context='playlist'
+          />
+        ))}
     </div>
   );
 };

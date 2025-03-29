@@ -91,7 +91,7 @@ export default function ReorderButton({ playlistId }: ReorderButtonProps) {
     <button
       onClick={reorderTracks}
       disabled={isLoading}
-      className='px-4 py-2 bg-green-600 text-white rounded-full hover:bg-green-700 disabled:bg-gray-400 transition-colors'
+      className='px-4 py-2 bg-primary text-white rounded-full hover:opacity-80 disabled:bg-gray-400 transition-colors'
     >
       {isLoading ? 'Reordering...' : 'Sort by Date Added'}
     </button>

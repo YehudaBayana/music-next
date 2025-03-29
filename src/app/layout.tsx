@@ -26,7 +26,7 @@ export default async function RootLayout({
         className={`${
           !session?.accessToken
             ? ' '
-            : 'sm:pl-64 sm:pt-28 pt-8 pb-16 bg-bgPrimary'
+            : 'sm:pl-64 sm:pt-24 pt-8 pb-16 bg-bgPrimary'
         }`}
       >
         {!session?.accessToken ? (
@@ -35,7 +35,7 @@ export default async function RootLayout({
           <Providers>
             <Player />
             <Sidebar />
-            <div className='container'>{children}</div>
+            <div className='container p-0'>{children}</div>
           </Providers>
         )}
       </body>

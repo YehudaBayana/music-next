@@ -70,3 +70,36 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+/* &/*/
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite 1.5s;
+}
+
+.animate-progress {
+  animation: progress linear forwards;
+  animation-duration: var(--progress-duration, 240s);
+}

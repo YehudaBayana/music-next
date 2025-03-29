@@ -1,6 +1,5 @@
 import CardsSlider from '@/components/CardsSlider';
 import Playlist from '@/components/playlists/Playlist';
-import { MyPlaylistItem } from '@/utils/types';
 import React from 'react';
 
 const Playlists = ({
@@ -8,7 +7,7 @@ const Playlists = ({
   path,
   title = 'Playlists',
 }: {
-  playlists: MyPlaylistItem[];
+  playlists: Spotify.Playlist[];
   path?: string;
   title?: string;
 }) => {

@@ -81,22 +81,9 @@ const SearchBar = () => {
       />
 
       {isOpen && (
-        <div className='p-2 absolute top-full left-0 w-full bg-primary shadow-lg rounded-lg mt-2 z-50'>
+        <div className='p-2 absolute top-full left-0 w-full bg-white shadow-lg mt-2 z-50'>
           {tracks.map((track) => (
-            // <Link
-            //   key={track.id}
-            //   href={track.external_urls.spotify}
-            //   target='_blank'
-            //   className='flex items-center gap-3 p-3 hover:bg-gray-100 transition'
-            // >
-            <TrackItem
-              context={null}
-              dropImage
-              dropContext
-              track={track}
-              key={track.id}
-            />
-            // </Link>
+            <TrackItem dropImage dropContext track={track} key={track.id} />
           ))}
         </div>
       )}

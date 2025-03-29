@@ -198,6 +198,11 @@ class SpotifyClient {
   ): Promise<void> =>
     this.request('me/player/shuffle', { state, ...params }, 'PUT');
 
+  public getQueue = async (): Promise<{
+    queue: Spotify.Track[];
+    currently_playing: Spotify.Track;
+  }> => this.request('me/player/queue');
+
   public getCurrentUserProfile = async (): Promise<Spotify.User> =>
     this.request('me');
 }

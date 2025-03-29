@@ -201,7 +201,7 @@ declare namespace Spotify {
     primary_color: unknown;
     public: boolean;
     snapshot_id: string;
-    tracks: MyPlaylistTracks;
+    tracks: PlaylistTrackResponse;
     type: string;
     uri: string;
   }

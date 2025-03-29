@@ -3,7 +3,6 @@
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Album, Artist, MyPlaylistItem } from '@/utils/types';
 import Tracks from '@/components/tracks/Tracks';
 import Albums from '@/components/albums/Albums';
 import Playlists from '@/components/playlists/Playlists';
@@ -18,9 +17,9 @@ const SearchResults = () => {
 
   const [results, setResults] = useState<{
     tracks: (Spotify.Track | Spotify.Episode)[];
-    albums: Album[];
-    artists: Artist[];
-    playlists: MyPlaylistItem[];
+    albums: Spotify.Album[];
+    artists: Spotify.Artist[];
+    playlists: Spotify.Playlist[];
   }>({
     tracks: [],
     albums: [],

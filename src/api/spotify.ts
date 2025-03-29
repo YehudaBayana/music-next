@@ -36,10 +36,11 @@ const spotifyApi = async <T>(
       'Content-Type': 'application/json',
     },
     body: body ? JSON.stringify(body) : undefined,
-    next: {
-      revalidate: 3600, // Revalidate every hour (adjust as needed)
-      tags: [endpoint], // Add tags for on-demand revalidation
-    },
+    // TODO: pass the next property dynamically, e.g. for playlist page
+    // next: {
+    //   revalidate: 3600, // Revalidate every hour (adjust as needed)
+    //   tags: [endpoint], // Add tags for on-demand revalidation
+    // },
   });
 
   if (!response.ok) {

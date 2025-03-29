@@ -54,7 +54,7 @@ const AlbumTrackList = ({
         <TrackItem
           key={track.uri}
           track={track}
-          albumId={album.id}
+          context_uri={album.uri}
           context='album'
           dropImage
           isSelected={selectedTrackUris.includes(track.uri)}

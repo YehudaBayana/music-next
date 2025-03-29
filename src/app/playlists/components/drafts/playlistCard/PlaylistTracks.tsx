@@ -4,11 +4,11 @@ import TrackItem from '../../../../../components/trackItem/TrackItem';
 const PlaylistTracks = ({
   tracks,
   isLoading,
-  playlistId,
-}: {
+}: // playlistId,
+{
   tracks: (Spotify.Track | Spotify.Episode)[];
   isLoading: boolean;
-  playlistId: string;
+  // playlistId: string;
 }) => {
   const [selectedTrackIds, setSelectedTrackIds] = useState<string[]>([]);
 
@@ -30,18 +30,16 @@ const PlaylistTracks = ({
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        tracks
-          .slice(0, 5)
-          .map((track, index) => (
-            <TrackItem
-              context='playlist'
-              key={index}
-              track={track}
-              playlistId={playlistId}
-              isSelected={selectedTrackIds.includes(track.id)}
-              onToggleSelect={() => handleTrackSelect(track.id)}
-            />
-          ))
+        tracks.slice(0, 5).map((track, index) => (
+          <TrackItem
+            context='playlist'
+            key={index}
+            track={track}
+            // context_uri={pla}
+            isSelected={selectedTrackIds.includes(track.id)}
+            onToggleSelect={() => handleTrackSelect(track.id)}
+          />
+        ))
       )}
       {/* Floating Action Menu */}
       {selectedTrackIds.length > 0 && (

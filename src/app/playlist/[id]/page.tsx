@@ -23,7 +23,7 @@ export default async function PlaylistPage({
   const initialTracks = uniqBy(newTracks, 'id');
 
   return (
-    <div className='min-h-screen'>
+    <div className=''>
       {playlist ? (
         <>
           <PlaylistInfo

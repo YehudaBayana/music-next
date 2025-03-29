@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { MyPlaylistItem } from '@/utils/types';
 import TrackItem from '@/components/trackItem/TrackItem';
 import uniqBy from 'lodash/uniqBy';
 import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';
@@ -11,7 +10,7 @@ const InfiniteScrollPlaylist = ({
   playlist,
   initialTracks,
 }: {
-  playlist: MyPlaylistItem;
+  playlist: Spotify.Playlist;
   initialTracks: (Spotify.Track | Spotify.Episode)[];
 }) => {
   const [tracks, setTracks] =
@@ -104,13 +103,13 @@ const InfiniteScrollPlaylist = ({
   };
 
   return (
-    <div className='px-6'>
+    <div className=''>
       {uniqBy(tracks, 'id').map((track) => (
         <TrackItem
           context='playlist'
           key={track.uri}
           track={track}
-          playlistId={playlist.id}
+          context_uri={playlist.uri}
           isSelected={selectedTrackUris.includes(track.uri)}
           onToggleSelect={(e: React.MouseEvent) =>
             handleTrackSelect(track.uri, e)

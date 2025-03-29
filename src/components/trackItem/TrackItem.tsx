@@ -10,22 +10,22 @@ import { useContextMenuOptions } from '@/components/trackItem/hooks/useMenuOptio
 
 const TrackItem = ({
   track,
-  playlistId,
-  albumId,
+  context_uri,
   dropImage = false,
   dropContext = false,
-  context = 'playlist',
+  context = undefined,
   isSelected,
   onToggleSelect,
+  nextUris = [],
 }: {
   track: Spotify.Track | Spotify.Episode;
-  playlistId?: string;
-  albumId?: string;
+  context_uri?: string;
   dropContext?: boolean;
   dropImage?: boolean;
-  context: 'playlist' | 'album' | null;
+  context?: 'artist' | 'playlist' | 'album' | 'show' | undefined;
   isSelected?: boolean;
   onToggleSelect?: (e: React.MouseEvent) => void;
+  nextUris?: string[];
 }) => {
   const isTrack = track.type === 'track';
   const { playTrack } = usePlayer();
@@ -39,21 +39,21 @@ const TrackItem = ({
     switch (context) {
       case 'playlist':
         playTrack({
-          context_uri: `spotify:playlist:${playlistId}`,
+          context_uri, //: `spotify:playlist:${playlistId}`,
           offset,
           position_ms: 0,
         });
         break;
       case 'album':
         playTrack({
-          context_uri: `spotify:album:${albumId}`,
+          context_uri, //: `spotify:album:${albumId}`,
           offset,
           position_ms: 0,
         });
         break;
       default:
         playTrack({
-          uris: [track.uri],
+          uris: [track.uri, ...nextUris],
           position_ms: 0,
         });
         break;
@@ -62,11 +62,11 @@ const TrackItem = ({
 
   return (
     <WithContextMenu options={contextMenuOptions}>
-      <div className='flex items-center justify-between py-2 border-b border-gray-300 group relative'>
-        <div
-          onClick={handleTrackClick}
-          className='flex items-center space-x-3 overflow-hidden'
-        >
+      <div
+        onClick={handleTrackClick}
+        className='flex items-center justify-between px-3 py-1.5 group relative hover:bg-primary cursor-pointer rounded-md'
+      >
+        <div className='flex items-center space-x-3 overflow-hidden'>
           {!dropImage && isTrack ? (
             <Image
               src={track.album.images[0].url}
@@ -127,6 +127,7 @@ const TrackItem = ({
           )}
         </div>
       </div>
+      <hr />
     </WithContextMenu>
   );
 };

@@ -55,7 +55,7 @@ const PlaylistCard = ({ playlist }: { playlist: MyPlaylistItem }) => {
       <PlaylistTracks
         tracks={tracks}
         isLoading={isLoading}
-        playlistId={playlist.id}
+        // playlistId={playlist.id}
       />
     </div>
   );
