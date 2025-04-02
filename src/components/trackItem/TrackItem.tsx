@@ -39,14 +39,14 @@ const TrackItem = ({
     switch (context) {
       case 'playlist':
         playTrack({
-          context_uri, //: `spotify:playlist:${playlistId}`,
+          context_uri,
           offset,
           position_ms: 0,
         });
         break;
       case 'album':
         playTrack({
-          context_uri, //: `spotify:album:${albumId}`,
+          context_uri,
           offset,
           position_ms: 0,
         });
@@ -127,7 +127,7 @@ const TrackItem = ({
           )}
         </div>
       </div>
-      <hr />
+      <hr className='border-t-1 border-stone-400' />
     </WithContextMenu>
   );
 };

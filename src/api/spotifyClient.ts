@@ -203,6 +203,12 @@ class SpotifyClient {
     currently_playing: Spotify.Track;
   }> => this.request('me/player/queue');
 
+  public getAlbumTracks = async (
+    id: string,
+    params?: { limit?: number; offset?: number; market?: string }
+  ): Promise<Spotify.PagingObject<Spotify.Track>> =>
+    this.request(`albums/${id}/tracks`, params);
+
   public getCurrentUserProfile = async (): Promise<Spotify.User> =>
     this.request('me');
 }

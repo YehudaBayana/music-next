@@ -11,13 +11,13 @@ const PageInfo = ({
   alt: string;
 }) => {
   return (
-    <div className='relative w-full  p-8 flex flex-col sm:flex-row items-center sm:items-end space-y-4 sm:space-y-0 sm:space-x-6'>
+    <div className='relative w-full mb-1 p-8 flex flex-col sm:flex-row items-center sm:items-end space-y-4 sm:space-y-0 sm:space-x-6'>
       <Image
         src={src}
         alt={alt}
         fill
         sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-        className='absolute inset-0 w-full h-full object-cover blur-sm brightness-50 -z-10'
+        className='absolute inset-0 w-full h-full object-cover brightness-50 -z-10'
       />
       <Image
         src={src}

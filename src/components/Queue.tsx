@@ -2,58 +2,84 @@ import { spotifyClient } from '@/api/spotifyClient';
 import TrackItem from '@/components/trackItem/TrackItem';
 import { usePlayer } from '@/context/PlayerContext';
 import { useQueue } from '@/context/QueueContext';
-// import { msToMinutesAndSeconds } from '@/utils/utils';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
-/**
- * Filters the queue to show only the remaining unique tracks from the playlist
- * and user-added tracks (no duplicates).
- */
-async function getFilteredQueue(): Promise<Spotify.Track[]> {
-  // Fetch the current queue and playback state
-  const queueResponse = await spotifyClient.getQueue(); // fetchQueue(accessToken);
-  const playbackState = await spotifyClient.getPlaybackState(); // fetchPlaybackState(accessToken);
+const TrackCard = ({ currentTrack }: { currentTrack: Spotify.Track }) => {
+  return (
+    <div className='relative flex-1 group'>
+      <Image
+        fill
+        src={
+          currentTrack?.type === 'track' ? currentTrack.album.images[0].url : ''
+        }
+        alt={currentTrack?.name || ''}
+        className='w-auto h-auto object-cover rounded-lg shadow-2xl transform transition-transform duration-500 group-hover:scale-95'
+      />
 
-  // If not playing from a playlist, return the raw queue
-  if (!playbackState.context?.uri?.startsWith('spotify:playlist:')) {
+      {/* Centered Overlay Content */}
+      <div className='absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-black/70 rounded-lg'>
+        <div className='text-center p-4 space-y-2'>
+          <h3 className='text-white font-bold text-3xl truncate'>
+            {currentTrack?.name || 'Song Name'}
+          </h3>
+          <p className='text-gray-300 text-2xl'>
+            {currentTrack?.artists?.[0]?.name || 'Artist Name'}
+          </p>
+          <div className='text-gray-400 text-lg'>
+            <p className='truncate'>
+              {currentTrack?.album?.name || 'Album Name'}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+async function getFilteredQueue(): Promise<Spotify.Track[]> {
+  const [queueResponse, playbackState] = await Promise.all([
+    spotifyClient.getQueue(),
+    spotifyClient.getPlaybackState(),
+  ]);
+
+  console.log('playbackState.context?.uri ', playbackState.context?.uri);
+
+  if (
+    !playbackState.context?.uri ||
+    !(
+      playbackState.context.uri.startsWith('spotify:playlist:') ||
+      playbackState.context.uri.startsWith('spotify:album:')
+    )
+  ) {
     return queueResponse.queue;
   }
 
-  // Get the playlist's track URIs
   const playlistId = playbackState.context.uri.split(':')[2];
-  const playlistTracks = (
-    await spotifyClient.getPlaylistItems(playlistId)
-  ).items.map((item) => item.track); // fetchPlaylistTracks(accessToken, playlistId);
+  const playlistTracks = playbackState.context?.uri?.startsWith(
+    'spotify:playlist:'
+  )
+    ? (await spotifyClient.getPlaylistItems(playlistId)).items.map(
+        (item) => item.track
+      )
+    : (await spotifyClient.getAlbumTracks(playlistId)).items;
   const playlistTrackUris = playlistTracks.map((t) => t.uri);
-
-  // Identify the current track's position in the playlist
-  console.log('playbackState ', playbackState);
 
   const currentTrackIndex = playlistTrackUris.findIndex(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     (uri) => uri === playbackState.item?.uri
   );
+  if (currentTrackIndex === -1) {
+    return queueResponse.queue; // or handle differently
+  }
 
-  // Calculate remaining unique tracks from the playlist
   const remainingPlaylistTracks = playlistTracks.slice(currentTrackIndex + 1);
 
-  // Filter the queue to include:
-  // 1. Remaining playlist tracks (only once)
-  // 2. All user-added tracks
   const seenPlaylistUris = new Set<string>();
   const filteredQueue: Spotify.Track[] = [];
 
   for (const track of queueResponse.queue) {
-    //   const isFromPlaylist = track.added_by?.uri === 'spotify';
-    //   const isUserAdded = track?.added_by?.uri === 'user';
-
-    //   if (isUserAdded) {
-    //     // Always include user-added tracks
-    //     filteredQueue.push(track);
-    //   } else if (isFromPlaylist) {
-    // Include playlist tracks only if they're in the remaining list and not duplicates
     const isRemaining = remainingPlaylistTracks.some(
       (pt) => pt.uri === track.uri
     );
@@ -61,16 +87,13 @@ async function getFilteredQueue(): Promise<Spotify.Track[]> {
       filteredQueue.push(track);
       seenPlaylistUris.add(track.uri);
     }
-    //   }
   }
 
   return filteredQueue;
 }
 
 export const Queue = () => {
-  //   const [currentSongIndex, setCurrentSongIndex] = useState(0);
-  //   const [currentTrack, setCurrentTrack] = useState<Spotify.Track>();
-  const { currentTrack } = usePlayer();
+  const currentTrack = usePlayer().currentTrack as Spotify.Track;
   const [queue, setQueue] = useState<Spotify.Track[]>();
   const [context, setContext] = useState<Spotify.Context>();
   const { isOpen, closeQueue } = useQueue();
@@ -80,14 +103,14 @@ export const Queue = () => {
       const queueInside = await getFilteredQueue();
       const playback = await spotifyClient.getPlaybackState();
       setContext(playback.context);
-      console.log('queueInside ', queueInside);
+
       setQueue(queueInside);
     };
 
     // TODO: refactor this setTimeout() because its a nasty solution
     setTimeout(() => {
       getQueue();
-    }, 1500);
+    }, 500);
 
     return () => {};
   }, [currentTrack?.name]);
@@ -95,92 +118,11 @@ export const Queue = () => {
   if (!isOpen) {
     return null;
   }
-  //   console.log('queue ', queue);
-
-  // Mock data
-  //   const queue: Song[] = [
-  //     {
-  //       id: 1,
-  //       title: 'Digital Symphony',
-  //       artist: 'Neon Waves',
-  //       duration: '3:45',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 2,
-  //       title: 'Electric Dreams',
-  //       artist: 'Synth Orbit',
-  //       duration: '4:20',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 3,
-  //       title: 'Neon Nights',
-  //       artist: 'Cyber Pulse',
-  //       duration: '3:15',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 11,
-  //       title: 'Digital Symphony',
-  //       artist: 'Neon Waves',
-  //       duration: '3:45',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 21,
-  //       title: 'Electric Dreams',
-  //       artist: 'Synth Orbit',
-  //       duration: '4:20',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 31,
-  //       title: 'Neon Nights',
-  //       artist: 'Cyber Pulse',
-  //       duration: '3:15',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 12,
-  //       title: 'Digital Symphony',
-  //       artist: 'Neon Waves',
-  //       duration: '3:45',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 22,
-  //       title: 'Electric Dreams',
-  //       artist: 'Synth Orbit',
-  //       duration: '4:20',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //     {
-  //       id: 32,
-  //       title: 'Neon Nights',
-  //       artist: 'Cyber Pulse',
-  //       duration: '3:15',
-  //       artUrl:
-  //         'https://plus.unsplash.com/premium_photo-1736765210162-8db26e3d02c4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     },
-  //   ];
-
-  //   const currentTrack = queue[currentTrackIndex];
 
   return (
-    <div className='fixed bottom-0 left-64 right-0 h-[calc(100vh-88px)] bg-black/90 backdrop-blur-xl text-white p-8 overflow-y-auto'>
-      <div className='max-w-6xl mx-auto flex gap-8'>
-        {/* Main Content */}
+    <div className='fixed bottom-0 left-64 right-0 h-[calc(100vh-88px)]  backdrop-blur-xl text-white p-8 overflow-y-auto'>
+      <div className='max-w-6xl mx-auto flex gap-8 h-[calc(100vh-160px)]'>
         <div className='flex-1 flex flex-col'>
-          {/* Holographic Header */}
           <div className='relative mb-8'>
             <h1 onClick={closeQueue} className='text-5xl font-bold '>
               NOW PLAYING
@@ -188,21 +130,7 @@ export const Queue = () => {
             <div className='absolute inset-0 bg-cyan-400/20 blur-2xl -z-10' />
           </div>
 
-          {/* Album Art Container */}
-          <div className='relative flex-1 group h-[calc(100vh-160px)]'>
-            <Image
-              fill
-              //   width={100}
-              //   height={100}
-              src={
-                currentTrack?.type === 'track'
-                  ? currentTrack.album.images[0].url
-                  : ''
-              }
-              alt={currentTrack?.name || ''}
-              className='w-auto h-auto object-cover rounded-lg shadow-2xl transform transition-transform duration-500 group-hover:scale-95'
-            />
-          </div>
+          <TrackCard currentTrack={currentTrack} />
         </div>
 
         {/* Queue Sidebar */}
@@ -216,7 +144,7 @@ export const Queue = () => {
                 context_uri={context?.uri}
                 track={track}
                 key={i}
-              /> // context={context?.type}
+              />
             ))}
           </div>
         </div>

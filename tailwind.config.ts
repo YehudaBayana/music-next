@@ -15,6 +15,9 @@ export default {
       },
     },
     extend: {
+      transitionProperty: {
+        'scale-opacity': 'transform, opacity',
+      },
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
