@@ -21,7 +21,7 @@ const InfiniteScrollPlaylist = ({
   const [selectedTrackUris, setSelectedTrackUris] = useState<string[]>([]);
   const [lastSelectedUri, setLastSelectedUri] = useState<string | null>(null);
 
-  const handleTracksDeleted = (deletedTrackUris: string[]) => {
+  const onTracksDeleted = (deletedTrackUris: string[]) => {
     setTracks((prevTracks) =>
       prevTracks.filter((track) => !deletedTrackUris.includes(track.uri))
     );
@@ -106,7 +106,8 @@ const InfiniteScrollPlaylist = ({
     <div className=''>
       {uniqBy(tracks, 'id').map((track) => (
         <TrackItem
-          context='playlist'
+          onTracksDeleted={onTracksDeleted}
+          context={playlist}
           key={track.uri}
           track={track}
           context_uri={playlist.uri}
@@ -122,8 +123,7 @@ const InfiniteScrollPlaylist = ({
         selectedTrackUris={selectedTrackUris}
         setSelectedTrackUris={setSelectedTrackUris}
         context={playlist}
-        contextType='playlist'
-        onTracksDeleted={handleTracksDeleted} // ✅ Pass the new function
+        onTracksDeleted={onTracksDeleted} // ✅ Pass the new function
       />
     </div>
   );

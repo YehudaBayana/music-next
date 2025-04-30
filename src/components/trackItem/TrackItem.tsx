@@ -10,43 +10,52 @@ import { useContextMenuOptions } from '@/components/trackItem/hooks/useMenuOptio
 
 const TrackItem = ({
   track,
-  context_uri,
   dropImage = false,
-  dropContext = false,
   context = undefined,
   isSelected,
   onToggleSelect,
   nextUris = [],
+  onTracksDeleted,
 }: {
   track: Spotify.Track | Spotify.Episode;
   context_uri?: string;
   dropContext?: boolean;
   dropImage?: boolean;
-  context?: 'artist' | 'playlist' | 'album' | 'show' | undefined;
+  context?:
+    | Spotify.Artist
+    | Spotify.Playlist
+    | Spotify.Album
+    | Spotify.Show
+    | undefined;
   isSelected?: boolean;
   onToggleSelect?: (e: React.MouseEvent) => void;
   nextUris?: string[];
+  onTracksDeleted?: (deletedTrackUris: string[]) => void;
 }) => {
   const isTrack = track.type === 'track';
   const { playTrack } = usePlayer();
-  const contextMenuOptions = useContextMenuOptions({ track });
+  const contextMenuOptions = useContextMenuOptions({
+    track,
+    onTracksDeleted,
+    context,
+  });
 
   const handleTrackClick = () => {
     const offset = {
       uri: track.uri,
     };
 
-    switch (context) {
+    switch (context?.type) {
       case 'playlist':
         playTrack({
-          context_uri,
+          context_uri: context.uri,
           offset,
           position_ms: 0,
         });
         break;
       case 'album':
         playTrack({
-          context_uri,
+          context_uri: context.uri,
           offset,
           position_ms: 0,
         });
@@ -105,7 +114,7 @@ const TrackItem = ({
             {msToMinutesAndSeconds(track.duration_ms)}
           </p>
 
-          {!dropContext && (
+          {context && (
             <WithContextMenu options={contextMenuOptions} triggerType='click'>
               <BsThreeDots className='text-gray-500 hover:text-purple-600 w-6 h-6' />
             </WithContextMenu>

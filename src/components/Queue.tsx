@@ -139,12 +139,7 @@ export const Queue = () => {
 
           <div className='space-y-4 top-0 bottom-0'>
             {queue?.map((track, i) => (
-              <TrackItem
-                context={context?.type}
-                context_uri={context?.uri}
-                track={track}
-                key={i}
-              />
+              <TrackItem context_uri={context?.uri} track={track} key={i} />
             ))}
           </div>
         </div>

@@ -4,7 +4,7 @@ import React from 'react';
 
 const Home = async () => {
   return (
-    <div>
+    <div className='container'>
       <SpecialRecom />
       <Recommended />
     </div>

@@ -2,7 +2,7 @@ import React from 'react';
 
 const SkeletonLoader = () => {
   return (
-    <div className='p-4min-h-screen'>
+    <div className='container p-4min-h-screen'>
       {/* Recommended for You Section */}
       <div className='h-4 w-1/3 bg-primary animate-pulse rounded mb-4'></div>
       <div className='h-0.5 w-full bg-primary animate-pulse mb-6'></div>

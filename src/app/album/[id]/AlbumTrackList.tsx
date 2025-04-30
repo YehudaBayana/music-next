@@ -55,7 +55,7 @@ const AlbumTrackList = ({
           key={track.uri}
           track={track}
           context_uri={album.uri}
-          context='album'
+          context={album}
           dropImage
           isSelected={selectedTrackUris.includes(track.uri)}
           onToggleSelect={(e: React.MouseEvent) =>
@@ -67,7 +67,6 @@ const AlbumTrackList = ({
       <BulkActionsBar
         selectedTrackUris={selectedTrackUris}
         setSelectedTrackUris={setSelectedTrackUris}
-        contextType='album'
         context={album}
       />
     </div>

@@ -7,16 +7,21 @@ import { useRouter } from 'next/navigation';
 
 export const useContextMenuOptions = ({
   track,
+  context,
+  onTracksDeleted,
 }: {
   track: Spotify.Track | Spotify.Episode;
+  context?:
+    | Spotify.Artist
+    | Spotify.Playlist
+    | Spotify.Album
+    | Spotify.Show
+    | undefined;
+  onTracksDeleted?: (deletedTrackUris: string[]) => void;
 }) => {
   const { openModal, closeModal } = useModal();
   const router = useRouter();
   const isTrack = track.type === 'track';
-  const onDelete = () => {
-    console.log('TODO: handle delete');
-    closeModal();
-  };
 
   return [
     {
@@ -41,7 +46,28 @@ export const useContextMenuOptions = ({
     },
     {
       label: 'Delete from this Playlist',
-      action: () =>
+      action: () => {
+        const onDelete = async () => {
+          if (context?.type === 'playlist') {
+            const res = await spotifyClient.removeItemsFromPlaylist(
+              context.id,
+              {
+                tracks: [
+                  {
+                    uri: track.uri,
+                  },
+                ],
+              }
+            );
+
+            if (res?.snapshot_id) {
+              console.log('Tracks deleted');
+              onTracksDeleted?.([track.uri]); // ✅ Call the callback to update the UI
+              closeModal();
+            }
+          }
+        };
+
         openModal(
           <ConfirmModal
             title='Delete Item'
@@ -49,7 +75,8 @@ export const useContextMenuOptions = ({
             onConfirm={onDelete}
             onCancel={closeModal}
           />
-        ),
+        );
+      },
     },
     {
       label: isTrack ? 'Go To Album' : 'Go To Show(not yet)',

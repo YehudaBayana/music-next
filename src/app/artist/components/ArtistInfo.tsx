@@ -1,7 +1,5 @@
-'use client';
-
-import Image from 'next/image';
 import React from 'react';
+import Image from 'next/image';
 
 const ArtistInfo = () => {
   const artist = {
@@ -25,6 +23,7 @@ const ArtistInfo = () => {
         <Image
           src={artist.image}
           alt={artist.name}
+          fill
           className='absolute inset-0 w-full h-full object-cover blur-lg brightness-50'
         />
         <div className='absolute inset-0 bg-gradient-to-b from-transparent to-gray-900'></div>
@@ -32,6 +31,7 @@ const ArtistInfo = () => {
           <Image
             src={artist.image}
             alt={artist.name}
+            fill
             className='w-36 h-36 sm:w-48 sm:h-48 rounded-full shadow-xl border-4 border-white'
           />
           <h1 className='mt-4 text-4xl sm:text-5xl font-extrabold'>

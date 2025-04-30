@@ -32,7 +32,6 @@ const PlaylistTracks = ({
       ) : (
         tracks.slice(0, 5).map((track, index) => (
           <TrackItem
-            context='playlist'
             key={index}
             track={track}
             // context_uri={pla}

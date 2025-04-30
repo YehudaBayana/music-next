@@ -10,18 +10,14 @@ import { spotifyClient } from '@/api/spotifyClient';
 interface BulkActionsBarProps {
   selectedTrackUris: string[];
   setSelectedTrackUris: React.Dispatch<React.SetStateAction<string[]>>;
-  contextType: 'playlist' | 'album';
   context: Spotify.Playlist | Spotify.Album;
-  snapshotId?: string; // Optional for playlists
   onTracksDeleted?: (deletedTrackUris: string[]) => void; // ✅ New callback prop
 }
 
 const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   selectedTrackUris,
   setSelectedTrackUris,
-  contextType,
   context,
-  snapshotId,
   onTracksDeleted,
 }) => {
   const { data: session } = useSession();
@@ -29,7 +25,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   const [isPlaylistOwner, setIsPlaylistOwner] = useState(false);
 
   useEffect(() => {
-    if (contextType === 'playlist') {
+    if (context.type === 'playlist') {
       const something = async () => {
         const me = await spotifyClient.getCurrentUserProfile();
         setIsPlaylistOwner((context as any).owner.id === me.id);
@@ -39,7 +35,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
 
       return () => {};
     }
-  }, [contextType, (context as any)?.owner?.id]);
+  }, [(context as any)?.owner?.id]);
 
   // ✅ Handles adding tracks to a playlist
   const handleAddToPlaylist = () => {
@@ -66,19 +62,18 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
     if (!session?.accessToken) return console.error('No access token');
 
     const onDelete = async () => {
-      if (contextType !== 'playlist') {
-        console.error('Album track deletion not supported');
-        return;
-      }
-      const formattedUris = selectedTrackUris.map((uri) => ({ uri }));
-      const res = await spotifyClient.removeItemsFromPlaylist(context.id, {
-        tracks: formattedUris,
-        snapshot_id: snapshotId!,
-      });
-      if (res?.snapshot_id) {
-        console.log('Tracks deleted');
-        onTracksDeleted?.(selectedTrackUris); // ✅ Call the callback to update the UI
-        closeModal();
+      if (context.type === 'playlist') {
+        const formattedUris = selectedTrackUris.map((uri) => ({ uri }));
+
+        const res = await spotifyClient.removeItemsFromPlaylist(context.id, {
+          tracks: formattedUris,
+        });
+
+        if (res?.snapshot_id) {
+          console.log('Tracks deleted');
+          onTracksDeleted?.(selectedTrackUris); // ✅ Call the callback to update the UI
+          closeModal();
+        }
       }
     };
 
@@ -86,7 +81,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
       <ConfirmModal
         title='Delete Tracks'
         message='Are you sure you want to delete the selected tracks?'
-        onConfirm={onDelete}
+        onConfirm={async () => await onDelete()}
         onCancel={closeModal}
       />
     );
@@ -96,7 +91,9 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   const handleBulkAction = (action: 'delete' | 'add-to-playlist') => {
     if (action === 'add-to-playlist') {
       handleAddToPlaylist();
-    } else {
+    } else if (action === 'delete') {
+      console.log('delete');
+
       handleDelete();
     }
     setSelectedTrackUris([]);

@@ -43,7 +43,7 @@ export default async function AlbumPage({
   }
 
   return (
-    <div>
+    <div className='container'>
       <AlbumInfo album={album} />
       <AlbumTrackList album={album} tracks={tracks} />
     </div>

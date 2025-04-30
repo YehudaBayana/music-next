@@ -12,7 +12,7 @@ declare namespace Spotify {
     release_date: string;
     release_date_precision: string;
     restrictions: Restrictions;
-    type: string;
+    type: 'album';
     uri: string;
     artists: Artist[];
     tracks: Tracks;
@@ -66,7 +66,7 @@ declare namespace Spotify {
     images: Image[];
     name: string;
     popularity: number;
-    type: string;
+    type: 'artist';
     uri: string;
   }
 
@@ -202,7 +202,7 @@ declare namespace Spotify {
     public: boolean;
     snapshot_id: string;
     tracks: PlaylistTrackResponse;
-    type: string;
+    type: 'playlist';
     uri: string;
   }
 
@@ -257,6 +257,7 @@ declare namespace Spotify {
     description: string;
     episodes: PagingObject<Episode>;
     images: Image[];
+    type: 'show';
   }
 
   interface Episode {

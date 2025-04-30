@@ -45,7 +45,6 @@ const PlaylistWithTracks = ({ playlistId }: { playlistId: string }) => {
             dropContext
             key={track.id}
             // context_uri={playlistId}
-            context='playlist'
           />
         ))}
     </div>
