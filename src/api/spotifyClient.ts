@@ -211,6 +211,13 @@ class SpotifyClient {
 
   public getCurrentUserProfile = async (): Promise<Spotify.User> =>
     this.request('me');
+
+  public getSavedTracks = async (params?: {
+    limit?: number;
+    offset?: number;
+    market?: string;
+  }): Promise<Spotify.PagingObject<Spotify.SavedTrack>> =>
+    this.request('me/tracks', params);
 }
 
 export const spotifyClient = SpotifyClient.getInstance();

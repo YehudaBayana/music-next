@@ -10,14 +10,14 @@ import { spotifyClient } from '@/api/spotifyClient';
 interface BulkActionsBarProps {
   selectedTrackUris: string[];
   setSelectedTrackUris: React.Dispatch<React.SetStateAction<string[]>>;
-  context: Spotify.Playlist | Spotify.Album;
+  context?: Spotify.Playlist | Spotify.Album;
   onTracksDeleted?: (deletedTrackUris: string[]) => void; // ✅ New callback prop
 }
 
 const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   selectedTrackUris,
   setSelectedTrackUris,
-  context,
+  context = null,
   onTracksDeleted,
 }) => {
   const { data: session } = useSession();
@@ -25,7 +25,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   const [isPlaylistOwner, setIsPlaylistOwner] = useState(false);
 
   useEffect(() => {
-    if (context.type === 'playlist') {
+    if (context?.type === 'playlist') {
       const something = async () => {
         const me = await spotifyClient.getCurrentUserProfile();
         setIsPlaylistOwner((context as any).owner.id === me.id);
@@ -62,7 +62,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
     if (!session?.accessToken) return console.error('No access token');
 
     const onDelete = async () => {
-      if (context.type === 'playlist') {
+      if (context?.type === 'playlist') {
         const formattedUris = selectedTrackUris.map((uri) => ({ uri }));
 
         const res = await spotifyClient.removeItemsFromPlaylist(context.id, {

@@ -1,7 +1,5 @@
-import { AiFillHome, } from 'react-icons/ai';
-import {
-  BiFolder,
-} from 'react-icons/bi';
+import { AiFillHome, AiOutlineStar } from 'react-icons/ai';
+import { BiFolder } from 'react-icons/bi';
 import { IconType } from 'react-icons/lib';
 import { TbPlaylistAdd } from 'react-icons/tb';
 
@@ -21,7 +19,7 @@ export const PATHS = {
   recentlyAdded: '/recently-added',
   albums: '/albums',
   album: '/album',
-  favoriteSongs: '/favorite-songs',
+  favoriteSongs: '/liked',
   myPlaylists: '/playlists',
   podcasts: {
     new: '/podcasts/new',
@@ -44,7 +42,7 @@ export const libraryItems: NavigationItem[] = [
   // { path: PATHS.songs, label: 'Songs', Icon: BiMusic },
   // { path: PATHS.recentlyAdded, label: 'Recently Added', Icon: BiTime },
   { path: PATHS.albums, label: 'Albums', Icon: BiFolder },
-  // { path: PATHS.favoriteSongs, label: 'Favorite Songs', Icon: AiOutlineStar },
+  { path: PATHS.favoriteSongs, label: 'Favorite Songs', Icon: AiOutlineStar },
   { path: PATHS.myPlaylists, label: 'All Playlists', Icon: TbPlaylistAdd },
 ];
 

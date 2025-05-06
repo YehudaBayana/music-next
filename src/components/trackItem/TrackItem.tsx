@@ -2,7 +2,7 @@
 'use client';
 import React from 'react';
 import { BsThreeDots } from 'react-icons/bs';
-import { msToMinutesAndSeconds } from '@/utils/utils';
+import { msToMinutesAndSeconds, reorderNextTracksUris } from '@/utils/utils';
 import { usePlayer } from '@/context/PlayerContext';
 import Image from 'next/image';
 import { WithContextMenu } from '@/components/contextMenu/WithContextMenu';
@@ -61,8 +61,9 @@ const TrackItem = ({
         });
         break;
       default:
+        const uris = reorderNextTracksUris(nextUris, track.uri);
         playTrack({
-          uris: [track.uri, ...nextUris],
+          uris,
           position_ms: 0,
         });
         break;

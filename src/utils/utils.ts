@@ -46,3 +46,19 @@ export function extractPlaylistItems(
   }
   return Array.from(playlistSet);
 }
+
+export function reorderNextTracksUris(
+  uris: string[],
+  clickedUri: string
+): string[] {
+  const clickedIndex = uris.indexOf(clickedUri);
+  if (clickedIndex === -1) {
+    // clicked URI not found; return full list as fallback
+    return uris;
+  }
+
+  const after = uris.slice(clickedIndex); // from clicked to end
+  const before = uris.slice(0, clickedIndex); // from start to clicked (not included)
+
+  return [...after, ...before];
+}
