@@ -5,6 +5,7 @@ import { ContextMenuProvider } from '@/context/ContextMenuContext';
 import { ModalProvider } from '@/context/ModalContext';
 import { PlayerProvider } from '@/context/PlayerContext';
 import { QueueProvider } from '@/context/QueueContext';
+import { ToastProvider } from '@/context/ToastContext';
 import { SessionProvider } from 'next-auth/react';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
@@ -14,8 +15,10 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         <ModalProvider>
           <PlayerProvider>
             <QueueProvider>
-              {children}
-              <Queue />
+              <ToastProvider>
+                {children}
+                <Queue />
+              </ToastProvider>
             </QueueProvider>
           </PlayerProvider>
         </ModalProvider>

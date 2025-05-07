@@ -3,6 +3,7 @@ import { ConfirmModal } from '@/components/modals/ConfirmModal';
 import { PlaylistSelectorModal } from '@/components/modals/PlaylistSelectorModal';
 import { PATHS } from '@/components/sidebar/sidebarData';
 import { useModal } from '@/context/ModalContext';
+import useToast from '@/hooks/useToast';
 import { useRouter } from 'next/navigation';
 
 export const useContextMenuOptions = ({
@@ -20,6 +21,7 @@ export const useContextMenuOptions = ({
   onTracksDeleted?: (deletedTrackUris: string[]) => void;
 }) => {
   const { openModal, closeModal } = useModal();
+  const toast = useToast();
   const router = useRouter();
   const isTrack = track.type === 'track';
 
@@ -30,14 +32,19 @@ export const useContextMenuOptions = ({
         openModal(
           <PlaylistSelectorModal
             onSelect={async (playlistId) => {
-              const res = await spotifyClient.addItemsToPlaylist(playlistId, [
-                track.uri,
-              ]);
-              if (res.snapshot_id) {
-                closeModal();
-              } else {
-                console.error('Error adding to playlist');
-              }
+              toast
+                .promise(
+                  spotifyClient.addItemsToPlaylist(playlistId, [track.uri]),
+                  {
+                    success: 'Track added to playlist successfully',
+                    error: 'Failed to add track to playlist',
+                  }
+                )
+                .then((result) => {
+                  if (result?.snapshot_id) {
+                    closeModal();
+                  }
+                });
             }}
           />,
           { width: '400px' }
@@ -49,22 +56,26 @@ export const useContextMenuOptions = ({
       action: () => {
         const onDelete = async () => {
           if (context?.type === 'playlist') {
-            const res = await spotifyClient.removeItemsFromPlaylist(
-              context.id,
-              {
-                tracks: [
-                  {
-                    uri: track.uri,
-                  },
-                ],
-              }
-            );
-
-            if (res?.snapshot_id) {
-              console.log('Tracks deleted');
-              onTracksDeleted?.([track.uri]); // ✅ Call the callback to update the UI
-              closeModal();
-            }
+            toast
+              .promise(
+                spotifyClient.removeItemsFromPlaylist(context.id, {
+                  tracks: [
+                    {
+                      uri: track.uri,
+                    },
+                  ],
+                }),
+                {
+                  success: 'Track removed from playlist successfully',
+                  error: 'Failed to remove track from playlist',
+                }
+              )
+              .then((result) => {
+                if (result?.snapshot_id) {
+                  onTracksDeleted?.([track.uri]); // ✅ Call the callback to update the UI
+                  closeModal();
+                }
+              });
           }
         };
 
@@ -85,12 +96,16 @@ export const useContextMenuOptions = ({
     },
     {
       label: 'Go To Artist',
-      action: () => console.log('TODO: Implement'),
+      action: () => {
+        toast.error('This feature is not implemented yet');
+      },
       disabled: true,
     },
     {
       label: 'Save to Favorites',
-      action: () => console.log('TODO: Implement'),
+      action: () => {
+        toast.error('This feature is not implemented yet');
+      },
       disabled: true,
     },
   ];
