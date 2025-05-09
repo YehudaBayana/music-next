@@ -128,3 +128,4 @@ This project implements a Spotify Web API client to allow users to access and mo
 - Write comprehensive tests for all features
 - don't modify configuration files at all.
 - you allowed to change only folders and files inside the /src directory
+- never install new packages for implementing a functionality unless it is required.
