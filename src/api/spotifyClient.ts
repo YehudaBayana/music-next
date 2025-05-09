@@ -53,14 +53,44 @@ class SpotifyClient {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      console.log('yuda error ', error);
-      throw new Error(
-        `Spotify API Error [${response.status}]: ${error.error.message}`
-      );
+      try {
+        const error = await response.json();
+        console.log('yuda error ', error);
+        throw new Error(
+          `Spotify API Error [${response.status}]: ${error.error.message}`
+        );
+      } catch (jsonErr) {
+        // If there's an error parsing the error response
+        throw new Error(`Spotify API Error [${response.status}]`);
+      }
     }
 
-    return response.json() as Promise<T>;
+    // Check if response has content
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const contentLength = response.headers.get('content-length');
+      if (contentLength === '0') {
+        // Empty response, return null for void methods
+        return null as unknown as T;
+      }
+      
+      try {
+        // Parse the response JSON once and return it
+        const data = await response.json();
+        return data as T;
+      } catch (jsonErr) {
+        // For empty responses that don't set the content-length header
+        if (method === 'PUT' || method === 'DELETE') {
+          // These methods often return empty responses
+          return null as unknown as T;
+        }
+        // Re-throw for other unexpected JSON parsing errors
+        throw jsonErr;
+      }
+    } else {
+      // Non-JSON response, return null
+      return null as unknown as T;
+    }
   }
 
   // Example endpoint methods
@@ -118,6 +148,23 @@ class SpotifyClient {
     body: { tracks: Array<{ uri: string }>; snapshot_id?: string }
   ): Promise<Spotify.PlaylistSnapshotResponse> =>
     this.request(`playlists/${id}/tracks`, undefined, 'DELETE', body);
+
+  // ======================
+  // Library Endpoints
+  // ======================
+
+  public checkSavedTracks = async (ids: string[]): Promise<boolean[]> =>
+    this.request<boolean[]>('me/tracks/contains', { ids });
+
+  public saveTrack = async (ids: string[]): Promise<void> => {
+    await this.request<void>('me/tracks', undefined, 'PUT', { ids });
+    return;
+  };
+
+  public removeSavedTrack = async (ids: string[]): Promise<void> => {
+    await this.request<void>('me/tracks', undefined, 'DELETE', { ids });
+    return;
+  };
 
   // ======================
   // Player Endpoints

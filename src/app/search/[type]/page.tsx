@@ -3,11 +3,11 @@
 import { useSearchParams, useParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { searchSpotify } from '@/utils/spotifyApi';
 import TrackItem from '@/components/trackItem/TrackItem';
 import Album from '@/components/albums/Album';
 import Playlist from '@/components/playlists/Playlist';
 import Artist from '@/components/artists/Artist';
+import { spotifyClient } from '@/api/spotifyClient';
 
 const validTypes = ['track', 'album', 'artist', 'playlist'] as const;
 
@@ -31,13 +31,10 @@ const SearchByType = () => {
 
     const fetchResults = async () => {
       try {
-        const response = await searchSpotify(
-          query,
-          accessToken,
-          type as string,
-          0,
-          20
-        );
+        const response = await spotifyClient.search(query, [type], {
+          offset: 0,
+          limit: 20,
+        });
 
         if (validTypes.includes(type)) {
           setResults(

@@ -1,12 +1,15 @@
 // components/TrackItem.tsx
 'use client';
-import React from 'react';
-import { BsThreeDots } from 'react-icons/bs';
+import React, { useState, useEffect } from 'react';
+import { BsThreeDots, BsHeart, BsHeartFill } from 'react-icons/bs';
 import { msToMinutesAndSeconds, reorderNextTracksUris } from '@/utils/utils';
 import { usePlayer } from '@/context/PlayerContext';
 import Image from 'next/image';
 import { WithContextMenu } from '@/components/contextMenu/WithContextMenu';
 import { useContextMenuOptions } from '@/components/trackItem/hooks/useMenuOptions';
+import { spotifyClient } from '@/api/spotifyClient';
+import useToast from '@/hooks/useToast';
+import { useSession } from 'next-auth/react';
 
 const TrackItem = ({
   track,
@@ -32,13 +35,82 @@ const TrackItem = ({
   nextUris?: string[];
   onTracksDeleted?: (deletedTrackUris: string[]) => void;
 }) => {
+  const { data: session } = useSession();
   const isTrack = track.type === 'track';
   const { playTrack } = usePlayer();
+  const { success, error } = useToast();
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [isLikeProcessing, setIsLikeProcessing] = useState<boolean>(false);
   const contextMenuOptions = useContextMenuOptions({
     track,
     onTracksDeleted,
     context,
   });
+
+  // Check if the track is saved in the user's library
+  useEffect(() => {
+    let isMounted = true;
+
+    const checkIfSaved = async () => {
+      if (!isTrack || !track.id || !session?.accessToken) return;
+
+      try {
+        const result = await spotifyClient.checkSavedTracks([track.id]);
+
+        if (isMounted) {
+          // Make sure we have a valid boolean result
+          const isTrackLiked =
+            Array.isArray(result) && result.length > 0 ? result[0] : false;
+          setIsLiked(isTrackLiked);
+        }
+      } catch (err) {
+        console.error('Error checking if track is saved:', err);
+        if (isMounted) {
+          setIsLiked(false);
+        }
+      }
+    };
+
+    if (isTrack && track.id) {
+      checkIfSaved();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [track.id, isTrack, session?.accessToken]);
+
+  // Toggle liked status with optimistic updates
+  const handleToggleLike = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!isTrack || isLikeProcessing || !track.id) return;
+
+    // Immediately update UI (optimistic update)
+    const newLikedState = !isLiked;
+    setIsLiked(newLikedState);
+    setIsLikeProcessing(true);
+
+    try {
+      if (newLikedState) {
+        // Add to liked tracks
+        await spotifyClient.saveTrack([track.id]);
+        success('Added to your Liked Songs');
+      } else {
+        // Remove from liked tracks
+        await spotifyClient.removeSavedTrack([track.id]);
+        success('Removed from your Liked Songs');
+      }
+    } catch (err) {
+      console.log('Error toggling like status:', err);
+
+      // Revert optimistic update if the API call fails
+      setIsLiked(!newLikedState);
+      error('Failed to update liked status');
+      console.error('Error toggling like status:', err);
+    } finally {
+      setIsLikeProcessing(false);
+    }
+  };
 
   const handleTrackClick = () => {
     const offset = {
@@ -110,10 +182,39 @@ const TrackItem = ({
             </p>
           </div>
         </div>
-        <div className='flex items-center space-x-2'>
+        <div className='flex items-center space-x-3'>
           <p className='text-sm text-gray-600'>
             {msToMinutesAndSeconds(track.duration_ms)}
           </p>
+
+          {isTrack && (
+            <button
+              onClick={handleToggleLike}
+              disabled={isLikeProcessing}
+              aria-label={
+                isLiked ? 'Remove from Liked Songs' : 'Add to Liked Songs'
+              }
+              className={`flex items-center justify-center ${
+                isLikeProcessing ? 'cursor-not-allowed' : 'cursor-pointer'
+              }`}
+            >
+              {isLiked ? (
+                <BsHeartFill
+                  className={`text-purple-600 hover:text-purple-700 w-5 h-5 ${
+                    isLikeProcessing ? 'opacity-70' : ''
+                  }`}
+                />
+              ) : (
+                <BsHeart
+                  className={`text-gray-500 hover:text-purple-600 w-5 h-5 ${
+                    isLikeProcessing
+                      ? 'opacity-70'
+                      : 'opacity-0 group-hover:opacity-100'
+                  } transition-opacity duration-200`}
+                />
+              )}
+            </button>
+          )}
 
           {context && (
             <WithContextMenu options={contextMenuOptions} triggerType='click'>
