@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TrackItem from '@/components/trackItem/TrackItem';
 import uniqBy from 'lodash/uniqBy';
 import BulkActionsBar from '@/components/bulkActionsBar/BulkActionsBar';

@@ -35,7 +35,7 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
 
       return () => {};
     }
-  }, [(context as any)?.owner?.id]);
+  }, [context]);
 
   // ✅ Handles adding tracks to a playlist
   const handleAddToPlaylist = () => {

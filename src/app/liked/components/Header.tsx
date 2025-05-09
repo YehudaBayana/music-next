@@ -1,10 +1,7 @@
 'use client';
-import { spotifyClient } from '@/api/spotifyClient';
-import ContextPlayButton from '@/components/ContextPlayButton';
 import PageInfo from '@/components/PageInfo';
-import ReorderButton from '@/components/ReorderButton';
 import { usePlayer } from '@/context/PlayerContext';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 const Header = ({ tracksUris }: { tracksUris: string[] }) => {
   const { playTrack } = usePlayer();

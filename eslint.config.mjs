@@ -21,7 +21,25 @@ const eslintConfig = [
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
-    },
+      // Add React Hooks rules with higher severity
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "error", // Changed from default warning to error
+      
+      // Disable the regular no-unused-vars rule
+      "no-unused-vars": "off",
+      
+      // Use TypeScript version instead, with args set to "none" to ignore interface parameters
+      "@typescript-eslint/no-unused-vars": [
+        "error", 
+        { 
+          "vars": "all", 
+          "varsIgnorePattern": "^_",
+          "args": "none", // This is the key setting - don't check function parameters at all
+          "ignoreRestSiblings": true,
+          "caughtErrors": "none"
+        }
+      ]
+    }
   },
 ];
 

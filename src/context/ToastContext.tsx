@@ -35,29 +35,32 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [toasts]);
 
-  const showToast = useCallback((message: string, type: ToastType) => {
-    const id = generateId();
-
-    const newToast: ToastProps = {
-      id,
-      message,
-      type,
-      onClose: hideToast,
-    };
-
-    setToasts((prevToasts) => [...prevToasts, newToast]);
-
-    // Auto remove toast after 5 seconds
-    setTimeout(() => {
-      hideToast(id);
-    }, 5000);
-
-    return id;
-  }, []);
-
   const hideToast = useCallback((id: string) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.id !== id));
   }, []);
+
+  const showToast = useCallback(
+    (message: string, type: ToastType) => {
+      const id = generateId();
+
+      const newToast: ToastProps = {
+        id,
+        message,
+        type,
+        onClose: hideToast,
+      };
+
+      setToasts((prevToasts) => [...prevToasts, newToast]);
+
+      // Auto remove toast after 5 seconds
+      setTimeout(() => {
+        hideToast(id);
+      }, 5000);
+
+      return id;
+    },
+    [hideToast]
+  );
 
   return (
     <ToastContext.Provider value={{ showToast, hideToast }}>
