@@ -1,5 +1,11 @@
-import Home from '@/app/(home)/components/Home';
+import Recommended from '@/app/(home)/components/playlists/Recommended';
+import SpecialRecommendations from '@/app/(home)/components/playlists/SpecialRecommendations';
 
 export default async function HomePage() {
-  return <Home />;
+  return (
+    <div className='container'>
+      <SpecialRecommendations />
+      <Recommended />
+    </div>
+  );
 }

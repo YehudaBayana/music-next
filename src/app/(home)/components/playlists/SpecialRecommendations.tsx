@@ -9,7 +9,7 @@ import TrackItem from '@/components/trackItem/TrackItem';
 import Image from 'next/image';
 import ContextPlayButton from '@/components/ContextPlayButton';
 
-const SpecialRecom = async () => {
+const SpecialRecommendations = async () => {
   // const res = await getCurrentUserTopItems('tracks', { limit: 5 });
   const res = await getCurrentUserTopItems('tracks');
   const res2 = await getCurrentUserRecentlyPlayed();
@@ -55,20 +55,20 @@ const SpecialRecom = async () => {
         <div className='grid gap-4 col-span-6 row-span-3 overflow-auto'>
           <div className='grid grid-cols-2 gap-4'>
             <div className='relative'>
-              {tracks.slice(0, 6).map((track, i) => (
+              {tracks.slice(0, 6).map((track) => (
                 <TrackItem
                   key={track.id}
                   track={track as Spotify.Track}
-                  nextUris={tracks.slice(i + 1).map((track) => track.uri)}
+                  nextUris={tracks.map((track) => track.uri)}
                 />
               ))}
             </div>
             <div>
-              {tracks.slice(6, 12).map((track, i) => (
+              {tracks.slice(6, 12).map((track) => (
                 <TrackItem
                   key={track.id}
                   track={track as Spotify.Track}
-                  nextUris={tracks.slice(i + 1).map((track) => track.uri)}
+                  nextUris={tracks.map((track) => track.uri)}
                 />
               ))}
             </div>
@@ -79,4 +79,4 @@ const SpecialRecom = async () => {
   );
 };
 
-export default SpecialRecom;
+export default SpecialRecommendations;
