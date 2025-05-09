@@ -1,6 +1,6 @@
 // "use client"
-import { spotifyApi } from '@/utils/spotifyApi';
-import { GetMyPlaylistsResponse, MyPlaylistItem } from '@/utils/types';
+import { spotifyClient } from '@/api/spotifyClient';
+import { MyPlaylistItem } from '@/utils/types';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
@@ -18,15 +18,13 @@ export const PlaylistSelectorModal = ({
       if (!session?.accessToken) {
         return console.error('no access token');
       }
-      const response = await spotifyApi.get<GetMyPlaylistsResponse>(
-        '/me/playlists',
-        session?.accessToken
-      );
+      const response = await spotifyClient.getCurrentUserPlaylists();
       setPlaylists(response.items);
     }
     getPlaylists();
     return () => {};
   }, [session?.accessToken]);
+
   return (
     <div className='space-y-4'>
       <h3 className='text-lg font-semibold'>Add to Playlist</h3>

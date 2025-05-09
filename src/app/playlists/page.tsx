@@ -12,7 +12,6 @@ export default async function MyPlaylistsPage() {
   }
   const response = await getCurrentUserPlaylists();
   const playlists = response.items;
-  console.log('playlists ', playlists);
 
   return (
     <div className='flex gap-x-10 flex-wrap justify-start'>

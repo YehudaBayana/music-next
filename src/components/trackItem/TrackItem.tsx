@@ -79,17 +79,17 @@ const TrackItem = ({
         <div className='flex items-center space-x-3 overflow-hidden'>
           {!dropImage && isTrack ? (
             <Image
-              src={track.album.images[0].url}
-              width={track.album.images[0].width || 12}
-              height={track.album.images[0].height || 12}
+              src={track.album.images[0]?.url}
+              width={track.album.images[0]?.width || 12}
+              height={track.album.images[0]?.height || 12}
               alt={track.name}
               className='w-12 h-12 rounded-lg object-cover'
             />
           ) : !dropImage && track.type === 'episode' ? (
             <Image
-              src={track.images[0].url}
-              width={track.images[0].width || 12}
-              height={track.images[0].height || 12}
+              src={track.images[0]?.url}
+              width={track.images[0]?.width || 12}
+              height={track.images[0]?.height || 12}
               alt={track.name}
               className='w-12 h-12 rounded-lg object-cover'
             />
