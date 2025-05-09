@@ -7,6 +7,7 @@ import { PlayerProvider } from '@/context/PlayerContext';
 import { QueueProvider } from '@/context/QueueContext';
 import { ToastProvider } from '@/context/ToastContext';
 import { SessionProvider } from 'next-auth/react';
+import LikedTracksInitializer from '@/components/likeButton/LikedTracksInitializer';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -16,6 +17,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           <PlayerProvider>
             <QueueProvider>
               <ToastProvider>
+                {/* Initialize liked tracks at app startup */}
+                <LikedTracksInitializer />
                 {children}
                 <Queue />
               </ToastProvider>

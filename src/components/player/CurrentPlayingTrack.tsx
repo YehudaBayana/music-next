@@ -5,6 +5,7 @@ import SicupLogo from '@/components/SicupLogo';
 import Image from 'next/image';
 import debounce from 'lodash/debounce';
 import { spotifyClient } from '@/api/spotifyClient';
+import LikeButton from '@/components/likeButton/LikeButton';
 
 const CurrentPlayingSong = () => {
   const { currentTrack, progress, setProgress } = usePlayer();
@@ -55,12 +56,24 @@ const CurrentPlayingSong = () => {
       <div className='flex-1 flex justify-center items-center flex-col overflow-hidden'>
         {currentTrack ? (
           <>
-            <h4
-              className='text-base font-bold text-black truncate w-full text-center'
-              title={currentTrack?.name || 'Unknown Title'}
-            >
-              {currentTrack?.name || 'Unknown Title'}
-            </h4>
+            <div className='flex items-center justify-center w-full space-x-2'>
+              <h4
+                className='text-base font-bold text-black truncate w-full text-center'
+                title={currentTrack?.name || 'Unknown Title'}
+              >
+                {currentTrack?.name || 'Unknown Title'}
+              </h4>
+              
+              {/* Like Button for the current playing track */}
+              {isTrack && (
+                <LikeButton 
+                  trackId={currentTrack.id}
+                  isTrack={isTrack}
+                  showAlways={true}
+                  className="flex-none"
+                />
+              )}
+            </div>
             <p
               className='text-sm text-gray-500 truncate w-full text-center'
               title={
