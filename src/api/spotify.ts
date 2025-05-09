@@ -10,7 +10,7 @@ const spotifyApi = async <T>(
   const session = await getServerSession(authOptions);
   const accessToken = session?.accessToken;
   if (!accessToken) {
-    throw new Error('error: no access token');
+    return null as unknown as Promise<T>;
   }
 
   const processedParams = params

@@ -13,6 +13,9 @@ const SpecialRecommendations = async () => {
   // const res = await getCurrentUserTopItems('tracks', { limit: 5 });
   const res = await getCurrentUserTopItems('tracks');
   const res2 = await getCurrentUserRecentlyPlayed();
+  if (!res?.items || !res2) {
+    return <h1>no s data</h1>;
+  }
   const tracks = res.items;
   const playlistsId = extractPlaylistItems(res2.items)[0];
   const firstPlaylist = await getPlaylist(playlistsId);
