@@ -1,7 +1,7 @@
 'use server';
 import CanvasAnimation from '@/app/(home)/components/landingPage/CanvasAnimation';
 import SignInButton from '@/components/SignInButton';
-import Image from 'next/image';
+// import Image from 'next/image';
 
 const LandingPage = () => {
   return (
@@ -25,7 +25,7 @@ const LandingPage = () => {
       <CanvasAnimation />
 
       {/* Left Image */}
-      <Image
+      {/* <Image
         src='/images/zikup_singer_1.png'
         alt='Left Side Image'
         width={500}
@@ -37,10 +37,10 @@ const LandingPage = () => {
           height: '100%',
           width: 'auto',
         }}
-      />
+      /> */}
 
       {/* Right Image */}
-      <Image
+      {/* <Image
         src='/images/zikup_singer_2.png'
         alt='Right Side Image'
         width={500}
@@ -52,7 +52,7 @@ const LandingPage = () => {
           height: '80%',
           width: 'auto',
         }}
-      />
+      /> */}
 
       {/* Main Content */}
       <h2 className='-mt-40 text-5xl text-cyan-50'>Welcome to Our Platform</h2>
