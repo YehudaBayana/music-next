@@ -37,23 +37,39 @@ const PlayerControls = () => {
   }, [isPlaying]);
 
   const handlePlayPause = async () => {
-    if (isPlaying) {
-      await spotifyClient.pausePlayback();
-    } else {
-      await spotifyClient.startPlayback();
+    try {
+      if (isPlaying) {
+        await spotifyClient.pausePlayback();
+        // No need to update state here - the polling in Player.tsx will handle this
+      } else {
+        await spotifyClient.startPlayback();
+        // No need to update state here - the polling in Player.tsx will handle this
+      }
+    } catch (error) {
+      console.error('Error toggling playback:', error);
     }
   };
 
   const handleNext = async () => {
-    await spotifyClient.skipToNext();
+    try {
+      await spotifyClient.skipToNext();
+      // The polling in Player.tsx will update the UI with the new track
+    } catch (error) {
+      console.error('Error skipping to next track:', error);
+    }
   };
 
   const handlePrevious = async () => {
-    // If more than 3 seconds into a song, go back to the start of the song
-    if (progress > 3000) {
-      await spotifyClient.seekToPosition(0);
-    } else {
-      await spotifyClient.skipToPrevious();
+    try {
+      // If more than 3 seconds into a song, go back to the start of the song
+      if (progress > 3000) {
+        await spotifyClient.seekToPosition(0);
+      } else {
+        await spotifyClient.skipToPrevious();
+      }
+      // The polling in Player.tsx will update the UI
+    } catch (error) {
+      console.error('Error with previous track action:', error);
     }
   };
 

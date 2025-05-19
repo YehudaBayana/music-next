@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import NavigationList from './NavigationList';
+import DeviceSelector from '@/components/devices/DeviceSelector';
 import { navigationItems, libraryItems, podcastItems } from './sidebarData';
 
 const Sidebar: React.FC = () => {
@@ -44,6 +45,14 @@ const Sidebar: React.FC = () => {
               items={podcastItems}
               pathname={pathname!}
             />
+          </div>
+          
+          {/* Device Selector Section */}
+          <div className="mt-6">
+            <h2 className='text-xs uppercase tracking-wide mb-2'>Playback Device</h2>
+            <div className="py-2">
+              <DeviceSelector />
+            </div>
           </div>
         </div>
       </div>
@@ -100,6 +109,14 @@ const Sidebar: React.FC = () => {
                 items={podcastItems}
                 pathname={pathname!}
               />
+            </div>
+            
+            {/* Device Selector in Mobile Sidebar */}
+            <div className="mt-6">
+              <h2 className='text-xs uppercase tracking-wide mb-2'>Playback Device</h2>
+              <div className="py-2">
+                <DeviceSelector />
+              </div>
             </div>
           </div>
         </div>

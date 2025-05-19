@@ -96,6 +96,10 @@ This project implements a Spotify Web API client to allow users to access and mo
 
 - ReactQuery for API communication
 - Typed services for Spotify Web API
+- regarding fetching data from spotify api, i have those files for fetching:
+  frontend calls: `/Users/yudabayana/Desktop/projects/music-next/src/api/spotifyClient.ts`
+  backend calls: `/Users/yudabayana/Desktop/projects/music-next/src/api/spotify.ts`
+  use those files methods, if the method you need, doesn't in there, then create it there with same structure i created all the other methods.
 
 ### Media Playback
 

@@ -14,10 +14,14 @@ export type playTrackParams = {
 
 interface PlayerContextType {
   currentTrack: Spotify.Track | Spotify.Episode | Spotify.CurrentTrack | null;
+  setCurrentTrack: React.Dispatch<React.SetStateAction<Spotify.Track | Spotify.Episode | Spotify.CurrentTrack | null>>;
   playTrack: (data: playTrackParams) => void;
   progress: number;
   setProgress: React.Dispatch<React.SetStateAction<number>>;
   isPlaying: boolean;
+  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  deviceId: string | undefined;
+  setDeviceId: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -90,15 +94,20 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, [player, accessToken]);
 
+  // Update progress in between polling intervals
   useEffect(() => {
     let progressInterval: number | undefined;
 
     if (isPlaying) {
       progressInterval = window.setInterval(() => {
-        setProgress((prevProgress) => prevProgress + 1000);
+        setProgress((prevProgress) => {
+          // Don't exceed track duration
+          if (currentTrack && prevProgress >= (currentTrack.duration_ms || 0)) {
+            return prevProgress;
+          }
+          return prevProgress + 1000;
+        });
       }, 1000);
-    } else if (progressInterval !== undefined) {
-      window.clearInterval(progressInterval);
     }
 
     return () => {
@@ -106,7 +115,7 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
         window.clearInterval(progressInterval);
       }
     };
-  }, [isPlaying]);
+  }, [isPlaying, currentTrack]);
 
   useEffect(() => {
     async function getAvailableDevicesFunc() {
@@ -147,7 +156,17 @@ export const PlayerProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <PlayerContext.Provider
-      value={{ progress, setProgress, currentTrack, playTrack, isPlaying }}
+      value={{ 
+        progress, 
+        setProgress, 
+        currentTrack, 
+        setCurrentTrack,
+        playTrack, 
+        isPlaying,
+        setIsPlaying,
+        deviceId,
+        setDeviceId
+      }}
     >
       {children}
     </PlayerContext.Provider>

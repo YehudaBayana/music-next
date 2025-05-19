@@ -18,10 +18,14 @@ const CurrentPlayingSong = () => {
   }, []);
 
   useEffect(() => {
+    // Clean up debounced function on unmount
     return () => {
       debouncedSeek.cancel();
     };
   }, [debouncedSeek]);
+
+  // We removed this effect since we're now getting progress updates from the
+  // polling mechanism in Player.tsx which fetches the current track state from Spotify API
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
@@ -63,14 +67,14 @@ const CurrentPlayingSong = () => {
               >
                 {currentTrack?.name || 'Unknown Title'}
               </h4>
-              
+
               {/* Like Button for the current playing track */}
               {isTrack && (
-                <LikeButton 
+                <LikeButton
                   trackId={currentTrack.id}
                   isTrack={isTrack}
                   showAlways={true}
-                  className="flex-none"
+                  className='flex-none'
                 />
               )}
             </div>
