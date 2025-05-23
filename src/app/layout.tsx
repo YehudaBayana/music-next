@@ -7,6 +7,7 @@ import Player from '@/components/player/Player';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import LandingPage from '@/app/(home)/components/landingPage/LandingPage';
+import Script from 'next/script';
 
 export default async function RootLayout({
   children,
@@ -20,7 +21,21 @@ export default async function RootLayout({
   return (
     <html lang='en'>
       <head>
-        <script src='https://sdk.scdn.co/spotify-player.js' async></script>
+        <Script
+          id='spotify-web-playback-sdk-setup'
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.onSpotifyWebPlaybackSDKReady = () => {
+            window.SpotifyWebPlaybackSDKReady = true;
+            console.log('Spotify Web Playback SDK Ready');
+          };
+        `,
+          }}
+        />
+        <Script
+          src='https://sdk.scdn.co/spotify-player.js'
+          strategy='beforeInteractive'
+        />
       </head>
       <body
         className={`${

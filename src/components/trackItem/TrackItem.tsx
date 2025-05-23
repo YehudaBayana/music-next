@@ -74,8 +74,11 @@ const TrackItem = ({
   return (
     <WithContextMenu options={contextMenuOptions}>
       <div
-        onClick={handleTrackClick}
-        className='flex items-center justify-between px-3 py-1.5 group relative hover:bg-primary cursor-pointer rounded-md'
+        onClick={(e) => {
+          e.stopPropagation();
+          handleTrackClick();
+        }}
+        className='flex items-center justify-between px-3 py-1.5 pl-7 group relative hover:bg-primary cursor-pointer rounded-md'
       >
         <div className='flex items-center space-x-3 overflow-hidden'>
           {!dropImage && isTrack ? (

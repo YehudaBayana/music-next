@@ -25,17 +25,41 @@ const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   const [isPlaylistOwner, setIsPlaylistOwner] = useState(false);
 
   useEffect(() => {
-    if (context?.type === 'playlist') {
-      const something = async () => {
-        const me = await spotifyClient.getCurrentUserProfile();
-        setIsPlaylistOwner((context as any).owner.id === me.id);
-      };
-
-      something();
-
-      return () => {};
+    // Skip API call if not a playlist or missing owner ID
+    if (context?.type !== 'playlist' || !(context as any)?.owner?.id) {
+      setIsPlaylistOwner(false);
+      return;
     }
-  }, [context]);
+
+    // Store a flag to prevent state updates if component unmounts
+    let isMounted = true;
+
+    const checkPlaylistOwnership = async () => {
+      try {
+        const me = await spotifyClient.getCurrentUserProfile();
+        // Only update state if component is still mounted
+        if (isMounted) {
+          setIsPlaylistOwner((context as any).owner.id === me.id);
+        }
+      } catch (error) {
+        console.error(
+          'Error checking playlist ownership in BulkActionsBar:',
+          error
+        );
+        // If we hit a rate limit error, don't update state to prevent re-renders
+        if (isMounted && !String(error).includes('429')) {
+          setIsPlaylistOwner(false);
+        }
+      }
+    };
+
+    checkPlaylistOwnership();
+
+    // Cleanup function to prevent state updates after unmount
+    return () => {
+      isMounted = false;
+    };
+  }, [context, context?.type]); // Only re-run when these specific props change
 
   // ✅ Handles adding tracks to a playlist
   const handleAddToPlaylist = () => {

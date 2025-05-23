@@ -34,6 +34,7 @@ const PlaylistTracks = ({
           <TrackItem
             key={index}
             track={track}
+            nextUris={tracks.map((t) => t.uri)}
             // context_uri={pla}
             isSelected={selectedTrackIds.includes(track.id)}
             onToggleSelect={() => handleTrackSelect(track.id)}

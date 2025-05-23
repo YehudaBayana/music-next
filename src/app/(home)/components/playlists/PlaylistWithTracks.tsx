@@ -44,6 +44,7 @@ const PlaylistWithTracks = ({ playlistId }: { playlistId: string }) => {
             track={track}
             dropContext
             key={track.id}
+            nextUris={tracks.map((t) => t.uri)}
             // context_uri={playlistId}
           />
         ))}

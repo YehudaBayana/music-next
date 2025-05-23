@@ -83,7 +83,13 @@ const SearchBar = () => {
       {isOpen && (
         <div className='p-2 absolute top-full left-0 w-full bg-white shadow-lg mt-2 z-50'>
           {tracks.map((track) => (
-            <TrackItem dropImage dropContext track={track} key={track.id} />
+            <TrackItem
+              dropImage
+              dropContext
+              track={track}
+              key={track.id}
+              nextUris={tracks.map((t) => t.uri)}
+            />
           ))}
         </div>
       )}

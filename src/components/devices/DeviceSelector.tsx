@@ -107,7 +107,9 @@ const DeviceSelector = () => {
       setIsUpdating(true);
       // Save the device we're switching to
       setActiveDevice(device);
-      setDeviceId(device.id);
+      if (device.id) {
+        setDeviceId(device.id);
+      }
       setIsOpen(false);
 
       // Transfer playback to selected device with the play parameter set to true
